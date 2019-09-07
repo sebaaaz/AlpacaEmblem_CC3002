@@ -1,8 +1,14 @@
 package model.items;
 
+import model.units.IUnit;
+
 /**
+ * This class represents a Bow.
+ * <p>
+ * Bows have a range not less than two.
+ *
  * @author Ignacio Slater Muñoz
- * @since
+ * @since 1.0
  */
 public class Bow extends AbstractItem {
 
@@ -23,7 +29,12 @@ public class Bow extends AbstractItem {
    */
   public Bow(final String name, final int power, final int minRange, final int maxRange) {
     super(name, power, minRange, maxRange);
-    this.minRange = Math.max(minRange, 2);
-    this.maxRange = Math.max(maxRange, this.minRange);
+    this.setMinRange( Math.max(minRange, 2) );
+    this.setMaxRange( Math.max(maxRange, this.getMinRange()) );
+  }
+
+  @Override
+  public void equipTo(IUnit unit) {
+    unit.equipBow(this);
   }
 }

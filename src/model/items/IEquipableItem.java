@@ -45,4 +45,22 @@ public interface IEquipableItem {
    * @return the maximum range of the item
    */
   int getMaxRange();
+
+  /**
+   * @param owner
+   *      Sets a new owner for this item
+   */
+  void setOwner(IUnit owner);
+
+  /**
+   * @param minRange
+   *      Sets the minimum range of the item
+   */
+  void setMinRange(int minRange);
+
+  /**
+   * @param maxRange
+   *      Sets the maximum range of the item
+   */
+  void setMaxRange(int maxRange);
 }

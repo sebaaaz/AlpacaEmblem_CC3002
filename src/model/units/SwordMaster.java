@@ -13,21 +13,26 @@ import model.map.Location;
  */
 public class SwordMaster extends AbstractUnit {
 
-  public SwordMaster(final int hitPoints, final int movement, final Location location,
+  /**
+   * Creates a new SwordMaster
+   *
+   * @param hitPoints
+   *     maximum hit points of the unit
+   * @param movement
+   *     the amount of cells this unit can move
+   * @param position
+   *     the initial position of this unit
+   * @param items
+   *     the items carried by this unit
+   */
+  public SwordMaster(final int hitPoints, final int movement, final Location position,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(hitPoints, movement, position, 3, items);
   }
 
-  /**
-   * Sets the currently equipped item of this unit.
-   *
-   * @param item
-   *     the item to equip
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
-    if (item instanceof SwordMaster) {
-      equippedItem = item;
-    }
+  public void equipSword(final IEquipableItem item) {
+    this.setEquippedItem(item);
+    item.setOwner(this);
   }
 }

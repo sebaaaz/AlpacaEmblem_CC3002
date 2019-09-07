@@ -1,33 +1,38 @@
 package model.units;
 
-import model.items.Axe;
 import model.items.IEquipableItem;
 import model.map.Location;
 
 /**
- * This class represents a fighter type unit.
- * A fighter is a unit that can only use axe type weapons.
+ * This class represents a <i>fighter</i> type unit.
+ * <p>
+ * A <i>Fighter</i> is a unit that can only use axe type weapons.
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
 public class Fighter extends AbstractUnit {
 
-  public Fighter(final int hitPoints, final int movement, final Location location,
+  /**
+   * Creates a new Fighter
+   *
+   * @param hitPoints
+   *     maximum hit points of the unit
+   * @param movement
+   *     the amount of cells this unit can move
+   * @param position
+   *     the initial position of this unit
+   * @param items
+   *     the items carried by this unit
+   */
+  public Fighter(final int hitPoints, final int movement, final Location position,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(hitPoints, movement, position, 3, items);
   }
 
-  /**
-   * Sets the currently equipped item of this unit.
-   *
-   * @param item
-   *     the item to equip
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
-    if (item instanceof Axe) {
-      equippedItem = item;
-    }
+  public void equipAxe(IEquipableItem item) {
+    this.setEquippedItem(item);
+    item.setOwner(this);
   }
 }

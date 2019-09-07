@@ -1,7 +1,6 @@
 package model.units;
 
 import model.items.IEquipableItem;
-import model.items.Spear;
 import model.map.Location;
 
 /**
@@ -15,28 +14,25 @@ import model.map.Location;
 public class Hero extends AbstractUnit {
 
   /**
-   * Creates a new Unit.
+   * Creates a new Hero
    *
    * @param hitPoints
-   *     the maximum amount of damage a unit can sustain
+   *     maximum hit points of the unit
    * @param movement
-   *     the number of panels a unit can move
+   *     the amount of cells this unit can move
+   * @param position
+   *     the initial position of this unit
+   * @param items
+   *     the items carried by this unit
    */
-  public Hero(final int hitPoints, final int movement, final Location location,
+  public Hero(final int hitPoints, final int movement, final Location position,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(hitPoints, movement, position, 3, items);
   }
 
-  /**
-   * Sets the currently equipped item of this unit.
-   *
-   * @param item
-   *     the item to equip
-   */
   @Override
-  public void equipItem(final IEquipableItem item) {
-    if (item instanceof Spear) {
-      equippedItem = item;
-    }
+  public void equipSpear(final IEquipableItem item) {
+    this.setEquippedItem(item);
+    item.setOwner(this);
   }
 }

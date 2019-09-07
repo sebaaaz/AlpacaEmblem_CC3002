@@ -20,10 +20,10 @@ import model.map.Location;
  */
 public abstract class AbstractUnit implements IUnit {
 
-  protected final List<IEquipableItem> items = new ArrayList<>();
+  private final List<IEquipableItem> items = new ArrayList<>();
   private final int currentHitPoints;
   private final int movement;
-  protected IEquipableItem equippedItem;
+  private IEquipableItem equippedItem;
   private Location location;
 
   /**
@@ -88,4 +88,24 @@ public abstract class AbstractUnit implements IUnit {
       setLocation(targetLocation);
     }
   }
+
+  @Override
+  public void equipItem(IEquipableItem item) {
+    item.equipTo(this);
+  }
+
+  @Override
+  public void equipAxe(IEquipableItem item) {}
+
+  @Override
+  public void equipBow(IEquipableItem item) {}
+
+  @Override
+  public void equipSpear(IEquipableItem item) {}
+
+  @Override
+  public void equipStaff(IEquipableItem item) {}
+
+  @Override
+  public void equipSword(IEquipableItem item) {}
 }

@@ -50,7 +50,7 @@ public interface IUnit {
   Location getLocation();
 
   /**
-   * Sets a new location for this unit,
+   * Sets a new location for this unit
    */
   void setLocation(final Location location);
 
@@ -65,4 +65,44 @@ public interface IUnit {
    * If the other location is out of this unit's movement range, the unit doesn't move.
    */
   void moveTo(Location targetLocation);
+
+  /**
+   * Equips an Axe item.
+   *
+   * @param item
+   *     the item to be equipped
+   */
+  void equipAxe(IEquipableItem item);
+
+  /**
+   * Equips an Bow item.
+   *
+   * @param item
+   *     the item to be equipped
+   */
+  void equipBow(IEquipableItem item);
+
+  /**
+   * Equips an Spear item.
+   *
+   * @param item
+   *     the item to be equipped
+   */
+  void equipSpear(IEquipableItem item);
+
+  /**
+   * Equips an Staff item.
+   *
+   * @param item
+   *     the item to be equipped
+   */
+  void equipStaff(IEquipableItem item);
+
+  /**
+   * Equips an Sword item.
+   *
+   * @param item
+   *     the item to be equipped
+   */
+  void equipSword(IEquipableItem item);
 }

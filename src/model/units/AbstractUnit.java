@@ -21,6 +21,8 @@ import model.map.Location;
 public abstract class AbstractUnit implements IUnit {
 
   private final List<IEquipableItem> items = new ArrayList<>();
+  private final int maxItems;
+  private final int maxHitPoints;
   private final int currentHitPoints;
   private final int movement;
   private IEquipableItem equippedItem;
@@ -40,11 +42,16 @@ public abstract class AbstractUnit implements IUnit {
    */
   protected AbstractUnit(final int hitPoints, final int movement,
       final Location location, final int maxItems, final IEquipableItem... items) {
-    this.currentHitPoints = hitPoints;
+    this.maxHitPoints = hitPoints;
+    this.currentHitPoints = this.maxHitPoints;
     this.movement = movement;
     this.location = location;
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
+    this.maxItems = maxItems;
   }
+
+  @Override
+  public int getMaxHitPoints() { return maxHitPoints; }
 
   @Override
   public int getCurrentHitPoints() {
@@ -55,6 +62,9 @@ public abstract class AbstractUnit implements IUnit {
   public List<IEquipableItem> getItems() {
     return List.copyOf(items);
   }
+
+  @Override
+  public int getMaxItems() { return maxItems; }
 
   @Override
   public IEquipableItem getEquippedItem() {

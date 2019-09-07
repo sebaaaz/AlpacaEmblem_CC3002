@@ -24,6 +24,11 @@ public interface IUnit {
   void equipItem(IEquipableItem item);
 
   /**
+   * @return max hit points of the unit
+   */
+  int getMaxHitPoints();
+
+  /**
    * @return hit points of the unit
    */
   int getCurrentHitPoints();
@@ -32,6 +37,11 @@ public interface IUnit {
    * @return the items carried by this unit
    */
   List<IEquipableItem> getItems();
+
+  /**
+   * @return the maximum amount of items a unit can carry
+   */
+  int getMaxItems();
 
   /**
    * @return the currently equipped item

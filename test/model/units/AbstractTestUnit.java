@@ -23,6 +23,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
   protected Sword sword;
   protected Staff staff;
   protected Spear spear;
+  protected DarkBook darkBook;
+  protected LightBook lightBook;
+  protected SoulBook soulBook;
 
   @Override
   public void setTargetAlpaca() {
@@ -67,6 +70,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
     this.spear = new Spear("Spear", 10, 1, 2);
     this.staff = new Staff("Staff", 10, 1, 2);
     this.bow = new Bow("Bow", 10, 2, 3);
+    this.darkBook = new DarkBook("DarkBook", 12, 2, 4);
+    this.lightBook = new LightBook("LightBook", 12, 2, 4);
+    this.soulBook = new SoulBook("SoulBook", 12, 2, 4);
   }
 
   /**
@@ -89,16 +95,6 @@ public abstract class AbstractTestUnit implements ITestUnit {
   public abstract IUnit getTestUnit();
 
   /**
-   * Checks if the axe is equipped correctly to the unit
-   */
-  @Override
-  @Test
-  public void equipAxeTest() {
-    assertNull(getTestUnit().getEquippedItem());
-    checkEquippedItem(getAxe());
-  }
-
-  /**
    * Tries to equip a weapon to the alpaca and verifies that it was not equipped
    *
    * @param item
@@ -110,6 +106,10 @@ public abstract class AbstractTestUnit implements ITestUnit {
     getTestUnit().equipItem(item);
     assertNull(getTestUnit().getEquippedItem());
   }
+
+  @Override
+  @Test
+  public void equipAxeTest() { checkEquippedItem(getAxe()); }
 
   /**
    * @return the test axe
@@ -135,9 +135,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   @Override
   @Test
-  public void equipSpearTest() {
-    checkEquippedItem(getSpear());
-  }
+  public void equipSpearTest() { checkEquippedItem(getSpear()); }
 
   /**
    * @return the test spear
@@ -149,9 +147,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   @Override
   @Test
-  public void equipStaffTest() {
-    checkEquippedItem(getStaff());
-  }
+  public void equipStaffTest() { checkEquippedItem(getStaff()); }
 
   /**
    * @return the test staff
@@ -163,17 +159,43 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   @Override
   @Test
-  public void equipBowTest() {
-    checkEquippedItem(getBow());
-  }
+  public void equipBowTest() { checkEquippedItem(getBow()); }
 
   /**
    * @return the test bow
    */
   @Override
-  public Bow getBow() {
-    return bow;
-  }
+  public Bow getBow() { return bow; }
+
+  @Override
+  @Test
+  public void equipDarkBookTest() { checkEquippedItem(getDarkBook()); }
+
+  /**
+   * @return the test dark book
+   */
+  @Override
+  public DarkBook getDarkBook() {return darkBook; }
+
+  @Override
+  @Test
+  public void equipLightBookTest() { checkEquippedItem(getLightBook()); }
+
+  /**
+   * @return the test light book
+   */
+  @Override
+  public LightBook getLightBook() { return lightBook; }
+
+  @Override
+  @Test
+  public void equipSoulBookTest() { checkEquippedItem(getSoulBook()); }
+
+  /**
+   * @return the test soul book
+   */
+  @Override
+  public SoulBook getSoulBook() { return soulBook; }
 
   /**
    * Checks if the unit moves correctly

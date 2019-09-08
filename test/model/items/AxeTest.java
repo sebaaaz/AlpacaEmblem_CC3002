@@ -10,7 +10,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-class AxeTest extends AbstractTestItem {
+public class AxeTest extends AbstractTestItem {
 
   private Axe axe;
   private Axe wrongAxe;

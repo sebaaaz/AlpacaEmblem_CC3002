@@ -18,7 +18,7 @@ public class Sword extends AbstractItem {
    * @param name
    *     the name that identifies the sword
    * @param power
-   *     the base damage pf the sword
+   *     the base damage of the sword
    * @param minRange
    *     the minimum range of the sword
    * @param maxRange

@@ -20,14 +20,13 @@ public class Hero extends AbstractUnit {
    *     maximum hit points of the unit
    * @param movement
    *     the amount of cells this unit can move
-   * @param position
+   * @param location
    *     the initial position of this unit
    * @param items
    *     the items carried by this unit
    */
-  public Hero(final int hitPoints, final int movement, final Location position,
-      IEquipableItem... items) {
-    super(hitPoints, movement, position, 3, items);
+  public Hero(final int hitPoints, final int movement, final Location location, IEquipableItem... items) {
+    super(hitPoints, movement, location, 3, items);
   }
 
   @Override

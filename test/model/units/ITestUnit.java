@@ -92,6 +92,30 @@ public interface ITestUnit {
    */
   Bow getBow();
 
+  @Test
+  void equipDarkBookTest();
+
+  /**
+   * @return the test dark book
+   */
+  DarkBook getDarkBook();
+
+  @Test
+  void equipLightBookTest();
+
+  /**
+   * @return the test light book
+   */
+  LightBook getLightBook();
+
+  @Test
+  void equipSoulBookTest();
+
+  /**
+   * @return the test soul book
+   */
+  SoulBook getSoulBook();
+
   /**
    * Checks if the unit moves correctly
    */

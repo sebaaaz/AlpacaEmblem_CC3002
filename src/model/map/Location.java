@@ -112,7 +112,7 @@ public class Location {
   }
 
   /**
-   * Removes a reighbour from this location.
+   * Removes a neighbour from this location.
    *
    * @param neighbour
    *     the neighbour to be removed

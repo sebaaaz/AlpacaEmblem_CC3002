@@ -36,7 +36,7 @@ public abstract class AbstractUnit implements IUnit {
    * @param movement
    *     the number of panels a unit can move
    * @param location
-   *     the current position of this unit on the map
+   *     the initial position of this unit on the map
    * @param maxItems
    *     maximum amount of items this unit can carry
    */
@@ -100,9 +100,7 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void equipItem(IEquipableItem item) {
-    item.equipTo(this);
-  }
+  public void equipItem(IEquipableItem item) { item.equipTo(this); }
 
   @Override
   public void equipAxe(IEquipableItem item) {}
@@ -118,4 +116,13 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void equipSword(IEquipableItem item) {}
+
+  @Override
+  public void equipLightBook(IEquipableItem item) {}
+
+  @Override
+  public void equipDarkBook(IEquipableItem item) {}
+
+  @Override
+  public void equipSoulBook(IEquipableItem item) {}
 }

@@ -115,4 +115,30 @@ public interface IUnit {
    *     the item to be equipped
    */
   void equipSword(IEquipableItem item);
+
+  /**
+   * Equips a Light Book item.
+   *
+   * @param item
+   *      the item to be equipped
+   */
+  void equipLightBook(IEquipableItem item);
+
+  /**
+   * Equips a Dark Book item.
+   *
+   * @param item
+   *      the item to be equipped
+   */
+  void equipDarkBook(IEquipableItem item);
+
+  /**
+   * Equips a Soul Book item.
+   *
+   * @param item
+   *      the item to be equipped
+   */
+  void equipSoulBook(IEquipableItem item);
+
+
 }

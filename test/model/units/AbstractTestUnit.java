@@ -3,6 +3,7 @@ package model.units;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import model.items.*;
 import model.map.Field;
@@ -234,7 +235,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
   @Override
   @Test
-  public void testAddItem() {
+  public void testAddRemoveItem() {
     IUnit unit = getTestUnit();
     assertTrue(unit.getItems().isEmpty());
     IEquipableItem item1 = getAxe();
@@ -252,5 +253,28 @@ public abstract class AbstractTestUnit implements ITestUnit {
       unit.addItem(item4);
       assertEquals(unit.getItems().size(), 3);
     }
+    unit.removeItem(item1);
+    assertEquals(unit.getItems().size(), 2);
+    assertFalse(unit.getItems().contains(item1));
+  }
+
+  @Override
+  @Test
+  public void giveItemTest() {
+    IUnit giverUnit = getTestUnit();
+    IEquipableItem item = getAxe();
+    giverUnit.addItem(item);
+    giverUnit.equipItem(item);
+
+    setTargetAlpaca();
+    assertTrue(targetAlpaca.getItems().isEmpty());
+    giverUnit.giveItemTo(item, targetAlpaca);
+
+    assertEquals(targetAlpaca.getItems().size(), 1);
+    assertEquals(item.getOwner(), targetAlpaca);
+    assertTrue(targetAlpaca.getItems().contains(item));
+
+    assertFalse(giverUnit.getItems().contains(item));
+    assertEquals(giverUnit.getItems().size(), 0);
   }
 }

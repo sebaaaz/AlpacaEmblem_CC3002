@@ -20,7 +20,6 @@ public abstract class AbstractTestItem {
   protected int expectedPower;
   protected short expectedMinRange;
   protected short expectedMaxRange;
-  protected IUnit expectedOwner;
 
   /**
    * Sets up the items to be tested
@@ -101,11 +100,6 @@ public abstract class AbstractTestItem {
   public int getExpectedMaxRange() {
     return expectedMaxRange;
   }
-
-  /**
-   * @return the expected owner of the item
-   */
-  public IUnit getExpectedOwner() { return expectedOwner; }
 
   /**
    * Checks that the Item can be correctly equipped to a unit

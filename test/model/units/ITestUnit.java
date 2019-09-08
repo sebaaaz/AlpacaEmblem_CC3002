@@ -136,5 +136,12 @@ public interface ITestUnit {
    * Checks if the item was added correctly to the item list.
    */
   @Test
-  void testAddItem();
+  void testAddRemoveItem();
+
+  /**
+   * Checks if the item will be given to the unit. The receiver
+   * unit will be targetAlpaca.
+   */
+  @Test
+  void giveItemTest();
 }

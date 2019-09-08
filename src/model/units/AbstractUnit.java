@@ -128,14 +128,17 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void equipSoulBook(IEquipableItem item) {}
 
-  /*@Override
+  @Override
   public void giveItemTo(IEquipableItem item, IUnit unit) {
     if (this.items.contains(item)
     && unit.getItems().size() < unit.getMaxItems()
     && this.location.distanceTo(unit.getLocation()) == 1 ) {
-
+      if (item == equippedItem) { unequipItem(); }
+      this.removeItem(item);
+      unit.addItem(item);
+      item.setOwner(unit);
     }
-  }*/
+  }
 
   @Override
   public void unequipItem() { this.equippedItem = null; }
@@ -144,4 +147,7 @@ public abstract class AbstractUnit implements IUnit {
   public void addItem(IEquipableItem item) {
     if (items.size() < getMaxItems()) { items.add(item); }
   }
+
+  @Override
+  public void removeItem(IEquipableItem item) { items.remove(item); }
 }

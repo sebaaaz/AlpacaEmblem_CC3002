@@ -141,12 +141,17 @@ public interface IUnit {
   void equipSoulBook(IEquipableItem item);
 
   /**
-   * Gives an item to some unit, if it is possible.
+   * Gives the item to the unit. The item will no longer be in the
+   * item list and therefore will no longer be equipped.
+   * <p>
+   * This method only works if both units are in neighbour locations,
+   * the giver unit has the item and the receiver unit has slots
+   * available in its item list.
    *
    * @param item
    *      the item to be given
    * @param unit
-   *      the unit who will receive the item
+   *      the unit that will receive the item
    */
   void giveItemTo(IEquipableItem item, IUnit unit);
 
@@ -162,4 +167,12 @@ public interface IUnit {
    *      the item to be added
    */
   void addItem(IEquipableItem item);
+
+  /**
+   * Removes an item of the item list
+   *
+   * @param item
+   *      the item to be removed
+   */
+  void removeItem(IEquipableItem item);
 }

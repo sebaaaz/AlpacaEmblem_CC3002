@@ -105,6 +105,8 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertNull(getTestUnit().getEquippedItem());
     getTestUnit().equipItem(item);
     assertNull(getTestUnit().getEquippedItem());
+    getTestUnit().unequipItem();
+    assertNull(getTestUnit().getEquippedItem());
   }
 
   @Override
@@ -228,5 +230,27 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   public Alpaca getTargetAlpaca() {
     return targetAlpaca;
+  }
+
+  @Override
+  @Test
+  public void testAddItem() {
+    IUnit unit = getTestUnit();
+    assertTrue(unit.getItems().isEmpty());
+    IEquipableItem item1 = getAxe();
+    IEquipableItem item2 = getBow();
+    IEquipableItem item3 = getSpear();
+    IEquipableItem item4 = getStaff();
+    unit.addItem(item1);
+    unit.addItem(item2);
+    unit.addItem(item3);
+    assertTrue(unit.getItems().contains(item1));
+    assertTrue(unit.getItems().contains(item2));
+    assertTrue(unit.getItems().contains(item3));
+    assertEquals(unit.getItems().size(), 3);
+    if (unit.getMaxItems() == 3) {
+      unit.addItem(item4);
+      assertEquals(unit.getItems().size(), 3);
+    }
   }
 }

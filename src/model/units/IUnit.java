@@ -140,5 +140,26 @@ public interface IUnit {
    */
   void equipSoulBook(IEquipableItem item);
 
+  /**
+   * Gives an item to some unit, if it is possible.
+   *
+   * @param item
+   *      the item to be given
+   * @param unit
+   *      the unit who will receive the item
+   */
+  void giveItemTo(IEquipableItem item, IUnit unit);
 
+  /**
+   * Unequips current equipped item
+   */
+  void unequipItem();
+
+  /**
+   * Adds an item to the item list
+   *
+   * @param item
+   *      the item to be added
+   */
+  void addItem(IEquipableItem item);
 }

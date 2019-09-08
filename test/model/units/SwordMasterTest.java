@@ -31,5 +31,7 @@ public class SwordMasterTest extends AbstractTestUnit {
     assertNull(swordMaster.getEquippedItem());
     swordMaster.equipItem(sword);
     assertEquals(sword, swordMaster.getEquippedItem());
+    swordMaster.unequipItem();
+    assertNull(swordMaster.getEquippedItem());
   }
 }

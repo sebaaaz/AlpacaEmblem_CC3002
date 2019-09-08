@@ -131,4 +131,10 @@ public interface ITestUnit {
    * @return the target Alpaca
    */
   Alpaca getTargetAlpaca();
+
+  /**
+   * Checks if the item was added correctly to the item list.
+   */
+  @Test
+  void testAddItem();
 }

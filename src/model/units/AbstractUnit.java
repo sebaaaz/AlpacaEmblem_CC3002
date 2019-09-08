@@ -39,6 +39,8 @@ public abstract class AbstractUnit implements IUnit {
    *     the initial position of this unit on the map
    * @param maxItems
    *     maximum amount of items this unit can carry
+   * @param items
+   *     the initial items that the unit has
    */
   protected AbstractUnit(final int hitPoints, final int movement,
       final Location location, final int maxItems, final IEquipableItem... items) {
@@ -125,4 +127,21 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void equipSoulBook(IEquipableItem item) {}
+
+  /*@Override
+  public void giveItemTo(IEquipableItem item, IUnit unit) {
+    if (this.items.contains(item)
+    && unit.getItems().size() < unit.getMaxItems()
+    && this.location.distanceTo(unit.getLocation()) == 1 ) {
+
+    }
+  }*/
+
+  @Override
+  public void unequipItem() { this.equippedItem = null; }
+
+  @Override
+  public void addItem(IEquipableItem item) {
+    if (items.size() < getMaxItems()) { items.add(item); }
+  }
 }

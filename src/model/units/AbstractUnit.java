@@ -102,7 +102,10 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void equipItem(IEquipableItem item) { item.equipTo(this); }
+  public void equipItem(IEquipableItem item) {
+    if (this.items.contains(item))
+      item.equipTo(this);
+  }
 
   @Override
   public void equipAxe(IEquipableItem item) {}
@@ -149,5 +152,8 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void removeItem(IEquipableItem item) { items.remove(item); }
+  public void removeItem(IEquipableItem item) {
+    this.unequipItem();
+    items.remove(item);
+  }
 }

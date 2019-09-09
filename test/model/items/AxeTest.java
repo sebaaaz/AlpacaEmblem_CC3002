@@ -55,7 +55,5 @@ public class AxeTest extends AbstractTestItem {
    * @return a unit that can equip the item being tested
    */
   @Override
-  public IUnit getTestUnit() {
-    return fighter;
-  }
+  public IUnit getTestUnit() { return fighter; }
 }

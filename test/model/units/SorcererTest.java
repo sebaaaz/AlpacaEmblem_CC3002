@@ -26,6 +26,9 @@ public class SorcererTest extends AbstractTestUnit {
   public void equipDarkBookTest() {
     assertNull(sorcerer.getEquippedItem());
     sorcerer.equipItem(darkBook);
+    assertNull(sorcerer.getEquippedItem());
+    sorcerer.addItem(darkBook);
+    sorcerer.equipItem(darkBook);
     assertEquals(darkBook, sorcerer.getEquippedItem());
     sorcerer.unequipItem();
     assertNull(sorcerer.getEquippedItem());
@@ -36,6 +39,9 @@ public class SorcererTest extends AbstractTestUnit {
   public void equipLightBookTest() {
     assertNull(sorcerer.getEquippedItem());
     sorcerer.equipItem(lightBook);
+    assertNull(sorcerer.getEquippedItem());
+    sorcerer.addItem(lightBook);
+    sorcerer.equipItem(lightBook);
     assertEquals(lightBook, sorcerer.getEquippedItem());
     sorcerer.unequipItem();
     assertNull(sorcerer.getEquippedItem());
@@ -45,6 +51,9 @@ public class SorcererTest extends AbstractTestUnit {
   @Override
   public void equipSoulBookTest() {
     assertNull(sorcerer.getEquippedItem());
+    sorcerer.equipItem(soulBook);
+    assertNull(sorcerer.getEquippedItem());
+    sorcerer.addItem(soulBook);
     sorcerer.equipItem(soulBook);
     assertEquals(soulBook, sorcerer.getEquippedItem());
     sorcerer.unequipItem();

@@ -68,19 +68,4 @@ public abstract class AbstractItem implements IEquipableItem {
 
   @Override
   public void setMaxRange(int maxRange) { this.maxRange = maxRange; }
-
-  @Override
-  public void equipTo(IUnit unit) {}
-
-  /*@Override
-  public boolean equals(Object obj) {
-    return (obj instanceof IEquipableItem);
-    return this.minRange == ((IEquipableItem) obj).getMinRange();
-    return (obj instanceof IEquipableItem)
-        && ((IEquipableItem) obj).getName().equals(this.name)
-        && ((IEquipableItem) obj).getPower() == this.power
-        && ((IEquipableItem) obj).getMinRange() == this.minRange
-        && ((IEquipableItem) obj).getMaxRange() == this.maxRange
-        && ((IEquipableItem) obj).getOwner() == this.owner;
-  }*/
 }

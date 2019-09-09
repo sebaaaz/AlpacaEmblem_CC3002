@@ -144,4 +144,9 @@ public interface ITestUnit {
    */
   @Test
   void giveItemTest();
+
+  /**
+   * Checks if the alpaca received all objects.
+   */
+  void alpacaReceivesItemTest(IUnit giverUnit, IEquipableItem item);
 }

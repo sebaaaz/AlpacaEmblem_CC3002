@@ -5,7 +5,7 @@ import model.units.IUnit;
 /**
  * This class represents an Axe.
  * <p>
- * Axes are strong against spears but weak agains swords.
+ * Axes are strong against spears but weak against swords.
  *
  * @author Ignacio Slater Muñoz
  * @since 1.0

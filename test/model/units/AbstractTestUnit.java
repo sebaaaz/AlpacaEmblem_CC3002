@@ -238,43 +238,68 @@ public abstract class AbstractTestUnit implements ITestUnit {
   public void testAddRemoveItem() {
     IUnit unit = getTestUnit();
     assertTrue(unit.getItems().isEmpty());
-    IEquipableItem item1 = getAxe();
-    IEquipableItem item2 = getBow();
-    IEquipableItem item3 = getSpear();
-    IEquipableItem item4 = getStaff();
-    unit.addItem(item1);
-    unit.addItem(item2);
-    unit.addItem(item3);
-    assertTrue(unit.getItems().contains(item1));
-    assertTrue(unit.getItems().contains(item2));
-    assertTrue(unit.getItems().contains(item3));
+    unit.addItem(getAxe());
+    unit.addItem(getBow());
+    unit.addItem(getSpear());
+    assertTrue(unit.getItems().contains(getAxe()));
+    assertTrue(unit.getItems().contains(getBow()));
+    assertTrue(unit.getItems().contains(getSpear()));
     assertEquals(unit.getItems().size(), 3);
     if (unit.getMaxItems() == 3) {
-      unit.addItem(item4);
+      unit.addItem(getStaff());
       assertEquals(unit.getItems().size(), 3);
     }
-    unit.removeItem(item1);
+    unit.removeItem(getAxe());
     assertEquals(unit.getItems().size(), 2);
-    assertFalse(unit.getItems().contains(item1));
+    assertFalse(unit.getItems().contains(getAxe()));
+  }
+
+  @Override
+  public void alpacaReceivesItemTest(IUnit giverUnit, IEquipableItem item) {
+    setTargetAlpaca();
+    giverUnit.giveItemTo(item, targetAlpaca);
+    assertEquals(targetAlpaca.getItems().size(), 1);
+    assertEquals(item.getOwner(), targetAlpaca);
+    assertTrue(targetAlpaca.getItems().contains(item));
+    assertFalse(giverUnit.getItems().contains(item));
+    assertEquals(giverUnit.getItems().size(), 0);
   }
 
   @Override
   @Test
   public void giveItemTest() {
     IUnit giverUnit = getTestUnit();
-    IEquipableItem item = getAxe();
-    giverUnit.addItem(item);
-    giverUnit.equipItem(item);
 
-    setTargetAlpaca();
-    assertTrue(targetAlpaca.getItems().isEmpty());
-    giverUnit.giveItemTo(item, targetAlpaca);
+    giverUnit.addItem(getAxe());
+    giverUnit.equipItem(getAxe());
+    alpacaReceivesItemTest(giverUnit, getAxe());
 
-    assertEquals(targetAlpaca.getItems().size(), 1);
-    assertEquals(item.getOwner(), targetAlpaca);
-    assertTrue(targetAlpaca.getItems().contains(item));
+    giverUnit.addItem(getBow());
+    giverUnit.equipItem(getBow());
+    alpacaReceivesItemTest(giverUnit, getBow());
 
-    assertFalse(giverUnit.getItems().contains(item));
-    assertEquals(giverUnit.getItems().size(), 0);
+    giverUnit.addItem(getDarkBook());
+    giverUnit.equipItem(getDarkBook());
+    alpacaReceivesItemTest(giverUnit, getDarkBook());
+
+    giverUnit.addItem(getLightBook());
+    giverUnit.equipItem(getLightBook());
+    alpacaReceivesItemTest(giverUnit, getLightBook());
+
+    giverUnit.addItem(getSoulBook());
+    giverUnit.equipItem(getSoulBook());
+    alpacaReceivesItemTest(giverUnit, getSoulBook());
+
+    giverUnit.addItem(getSpear());
+    giverUnit.equipItem(getSpear());
+    alpacaReceivesItemTest(giverUnit, getSpear());
+
+    giverUnit.addItem(getStaff());
+    giverUnit.equipItem(getStaff());
+    alpacaReceivesItemTest(giverUnit, getStaff());
+
+    giverUnit.addItem(getSword());
+    giverUnit.equipItem(getSword());
+    alpacaReceivesItemTest(giverUnit, getSword());
   }
 }

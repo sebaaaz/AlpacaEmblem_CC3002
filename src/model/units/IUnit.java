@@ -177,14 +177,6 @@ public interface IUnit {
   void removeItem(IEquipableItem item);
 
   /**
-   * Uses the item equipped against other unit, starting a combat
-   *
-   * @param unit
-   *      the unit to be combated
-   */
-//  void startCombat(IUnit unit);
-
-  /**
    * Receives damage from an axe attack
    *
    * @param item
@@ -233,12 +225,12 @@ public interface IUnit {
   void receiveSpearAttack(IEquipableItem item);
 
   /**
-   * Receives damage from a staff attack
+   * Receives healing from a staff attack
    *
    * @param item
-   *      the item that does the damage
+   *      the item that does the healing
    */
-  void receiveStaffAttack(IEquipableItem item);
+  void receiveStaffHealing(IEquipableItem item);
 
   /**
    * Receives damage from an sword attack
@@ -247,4 +239,12 @@ public interface IUnit {
    *      the item that does the damage
    */
   void receiveSwordAttack(IEquipableItem item);
+
+  /**
+   * Uses the item equipped against other unit, starting a combat
+   *
+   * @param unit
+   *      the unit to be combated
+   */
+  void startCombat(IUnit unit);
 }

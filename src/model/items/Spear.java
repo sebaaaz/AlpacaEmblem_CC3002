@@ -28,8 +28,11 @@ public class Spear extends AbstractItem {
     super(name, power, minRange, maxRange);
   }
 
-    @Override
-    public void equipTo(IUnit unit) {
-        unit.equipSpear(this);
-    }
+  @Override
+  public void equipTo(IUnit unit) { unit.equipSpear(this); }
+
+  @Override
+  public void useAgainst(IUnit unit) {
+    unit.receiveSpearAttack(this);
+  }
 }

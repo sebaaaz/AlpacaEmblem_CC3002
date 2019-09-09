@@ -35,4 +35,9 @@ public class Fighter extends AbstractUnit {
     this.setEquippedItem(item);
     item.setOwner(this);
   }
+
+  @Override
+  public void receiveSpearAttack(IEquipableItem item) {
+
+  }
 }

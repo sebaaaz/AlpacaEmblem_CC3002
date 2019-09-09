@@ -32,4 +32,9 @@ public class Axe extends AbstractItem {
   public void equipTo(IUnit unit) {
     unit.equipAxe(this);
   }
+
+  @Override
+  public void useAgainst(IUnit unit) {
+    unit.receiveAxeAttack(this);
+  }
 }

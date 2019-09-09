@@ -6,6 +6,9 @@ import model.units.IUnit;
  * This class represents a Soul Book.
  * <p>
  * Books can be equipped by <i>Sorcerers</i>.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 1.0
  */
 public class SoulBook extends AbstractItem{
 
@@ -27,4 +30,7 @@ public class SoulBook extends AbstractItem{
 
   @Override
   public void equipTo(IUnit unit) { unit.equipSoulBook(this); }
+
+  @Override
+  public void useAgainst(IUnit unit) { unit.receiveSoulBookAttack(this); }
 }

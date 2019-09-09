@@ -30,4 +30,9 @@ public class DarkBook extends AbstractItem {
 
   @Override
   public void equipTo(IUnit unit) { unit.equipDarkBook(this); }
+
+  @Override
+  public void useAgainst(IUnit unit) {
+    unit.receiveDarkBookAttack(this);
+  }
 }

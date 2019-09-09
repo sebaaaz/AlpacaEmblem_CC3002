@@ -6,6 +6,9 @@ import model.units.IUnit;
  * This class represents a Light Book.
  * <p>
  * Books can be equipped by <i>Sorcerers</i>.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 1.0
  */
 public class LightBook extends AbstractItem{
 
@@ -27,4 +30,9 @@ public class LightBook extends AbstractItem{
 
   @Override
   public void equipTo(IUnit unit) { unit.equipLightBook(this); }
+
+  @Override
+  public void useAgainst(IUnit unit) {
+    unit.receiveLightBookAttack(this);
+  }
 }

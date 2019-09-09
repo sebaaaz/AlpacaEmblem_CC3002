@@ -70,7 +70,7 @@ public interface IEquipableItem {
    * @param unit
    *      the unit that will receive the effect of this item
    */
-//  void useAgainst(IUnit unit);
+  void useAgainst(IUnit unit);
 
   /**
    * Sends an axe attack to an unit

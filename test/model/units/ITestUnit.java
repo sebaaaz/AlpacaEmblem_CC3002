@@ -149,4 +149,15 @@ public interface ITestUnit {
    * Checks if the alpaca received all objects.
    */
   void alpacaReceivesItemTest(IUnit giverUnit, IEquipableItem item);
+
+  /**
+   * Checks if the item was not given to the target alpaca because
+   * both units were more than 1 of distance.
+   */
+  @Test
+  void wrongDistanceGiveItemTest();
+
+  /**
+   *
+   */
 }

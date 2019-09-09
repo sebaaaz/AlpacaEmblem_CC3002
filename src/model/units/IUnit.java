@@ -175,4 +175,76 @@ public interface IUnit {
    *      the item to be removed
    */
   void removeItem(IEquipableItem item);
+
+  /**
+   * Uses the item equipped against other unit, starting a combat
+   *
+   * @param unit
+   *      the unit to be combated
+   */
+//  void startCombat(IUnit unit);
+
+  /**
+   * Receives damage from an axe attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveAxeAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a bow attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveBowAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a dark book attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveDarkBookAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a light book attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveLightBookAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a soul book attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveSoulBookAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a spear attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveSpearAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a staff attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveStaffAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from an sword attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveSwordAttack(IEquipableItem item);
 }

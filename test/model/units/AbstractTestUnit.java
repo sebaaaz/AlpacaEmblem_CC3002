@@ -302,4 +302,16 @@ public abstract class AbstractTestUnit implements ITestUnit {
     giverUnit.equipItem(getSword());
     alpacaReceivesItemTest(giverUnit, getSword());
   }
+
+  @Override
+  @Test
+  public void wrongDistanceGiveItemTest() {
+    IUnit giverUnit = getTestUnit();
+    setTargetAlpaca();
+    assertFalse(getTargetAlpaca().getItems().contains(getBow()));
+    getTargetAlpaca().moveTo(getField().getCell(1, 1));
+    giverUnit.addItem(getBow());
+    giverUnit.giveItemTo(getBow(), getTargetAlpaca());
+    assertFalse(getTargetAlpaca().getItems().contains(getBow()));
+  }
 }

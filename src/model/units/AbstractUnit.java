@@ -20,10 +20,10 @@ import model.map.Location;
  */
 public abstract class AbstractUnit implements IUnit {
 
-  private final List<IEquipableItem> items = new ArrayList<>();
+  private List<IEquipableItem> items = new ArrayList<>();
   private final int maxItems;
   private final int maxHitPoints;
-  private final int currentHitPoints;
+  private  int currentHitPoints;
   private final int movement;
   private IEquipableItem equippedItem;
   private Location location;
@@ -155,5 +155,72 @@ public abstract class AbstractUnit implements IUnit {
   public void removeItem(IEquipableItem item) {
     this.unequipItem();
     items.remove(item);
+  }
+
+  /*@Override
+  public void startCombat(IUnit unit) {
+    if (getEquippedItem() != null) {
+      getEquippedItem().useAgainst(unit);
+    }
+  }*/
+
+  /**
+   * Receives negative damage from an attack with the item
+   *
+   * @param item
+   *      Item which attacks this unit
+   */
+  protected void receiveAttack(IEquipableItem item) {
+    this.currentHitPoints = Math.max(this.currentHitPoints - item.getPower(), 0);
+  }
+
+  /**
+   * Receives positive healing from an attack with the item
+   *
+   * @param item
+   *      Item which heals this unit
+   */
+  protected void receiveHealing(IEquipableItem item) {
+    this.currentHitPoints = Math.min(this.currentHitPoints + item.getPower(), this.getMaxHitPoints());
+  }
+
+  @Override
+  public void receiveAxeAttack(IEquipableItem item) {
+    receiveAttack(item);
+  }
+
+  @Override
+  public void receiveBowAttack(IEquipableItem item) {
+    receiveAttack(item);
+  }
+
+  @Override
+  public void receiveDarkBookAttack(IEquipableItem item) {
+    receiveAttack(item);
+  }
+
+  @Override
+  public void receiveLightBookAttack(IEquipableItem item) {
+    receiveAttack(item);
+  }
+
+  @Override
+  public void receiveSoulBookAttack(IEquipableItem item) {
+    receiveAttack(item);
+  }
+
+  @Override
+  public void receiveSpearAttack(IEquipableItem item) {
+    receiveAttack(item);
+  }
+
+  @Override
+  public void receiveStaffAttack(IEquipableItem item) {
+    receiveHealing(item);
+  }
+
+  @Override
+  public void receiveSwordAttack(IEquipableItem item) {
+    receiveAttack(item);
   }
 }

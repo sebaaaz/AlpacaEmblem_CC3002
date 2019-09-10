@@ -33,6 +33,9 @@ public class DarkBook extends AbstractItem {
 
   @Override
   public void useAgainst(IUnit unit) {
-    unit.receiveDarkBookAttack(this);
+    unit.receiveMagicalAttack(this);
   }
+
+  @Override
+  public void sendAttack(IUnit unit) { unit.receiveDarkBookAttack(this); }
 }

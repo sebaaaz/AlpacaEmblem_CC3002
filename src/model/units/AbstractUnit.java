@@ -213,6 +213,12 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
+  public void receiveMagicalAttack(IEquipableItem item) { item.sendAttack(this); }
+
+  @Override
+  public void receivePhysicalAttack(IEquipableItem item) { item.sendAttack(this); }
+
+  @Override
   public void receiveAxeAttack(IEquipableItem item) { receiveAttack(item); }
 
   @Override
@@ -245,6 +251,4 @@ public abstract class AbstractUnit implements IUnit {
       }
     }
   }
-
-
 }

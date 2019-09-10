@@ -177,6 +177,22 @@ public interface IUnit {
   void removeItem(IEquipableItem item);
 
   /**
+   * Receives damage from a magic item attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveMagicalAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a physical item attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receivePhysicalAttack(IEquipableItem item);
+
+  /**
    * Receives damage from an axe attack
    *
    * @param item

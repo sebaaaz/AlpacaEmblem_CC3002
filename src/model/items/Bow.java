@@ -40,6 +40,9 @@ public class Bow extends AbstractItem {
 
   @Override
   public void useAgainst(IUnit unit) {
-    unit.receiveBowAttack(this);
+    unit.receivePhysicalAttack(this);
   }
+
+  @Override
+  public void sendAttack(IUnit unit) { unit.receiveBowAttack(this); }
 }

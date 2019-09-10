@@ -38,6 +38,22 @@ public class Fighter extends AbstractUnit {
 
   @Override
   public void receiveSpearAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      receiveResistantAttack(item);
+    }
+  }
 
+  @Override
+  public void receiveSwordAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    }
+  }
+
+  @Override
+  public void receiveMagicalAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    }
   }
 }

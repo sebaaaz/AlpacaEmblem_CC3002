@@ -33,6 +33,9 @@ public class LightBook extends AbstractItem{
 
   @Override
   public void useAgainst(IUnit unit) {
-    unit.receiveLightBookAttack(this);
+    unit.receiveMagicalAttack(this);
   }
+
+  @Override
+  public void sendAttack(IUnit unit) { unit.receiveLightBookAttack(this); }
 }

@@ -34,4 +34,21 @@ public class Hero extends AbstractUnit {
     this.setEquippedItem(item);
     item.setOwner(this);
   }
+
+  @Override
+  public void receiveAxeAttack(IEquipableItem item) {
+    receiveWeaknessAttack(item);
+  }
+
+  @Override
+  public void receiveSwordAttack(IEquipableItem item) {
+    receiveResistantAttack(item);
+  }
+
+  @Override
+  public void receiveMagicalAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    }
+  }
 }

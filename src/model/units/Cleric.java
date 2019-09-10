@@ -30,4 +30,11 @@ public class Cleric extends AbstractUnit {
     this.setEquippedItem(item);
     item.setOwner(this);
   }
+
+  @Override
+  public void receiveMagicalAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    }
+  }
 }

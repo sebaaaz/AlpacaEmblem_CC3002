@@ -73,10 +73,10 @@ public interface IEquipableItem {
   void useAgainst(IUnit unit);
 
   /**
-   * Sends an axe attack to an unit
+   * Sends the specific attack of this item
    *
    * @param unit
-   *      the unit that will receive the axe attack
+   *      the unit that will receive the specific attack
    */
-//  void sendAxeAttack(IUnit unit);
+  void sendAttack(IUnit unit);
 }

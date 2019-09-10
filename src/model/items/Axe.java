@@ -35,6 +35,9 @@ public class Axe extends AbstractItem {
 
   @Override
   public void useAgainst(IUnit unit) {
-    unit.receiveAxeAttack(this);
+    unit.receivePhysicalAttack(this);
   }
+
+  @Override
+  public void sendAttack(IUnit unit) { unit.receiveAxeAttack(this); }
 }

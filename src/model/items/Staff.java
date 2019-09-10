@@ -33,6 +33,9 @@ public class Staff extends AbstractItem {
 
   @Override
   public void useAgainst(IUnit unit) {
-    unit.receiveStaffHealing(this);
+    unit.receivePhysicalAttack(this);
   }
+
+  @Override
+  public void sendAttack(IUnit unit) { unit.receiveStaffHealing(this); }
 }

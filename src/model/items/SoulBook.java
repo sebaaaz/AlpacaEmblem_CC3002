@@ -32,5 +32,10 @@ public class SoulBook extends AbstractItem{
   public void equipTo(IUnit unit) { unit.equipSoulBook(this); }
 
   @Override
-  public void useAgainst(IUnit unit) { unit.receiveSoulBookAttack(this); }
+  public void useAgainst(IUnit unit) {
+    unit.receiveMagicalAttack(this);
+  }
+
+  @Override
+  public void sendAttack(IUnit unit) { unit.receiveSoulBookAttack(this); }
 }

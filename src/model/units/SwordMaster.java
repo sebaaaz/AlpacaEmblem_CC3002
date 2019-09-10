@@ -35,4 +35,21 @@ public class SwordMaster extends AbstractUnit {
     this.setEquippedItem(item);
     item.setOwner(this);
   }
+
+  @Override
+  public void receiveAxeAttack(IEquipableItem item) {
+    receiveResistantAttack(item);
+  }
+
+  @Override
+  public void receiveSpearAttack(IEquipableItem item) {
+    receiveWeaknessAttack(item);
+  }
+
+  @Override
+  public void receiveMagicalAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    }
+  }
 }

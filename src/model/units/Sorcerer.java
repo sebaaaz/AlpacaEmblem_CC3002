@@ -47,4 +47,11 @@ public class Sorcerer extends AbstractUnit{
     this.setEquippedItem(item);
     item.setOwner(this);
   }
+
+  @Override
+  public void receivePhysicalAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    }
+    }
 }

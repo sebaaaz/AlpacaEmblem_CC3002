@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 public abstract class AbstractTestUnit implements ITestUnit {
 
   protected Alpaca targetAlpaca;
+  protected Alpaca targetAlpaca2;
   protected Bow bow;
   protected Field field;
   protected Axe axe;
@@ -27,10 +28,15 @@ public abstract class AbstractTestUnit implements ITestUnit {
   protected DarkBook darkBook;
   protected LightBook lightBook;
   protected SoulBook soulBook;
+  protected Bow mortalBow;
+  protected Staff godStaff;
 
   @Override
   public void setTargetAlpaca() {
     targetAlpaca = new Alpaca(50, 2, field.getCell(1, 0));
+  }
+  public void setTargetAlpaca2() {
+    targetAlpaca2 = new Alpaca(50, 2, field.getCell(2, 0));
   }
 
   /**
@@ -41,6 +47,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     setField();
     setTestUnit();
     setTargetAlpaca();
+    setTargetAlpaca2();
     setWeapons();
   }
 
@@ -71,9 +78,11 @@ public abstract class AbstractTestUnit implements ITestUnit {
     this.spear = new Spear("Spear", 10, 1, 2);
     this.staff = new Staff("Staff", 10, 1, 2);
     this.bow = new Bow("Bow", 10, 2, 3);
-    this.darkBook = new DarkBook("DarkBook", 12, 2, 4);
-    this.lightBook = new LightBook("LightBook", 12, 2, 4);
-    this.soulBook = new SoulBook("SoulBook", 12, 2, 4);
+    this.darkBook = new DarkBook("DarkBook", 10, 2, 4);
+    this.lightBook = new LightBook("LightBook", 10, 2, 4);
+    this.soulBook = new SoulBook("SoulBook", 10, 2, 4);
+    this.mortalBow = new Bow("Mortal Spear", 10000, 1, 2);
+    this.godStaff = new Staff("Staff of gods", 10000, 1, 2);
   }
 
   /**
@@ -233,6 +242,14 @@ public abstract class AbstractTestUnit implements ITestUnit {
     return targetAlpaca;
   }
 
+  /**
+   * @return the target Alpaca 2
+   */
+  @Override
+  public Alpaca getTargetAlpaca2() {
+    return targetAlpaca2;
+  }
+
   @Override
   @Test
   public void testAddRemoveItem() {
@@ -315,5 +332,68 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertFalse(getTargetAlpaca().getItems().contains(getBow()));
   }
 
+  @Override
+  public void receiveAttacksTest() {}
 
+  @Override
+  @Test
+  public void bigAttackTest() {
+    IUnit unit = getTestUnit();
+    mortalBow.useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 0);
+    godStaff.useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 50);
+  }
+
+  @Override
+  @Test
+  public void receiveAttackWithoutEquippedItem() {
+    IUnit unit = getTestUnit();
+    unit.equipItem(null);
+    getAxe().useAgainst(unit);
+    assertEquals(40, unit.getCurrentHitPoints());
+    getBow().useAgainst(unit);
+    assertEquals(30, unit.getCurrentHitPoints());
+    getDarkBook().useAgainst(unit);
+    assertEquals(20, unit.getCurrentHitPoints());
+    getLightBook().useAgainst(unit);
+    assertEquals(10, unit.getCurrentHitPoints());
+    getSoulBook().useAgainst(unit);
+    assertEquals(0, unit.getCurrentHitPoints());
+    godStaff.useAgainst(unit);
+    getSpear().useAgainst(unit);
+    assertEquals(40, unit.getCurrentHitPoints());
+    getSword().useAgainst(unit);
+    assertEquals(30, unit.getCurrentHitPoints());
+  }
+
+  @Override
+  @Test
+  public void simpleCombatTest() {
+    Hero hero = new Hero(50, 2, field.getCell(0, 0));
+    SwordMaster swordMaster = new SwordMaster(50, 2, field.getCell(0, 1));
+    Cleric cleric = new Cleric(50, 2, field.getCell(1, 0));
+    assertEquals(hero.getCurrentHitPoints(), 50);
+    assertEquals(swordMaster.getCurrentHitPoints(), 50);
+    assertEquals(cleric.getCurrentHitPoints(), 50);
+
+    hero.addItem(getSpear());
+    hero.equipSpear(getSpear());
+    swordMaster.addItem(getSword());
+    swordMaster.equipSword(getSword());
+    cleric.addItem(getStaff());
+    cleric.equipStaff(getStaff());
+
+    hero.startCombat(swordMaster);
+    assertEquals(swordMaster.getCurrentHitPoints(), 35);
+    assertEquals(hero.getCurrentHitPoints(), 50);
+
+    swordMaster.startCombat(cleric);
+    assertEquals(cleric.getCurrentHitPoints(), 40);
+    assertEquals(swordMaster.getCurrentHitPoints(), 35);
+
+    cleric.startCombat(swordMaster);
+    assertEquals(swordMaster.getCurrentHitPoints(), 45);
+    assertEquals(cleric.getCurrentHitPoints(), 40);
+  }
 }

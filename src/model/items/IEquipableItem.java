@@ -79,4 +79,21 @@ public interface IEquipableItem {
    *      the unit that will receive the specific attack
    */
   void sendAttack(IUnit unit);
+
+  /**
+   * Sends an attack in the context of counter attack
+   *
+   * @param unit
+   *      the unit that will receive the attack
+   */
+  void counterAttackTo(IUnit unit);
+
+  /**
+   * Decides if the enemy unit can counter attack. It depends
+   * on the item who use this method.
+   *
+   * @param unit
+   *      the unit that will be allowed to counter attack
+   */
+  void motivateCounterAttack(IUnit unit);
 }

@@ -40,4 +40,22 @@ public class ClericTest extends AbstractTestUnit {
     cleric.unequipItem();
     assertNull(cleric.getEquippedItem());
   }
+
+  @Override
+  @Test
+  public void receiveAttacksTest() {
+    IUnit unit = cleric;
+    assertEquals(unit.getCurrentHitPoints(), 50);
+    getDarkBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 40);
+    getStaff().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 50);
+
+    getDarkBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 40);
+    unit.addItem(getStaff());
+    unit.equipStaff(getStaff());
+    getDarkBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 25);
+  }
 }

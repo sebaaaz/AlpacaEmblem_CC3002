@@ -257,7 +257,56 @@ public interface IUnit {
   void receiveSwordAttack(IEquipableItem item);
 
   /**
-   * Uses the item equipped against other unit, starting a combat
+   * Receives positive healing from an attack with the item
+   *
+   * @param item
+   *      Item which heals this unit
+   */
+  void receiveHealing(IEquipableItem item);
+
+  /**
+   * Receives negative damage from an attack with the item
+   *
+   * @param item
+   *      Item which attacks this unit
+   */
+  void receiveNormalAttack(IEquipableItem item);
+
+  /**
+   * Receives negative increased damage from an attack with the item
+   *
+   * @param item
+   *      Item which attacks this unit
+   */
+  void receiveWeaknessAttack(IEquipableItem item);
+
+  /**
+   * Receives negative reduced damage from an attack with the item
+   *
+   * @param item
+   *      Item which attacks this unit
+   */
+  void receiveResistantAttack(IEquipableItem item);
+
+  /**
+   * Uses the item equipped against other unit.
+   *
+   * @param unit
+   *      the unit who will receive the effect of the equipped item
+   */
+  void useItemAgainst(IUnit unit);
+
+  /**
+   * If someone attacked this unit, this method allows to do
+   * a counter attack to the same unit who attacked first.
+   *
+   * @param unit
+   *      the unit to be attacked
+   */
+  void counterAttack(IUnit unit);
+
+  /**
+   * Starts a combat against the other unit
    *
    * @param unit
    *      the unit to be combated

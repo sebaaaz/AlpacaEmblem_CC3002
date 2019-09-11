@@ -31,15 +31,15 @@ public abstract class AbstractUnit implements IUnit {
   /**
    * Creates a new Unit.
    *
-   * @param hitPoints the maximum amount of damage a unit can sustain
+   * @param maxHitPoints the maximum amount of damage a unit can sustain
    * @param movement  the number of panels a unit can move
    * @param location  the initial position of this unit on the map
    * @param maxItems  maximum amount of items this unit can carry
    * @param items     the initial items that the unit has
    */
-  protected AbstractUnit(final int hitPoints, final int movement,
+  protected AbstractUnit(final int maxHitPoints, final int movement,
                          final Location location, final int maxItems, final IEquipableItem... items) {
-    this.maxHitPoints = hitPoints;
+    this.maxHitPoints = maxHitPoints;
     this.currentHitPoints = this.maxHitPoints;
     this.movement = movement;
     this.location = location;
@@ -170,44 +170,23 @@ public abstract class AbstractUnit implements IUnit {
     items.remove(item);
   }
 
-  /**
-   * Receives negative damage from an attack with the item
-   *
-   * @param item
-   *      Item which attacks this unit
-   */
-  protected void receiveAttack(IEquipableItem item) {
-    this.currentHitPoints = Math.max(this.currentHitPoints - item.getPower(), 0);
-  }
-
-  /**
-   * Receives positive healing from an attack with the item
-   *
-   * @param item
-   *      Item which heals this unit
-   */
-  protected void receiveHealing(IEquipableItem item) {
+  @Override
+  public void receiveHealing(IEquipableItem item) {
     this.currentHitPoints = Math.min(this.currentHitPoints + item.getPower(), this.getMaxHitPoints());
   }
 
-  /**
-   * Receives negative increased damage from an attack with the item
-   *
-   * @param item
-   *      Item which attacks this unit
-   */
-  protected void receiveWeaknessAttack(IEquipableItem item) {
+  @Override
+  public void receiveNormalAttack(IEquipableItem item) {
+    this.currentHitPoints = Math.max(this.currentHitPoints - item.getPower(), 0);
+  }
+
+  @Override
+  public void receiveWeaknessAttack(IEquipableItem item) {
     int damage = (int) (item.getPower()*1.5);
     this.currentHitPoints = Math.max(this.currentHitPoints - damage, 0);
   }
 
-  /**
-   * Receives negative reduced damage from an attack with the item
-   *
-   * @param item
-   *      Item which attacks this unit
-   */
-  protected void receiveResistantAttack(IEquipableItem item) {
+  public void receiveResistantAttack(IEquipableItem item) {
     int damage = Math.max(item.getPower() - 20, 0);
     this.currentHitPoints = Math.max(this.currentHitPoints - damage, 0);
   }
@@ -219,36 +198,49 @@ public abstract class AbstractUnit implements IUnit {
   public void receivePhysicalAttack(IEquipableItem item) { item.sendAttack(this); }
 
   @Override
-  public void receiveAxeAttack(IEquipableItem item) { receiveAttack(item); }
+  public void receiveAxeAttack(IEquipableItem item) { receiveNormalAttack(item); }
 
   @Override
-  public void receiveBowAttack(IEquipableItem item) { receiveAttack(item); }
+  public void receiveBowAttack(IEquipableItem item) { receiveNormalAttack(item); }
 
   @Override
-  public void receiveDarkBookAttack(IEquipableItem item) { receiveAttack(item); }
+  public void receiveDarkBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
 
   @Override
-  public void receiveLightBookAttack(IEquipableItem item) { receiveAttack(item); }
+  public void receiveLightBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
 
   @Override
-  public void receiveSoulBookAttack(IEquipableItem item) { receiveAttack(item); }
+  public void receiveSoulBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
 
   @Override
-  public void receiveSpearAttack(IEquipableItem item) { receiveAttack(item); }
+  public void receiveSpearAttack(IEquipableItem item) { receiveNormalAttack(item); }
 
   @Override
-  public void receiveSwordAttack(IEquipableItem item) { receiveAttack(item); }
+  public void receiveSwordAttack(IEquipableItem item) { receiveNormalAttack(item); }
 
   @Override
   public void receiveStaffHealing(IEquipableItem item) { receiveHealing(item); }
 
   @Override
-  public void startCombat(IUnit unit) {
+  public void useItemAgainst(IUnit unit) {
     if (getEquippedItem() != null) {
       if (getLocation().distanceTo(unit.getLocation()) <= getEquippedItem().getMaxRange()
       &&  getLocation().distanceTo(unit.getLocation()) >= getEquippedItem().getMinRange()) {
         getEquippedItem().useAgainst(unit);
       }
+    }
+  }
+
+  @Override
+  public void counterAttack(IUnit unit) {
+    getEquippedItem().counterAttackTo(unit);
+  }
+
+  @Override
+  public void startCombat(IUnit unit) {
+    useItemAgainst(unit);
+    if (unit.getEquippedItem() != null) {
+      getEquippedItem().motivateCounterAttack(unit);
     }
   }
 }

@@ -59,4 +59,47 @@ public class SorcererTest extends AbstractTestUnit {
     sorcerer.unequipItem();
     assertNull(sorcerer.getEquippedItem());
   }
+
+  @Override
+  @Test
+  public void receiveAttacksTest() {
+    IUnit unit = sorcerer;
+    assertEquals(unit.getCurrentHitPoints(), 50);
+    unit.addItem(getDarkBook());
+    unit.addItem(getLightBook());
+    unit.addItem(getSoulBook());
+
+    unit.equipDarkBook(getDarkBook());
+
+    getBow().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 35);
+    getStaff().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 45);
+    godStaff.useAgainst(unit);
+
+    getDarkBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 40);
+    getSoulBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 40);
+    getLightBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 25);
+    godStaff.useAgainst(unit);
+
+    unit.equipLightBook(getLightBook());
+    getDarkBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 50);
+    getSoulBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 35);
+    getLightBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 25);
+    godStaff.useAgainst(unit);
+
+    unit.equipSoulBook(getSoulBook());
+    getDarkBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 35);
+    getSoulBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 25);
+    getLightBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 25);
+  }
 }

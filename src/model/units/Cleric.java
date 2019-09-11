@@ -15,14 +15,18 @@ public class Cleric extends AbstractUnit {
   /**
    * Creates a new Unit.
    *
-   * @param hitPoints
+   * @param maxHitPoints
    *     the maximum amount of damage a unit can sustain
    * @param movement
    *     the number of panels a unit can move
+   * @param location
+   *     the initial position of this unit
+   * @param items
+   *     the items carried by this unit
    */
-  public Cleric(final int hitPoints, final int movement, final Location location,
+  public Cleric(final int maxHitPoints, final int movement, final Location location,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(maxHitPoints, movement, location, 3, items);
   }
 
   @Override
@@ -35,6 +39,8 @@ public class Cleric extends AbstractUnit {
   public void receiveMagicalAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
   }
 }

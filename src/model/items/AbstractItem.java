@@ -68,4 +68,10 @@ public abstract class AbstractItem implements IEquipableItem {
 
   @Override
   public void setMaxRange(int maxRange) { this.maxRange = maxRange; }
+
+  @Override
+  public void counterAttackTo(IUnit unit) { useAgainst(unit); }
+
+  @Override
+  public void motivateCounterAttack(IUnit unit) { unit.counterAttack(getOwner()); }
 }

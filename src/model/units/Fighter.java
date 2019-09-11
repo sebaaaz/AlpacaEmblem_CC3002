@@ -16,7 +16,7 @@ public class Fighter extends AbstractUnit {
   /**
    * Creates a new Fighter
    *
-   * @param hitPoints
+   * @param maxHitPoints
    *     maximum hit points of the unit
    * @param movement
    *     the amount of cells this unit can move
@@ -25,9 +25,9 @@ public class Fighter extends AbstractUnit {
    * @param items
    *     the items carried by this unit
    */
-  public Fighter(final int hitPoints, final int movement, final Location location,
+  public Fighter(final int maxHitPoints, final int movement, final Location location,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(maxHitPoints, movement, location, 3, items);
   }
 
   @Override
@@ -40,6 +40,8 @@ public class Fighter extends AbstractUnit {
   public void receiveSpearAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveResistantAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
   }
 
@@ -47,6 +49,8 @@ public class Fighter extends AbstractUnit {
   public void receiveSwordAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
   }
 
@@ -54,6 +58,8 @@ public class Fighter extends AbstractUnit {
   public void receiveMagicalAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
   }
 }

@@ -16,7 +16,7 @@ public class Hero extends AbstractUnit {
   /**
    * Creates a new Hero
    *
-   * @param hitPoints
+   * @param maxHitPoints
    *     maximum hit points of the unit
    * @param movement
    *     the amount of cells this unit can move
@@ -25,8 +25,8 @@ public class Hero extends AbstractUnit {
    * @param items
    *     the items carried by this unit
    */
-  public Hero(final int hitPoints, final int movement, final Location location, IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+  public Hero(final int maxHitPoints, final int movement, final Location location, IEquipableItem... items) {
+    super(maxHitPoints, movement, location, 3, items);
   }
 
   @Override
@@ -37,18 +37,28 @@ public class Hero extends AbstractUnit {
 
   @Override
   public void receiveAxeAttack(IEquipableItem item) {
-    receiveWeaknessAttack(item);
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
+    }
   }
 
   @Override
   public void receiveSwordAttack(IEquipableItem item) {
-    receiveResistantAttack(item);
+    if (getEquippedItem() != null) {
+      receiveResistantAttack(item);
+    } else {
+      receiveNormalAttack(item);
+    }
   }
 
   @Override
   public void receiveMagicalAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
   }
 }

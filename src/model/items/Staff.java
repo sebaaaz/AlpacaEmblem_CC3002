@@ -33,9 +33,19 @@ public class Staff extends AbstractItem {
 
   @Override
   public void useAgainst(IUnit unit) {
-    unit.receivePhysicalAttack(this);
+    unit.receiveStaffHealing(this);
   }
 
   @Override
-  public void sendAttack(IUnit unit) { unit.receiveStaffHealing(this); }
+  public void sendAttack(IUnit unit) {}
+
+  @Override
+  public void counterAttackTo(IUnit unit) {
+    // empty because Staff item does not counter attack
+  }
+
+  @Override
+  public void motivateCounterAttack(IUnit unit) {
+    // empty because Staff item does not allow other items counter attack it
+  }
 }

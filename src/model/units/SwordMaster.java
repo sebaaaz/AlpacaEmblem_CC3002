@@ -16,7 +16,7 @@ public class SwordMaster extends AbstractUnit {
   /**
    * Creates a new SwordMaster
    *
-   * @param hitPoints
+   * @param maxHitPoints
    *     maximum hit points of the unit
    * @param movement
    *     the amount of cells this unit can move
@@ -25,9 +25,9 @@ public class SwordMaster extends AbstractUnit {
    * @param items
    *     the items carried by this unit
    */
-  public SwordMaster(final int hitPoints, final int movement, final Location location,
+  public SwordMaster(final int maxHitPoints, final int movement, final Location location,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(maxHitPoints, movement, location, 3, items);
   }
 
   @Override
@@ -38,18 +38,28 @@ public class SwordMaster extends AbstractUnit {
 
   @Override
   public void receiveAxeAttack(IEquipableItem item) {
-    receiveResistantAttack(item);
+    if (getEquippedItem() != null) {
+      receiveResistantAttack(item);
+    } else {
+      receiveNormalAttack(item);
+    }
   }
 
   @Override
   public void receiveSpearAttack(IEquipableItem item) {
-    receiveWeaknessAttack(item);
+    if (getEquippedItem() != null) {
+      receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
+    }
   }
 
   @Override
   public void receiveMagicalAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
   }
 }

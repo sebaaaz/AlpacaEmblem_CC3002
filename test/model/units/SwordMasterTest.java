@@ -1,5 +1,7 @@
 package model.units;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -36,5 +38,38 @@ public class SwordMasterTest extends AbstractTestUnit {
     assertEquals(sword, swordMaster.getEquippedItem());
     swordMaster.unequipItem();
     assertNull(swordMaster.getEquippedItem());
+  }
+
+  @Override
+  @Test
+  public void receiveAttacksTest() {
+    IUnit unit = swordMaster;
+    unit.addItem(getSword());
+    unit.equipSword(getSword());
+    assertEquals(unit.getCurrentHitPoints(), 50);
+
+    getBow().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 40);
+    getStaff().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 50);
+
+    getDarkBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 35);
+
+    getLightBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 20);
+
+    godStaff.useAgainst(unit);
+
+    getSoulBook().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 35);
+
+    godStaff.useAgainst(unit);
+
+    getAxe().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 50);
+
+    getSpear().useAgainst(unit);
+    assertEquals(unit.getCurrentHitPoints(), 35);
   }
 }

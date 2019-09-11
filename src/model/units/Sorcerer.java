@@ -1,6 +1,7 @@
 package model.units;
 
 import model.items.IEquipableItem;
+import model.items.IMagicBook;
 import model.map.Location;
 
 /**
@@ -17,7 +18,7 @@ public class Sorcerer extends AbstractUnit{
   /**
    * Creates a new Sorcerer
    *
-   * @param hitPoints
+   * @param maxHitPoints
    *     maximum hit points of the unit
    * @param movement
    *     the amount of cells this unit can move
@@ -26,8 +27,8 @@ public class Sorcerer extends AbstractUnit{
    * @param items
    *     the items carried by this unit
    */
-  public Sorcerer(int hitPoints, int movement, Location location, IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+  public Sorcerer(int maxHitPoints, int movement, Location location, IEquipableItem... items) {
+    super(maxHitPoints, movement, location, 3, items);
   }
 
   @Override
@@ -52,6 +53,17 @@ public class Sorcerer extends AbstractUnit{
   public void receivePhysicalAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
+  }
+
+  @Override
+  public void receiveMagicalAttack(IEquipableItem item) {
+    if (getEquippedItem() != null) {
+      ((IMagicBook) item).sendMagicalAttack((IMagicBook) getEquippedItem());
+    } else {
+      receiveNormalAttack(item);
     }
+  }
 }

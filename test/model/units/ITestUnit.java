@@ -24,6 +24,7 @@ public interface ITestUnit {
   void setTestUnit();
 
   void setTargetAlpaca();
+  void setTargetAlpaca2();
 
   /**
    * Creates a set of testing weapons
@@ -133,6 +134,11 @@ public interface ITestUnit {
   Alpaca getTargetAlpaca();
 
   /**
+   * @return the target Alpaca 2
+   */
+  Alpaca getTargetAlpaca2();
+
+  /**
    * Checks if the item was added correctly to the item list.
    */
   @Test
@@ -158,6 +164,28 @@ public interface ITestUnit {
   void wrongDistanceGiveItemTest();
 
   /**
-   *
+   * Checks if the unit received the correct damage or heal.
    */
+  @Test
+  void receiveAttacksTest();
+
+  /**
+   * Checks if the limits of the current life of a unit is setted
+   * to 0 for the minimum and 50 for its maximum (which is 50 for test units)
+   */
+  @Test
+  void bigAttackTest();
+
+  /**
+   * Checks the unit receives normal damage because it does not have
+   * equipped any item
+   */
+  @Test
+  void receiveAttackWithoutEquippedItem();
+
+  /**
+   * Tests of simple combat with counter attack
+   */
+  @Test
+  void simpleCombatTest();
 }

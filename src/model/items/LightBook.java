@@ -10,7 +10,7 @@ import model.units.IUnit;
  * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
-public class LightBook extends AbstractItem{
+public class LightBook extends AbstractItem implements IMagicBook {
 
   /**
    * Creates a new Light Book.
@@ -38,4 +38,24 @@ public class LightBook extends AbstractItem{
 
   @Override
   public void sendAttack(IUnit unit) { unit.receiveLightBookAttack(this); }
+
+  @Override
+  public void receiveDarkAttack(IEquipableItem attack) {
+    getOwner().receiveResistantAttack(attack);
+  }
+
+  @Override
+  public void receiveLightAttack(IEquipableItem attack) {
+    getOwner().receiveNormalAttack(attack);
+  }
+
+  @Override
+  public void receiveSoulAttack(IEquipableItem attack) {
+    getOwner().receiveWeaknessAttack(attack);
+  }
+
+  @Override
+  public void sendMagicalAttack(IMagicBook book) {
+    book.receiveLightAttack(this);
+  }
 }

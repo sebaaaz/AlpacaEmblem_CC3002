@@ -16,7 +16,7 @@ public class Archer extends AbstractUnit {
   /**
    * Creates a new Archer
    *
-   * @param hitPoints
+   * @param maxHitPoints
    *     maximum hit points of the unit
    * @param movement
    *     the amount of cells this unit can move
@@ -25,9 +25,9 @@ public class Archer extends AbstractUnit {
    * @param items
    *     the items carried by this unit
    */
-  public Archer(final int hitPoints, final int movement, final Location location,
+  public Archer(final int maxHitPoints, final int movement, final Location location,
       IEquipableItem... items) {
-    super(hitPoints, movement, location, 3, items);
+    super(maxHitPoints, movement, location, 3, items);
   }
 
   @Override
@@ -40,6 +40,8 @@ public class Archer extends AbstractUnit {
   public void receiveMagicalAttack(IEquipableItem item) {
     if (getEquippedItem() != null) {
       receiveWeaknessAttack(item);
+    } else {
+      receiveNormalAttack(item);
     }
   }
 }

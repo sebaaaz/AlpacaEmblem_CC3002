@@ -17,16 +17,16 @@ public class Alpaca extends AbstractUnit {
   /**
    * Creates a new Alpaca.
    *
-   * @param hitPoints
+   * @param maxHitPoints
    *     the amount of damage this unit can receive
    * @param movement
    *     number of cells the unit can move
    * @param location
    *     the initial position of the unit
    */
-  public Alpaca(final int hitPoints, final int movement, final Location location,
+  public Alpaca(final int maxHitPoints, final int movement, final Location location,
       final IEquipableItem... items) {
-    super(hitPoints, movement, location, Integer.MAX_VALUE, items);
+    super(maxHitPoints, movement, location, Integer.MAX_VALUE, items);
   }
 
   /**
@@ -38,5 +38,4 @@ public class Alpaca extends AbstractUnit {
   public void equipItem(final IEquipableItem item) {
     // Method body intentionally left empty
   }
-
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>model.items</OriginalElement>
+  <nodes>
+    <node x="1338.0" y="644.0">model.items.Spear</node>
+    <node x="688.0" y="596.0">model.items.SoulBook</node>
+    <node x="1780.0" y="644.0">model.items.Sword</node>
+    <node x="1032.0" y="620.0">model.items.Staff</node>
+    <node x="263.0" y="355.5">model.items.IMagicBook</node>
+    <node x="1163.75" y="319.0">model.items.AbstractItem</node>
+    <node x="2001.0" y="644.0">model.items.Bow</node>
+    <node x="1559.0" y="644.0">model.items.Axe</node>
+    <node x="344.0" y="596.0">model.items.DarkBook</node>
+    <node x="0.0" y="596.0">model.items.LightBook</node>
+    <node x="1163.75" y="0.0">model.items.IEquipableItem</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.items.DarkBook" target="model.items.AbstractItem">
+      <point x="81.0" y="-98.0" />
+      <point x="587.0" y="556.0" />
+      <point x="1217.375" y="556.0" />
+      <point x="-89.375" y="98.5" />
+    </edge>
+    <edge source="model.items.Spear" target="model.items.AbstractItem">
+      <point x="0.0" y="-50.0" />
+      <point x="1438.5" y="576.0" />
+      <point x="1324.625" y="576.0" />
+      <point x="17.875" y="98.5" />
+    </edge>
+    <edge source="model.items.DarkBook" target="model.items.IMagicBook">
+      <point x="-81.0" y="-98.0" />
+      <point x="0.0" y="62.0" />
+    </edge>
+    <edge source="model.items.Bow" target="model.items.AbstractItem">
+      <point x="0.0" y="-50.0" />
+      <point x="2101.5" y="546.0" />
+      <point x="1431.875" y="546.0" />
+      <point x="125.125" y="98.5" />
+    </edge>
+    <edge source="model.items.LightBook" target="model.items.AbstractItem">
+      <point x="81.0" y="-98.0" />
+      <point x="243.0" y="546.0" />
+      <point x="1181.625" y="546.0" />
+      <point x="-125.125" y="98.5" />
+    </edge>
+    <edge source="model.items.Staff" target="model.items.AbstractItem">
+      <point x="0.0" y="-74.0" />
+      <point x="1175.0" y="576.0" />
+      <point x="1288.875" y="576.0" />
+      <point x="-17.875" y="98.5" />
+    </edge>
+    <edge source="model.items.SoulBook" target="model.items.IMagicBook">
+      <point x="-81.0" y="-98.0" />
+      <point x="769.0" y="536.0" />
+      <point x="533.0" y="536.0" />
+      <point x="108.0" y="62.0" />
+    </edge>
+    <edge source="model.items.Axe" target="model.items.AbstractItem">
+      <point x="0.0" y="-50.0" />
+      <point x="1659.5" y="566.0" />
+      <point x="1360.375" y="566.0" />
+      <point x="53.625" y="98.5" />
+    </edge>
+    <edge source="model.items.Sword" target="model.items.AbstractItem">
+      <point x="0.0" y="-50.0" />
+      <point x="1880.5" y="556.0" />
+      <point x="1396.125" y="556.0" />
+      <point x="89.375" y="98.5" />
+    </edge>
+    <edge source="model.items.SoulBook" target="model.items.AbstractItem">
+      <point x="81.0" y="-98.0" />
+      <point x="931.0" y="566.0" />
+      <point x="1253.125" y="566.0" />
+      <point x="-53.625" y="98.5" />
+    </edge>
+    <edge source="model.items.AbstractItem" target="model.items.IEquipableItem">
+      <point x="0.0" y="-98.5" />
+      <point x="0.0" y="134.5" />
+    </edge>
+    <edge source="model.items.LightBook" target="model.items.IMagicBook">
+      <point x="-81.0" y="-98.0" />
+      <point x="81.0" y="536.0" />
+      <point x="317.0" y="536.0" />
+      <point x="-108.0" y="62.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.6088607594936709" x="923.2242339832869" y="364.6281337047354" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>Production</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

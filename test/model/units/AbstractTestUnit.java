@@ -81,7 +81,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     this.darkBook = new DarkBook("DarkBook", 10, 2, 4);
     this.lightBook = new LightBook("LightBook", 10, 2, 4);
     this.soulBook = new SoulBook("SoulBook", 10, 2, 4);
-    this.mortalBow = new Bow("Mortal Spear", 10000, 1, 2);
+    this.mortalBow = new Bow("Mortal Bow", 10000, 1, 2);
     this.godStaff = new Staff("Staff of gods", 10000, 1, 2);
   }
 

@@ -5,11 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
-import java.util.Collections;
 import model.Tactician;
 import model.map.Field;
 import org.junit.jupiter.api.Assertions;
@@ -28,23 +26,9 @@ class GameControllerTest {
 
   @BeforeEach
   void setUp() {
-    // Se define la semilla como un número aleatorio para generar variedad en los tests
-    randomSeed = new Random().nextLong();
+    randomSeed = 42;
     controller = new GameController(4, 7);
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
-  }
-
-  @Test
-  void xd(){
-    List<Integer> lista = new ArrayList<>();
-    lista.add(10);
-    lista.add(20);
-    lista.add(30);
-    lista.add(40);
-    lista.add(50);
-    System.out.println(lista);
-    lista.remove(0);
-    System.out.println(lista);
   }
 
   @Test
@@ -58,8 +42,9 @@ class GameControllerTest {
 
   @Test
   void getGameMap() {
+    controller.createMap();
     Field gameMap = controller.getGameMap();
-    assertEquals(7, gameMap.getSize()); // getSize deben definirlo
+    assertEquals(7, gameMap.getSize());
     assertTrue(controller.getGameMap().isConnected());
     Random testRandom = new Random(randomSeed);
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
@@ -75,13 +60,36 @@ class GameControllerTest {
 
   @Test
   void getTurnOwner() {
-    //  En este caso deben hacer lo mismo que para el mapa
+    controller.setSeed(randomSeed); // Player 3 Player 1 Player 0 Player 2
+    controller.initEndlessGame();
+    assertEquals("Player 3", controller.getTurnOwner().getName());
+    controller.endTurn();
+    assertEquals("Player 1", controller.getTurnOwner().getName());
+    controller.endTurn();
+    assertEquals("Player 0", controller.getTurnOwner().getName());
+    controller.endTurn();
+    assertEquals("Player 2", controller.getTurnOwner().getName());
+
+    controller.endTurn();           // Player 0 Player 1 Player 3 Player 2
+    controller.endTurn();
+    assertEquals("Player 1", controller.getTurnOwner().getName());
+    controller.removeTactician("Player 1"); // Player 0 Player 3 Player 2
+    controller.endTurn();
+    assertEquals("Player 3", controller.getTurnOwner().getName());
+
+    controller.removeTactician("Player 2"); // Player 0 Player 3
+    controller.endTurn();
+    assertEquals("Player 0", controller.getTurnOwner().getName());
+    controller.endTurn();
+    assertEquals("Player 3", controller.getTurnOwner().getName());
+    controller.endTurn();
+    assertEquals("Player 0", controller.getTurnOwner().getName());
   }
 
   @Test
   void getRoundNumber() {
     controller.initGame(10);
-    for (int i = 0; i < 10; i++) {
+    for (int i = 1; i < 10; i++) {
       assertEquals(i, controller.getRoundNumber());
       for (int j = 0; j < 4; j++) {
         controller.endTurn();
@@ -94,9 +102,7 @@ class GameControllerTest {
     Random randomTurnSequence = new Random();
     IntStream.range(0, 50).map(i -> randomTurnSequence.nextInt() & Integer.MAX_VALUE).forEach(nextInt -> {
       controller.initGame(nextInt);
-      System.out.println(nextInt);
       assertEquals(nextInt, controller.getMaxRounds());
-      System.out.println(nextInt);
     });
     controller.initEndlessGame();
     assertEquals(-1, controller.getMaxRounds());
@@ -104,8 +110,9 @@ class GameControllerTest {
 
   @Test
   void endTurn() {
+    controller.setSeed(randomSeed);
+    controller.shufflePlayers(); // Player 2 Player 1 Player 0 Player 3
     Tactician firstPlayer = controller.getTurnOwner();
-    // Nuevamente, para determinar el orden de los jugadores se debe usar una semilla
     Tactician secondPlayer = new Tactician("Player 1");
     assertNotEquals(secondPlayer.getName(), firstPlayer.getName());
 
@@ -158,7 +165,6 @@ class GameControllerTest {
     assertTrue(List.of("Player 3").containsAll(controller.getWinners()));
   }
 
-  // Desde aquí en adelante, los tests deben definirlos completamente ustedes
   @Test
   void getSelectedUnit() {
   }
@@ -194,6 +200,6 @@ class GameControllerTest {
     String lastTactician = controller.getTacticians().get(controller.getNumberOfPlayers() - 1).getName();
     controller.shufflePlayers();
     assertEquals(4, tacticians.size());
-    assertNotEquals(lastTactician, controller.getTacticians().get(controller.getNumberOfPlayers() - 1).getName());
+    assertNotEquals(lastTactician, controller.getTacticians().get(0).getName());
   }
 }

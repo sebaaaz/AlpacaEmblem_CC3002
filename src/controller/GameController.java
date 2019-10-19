@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import static java.util.Collections.shuffle;
-import static java.lang.Math.min;
 
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.Location;
 import model.units.IUnit;
 
 /**
@@ -22,14 +22,19 @@ import model.units.IUnit;
  */
 public class GameController {
 
-  private List<Tactician> players = new ArrayList<>();
-  private List<Integer> playersOrder = new ArrayList<>();
-  private Field map = new Field();
-  private int numberOfPlayers;
+  private Random random = new Random();
+  private List<Tactician> players;
+  private List<Tactician> originalPlayers = new ArrayList<>();
+  private Field map;
+
+  private int mapSize;
   private int currentRound;
   private int currentTurn;
   private int maxRounds;
+
   private Tactician turnOwner;
+  private IUnit selectedUnit;
+  private IEquipableItem selectedItem;
 
   /**
    * Creates the controller for a new game.
@@ -40,13 +45,13 @@ public class GameController {
    *     the dimensions of the map, for simplicity, all maps are squares
    */
   public GameController(int numberOfPlayers, int mapSize) {
-    this.numberOfPlayers = numberOfPlayers;
     for (int i = 0; i < numberOfPlayers; i++) {
       Tactician player = new Tactician("Player " + i);
-      players.add(player);
-      playersOrder.add(i);
+      originalPlayers.add(player);
     }
+    players = new ArrayList<>(originalPlayers);
     turnOwner = players.get(0);
+    this.mapSize = mapSize;
   }
 
   /**
@@ -78,6 +83,11 @@ public class GameController {
   }
 
   /**
+   * @return the number of turns since the start of the round.
+   */
+  public int getTurnNumber() { return currentTurn; }
+
+  /**
    * @return the maximum number of rounds a match can last
    */
   public int getMaxRounds() {
@@ -88,14 +98,49 @@ public class GameController {
    * @return the number of players
    */
   public int getNumberOfPlayers() {
-    return numberOfPlayers;
+    return players.size();
+  }
+
+  /**
+   * Print the names of the players/tacticians of the game
+   */
+  public void printNames() {
+    StringBuilder names = new StringBuilder();
+    names.setLength(0);
+    players.forEach(player -> names.append(player.getName()).append(" "));
+    System.out.println(names);
+  }
+
+  /**
+   * Sets the seed to be used as param of random events.
+   *
+   * @param seed
+   *      the value of the seed
+   */
+  public void setSeed(long seed) {
+    random = new Random();
+    random.setSeed(seed);
+  }
+
+  /**
+   * Sets the seed to the map.
+   *
+   * @param seed
+   *      the value of the seed
+   */
+  public void setMapSeed(long seed) {
+    map.setSeed(seed);
   }
 
   /**
    * Finishes the current player's turn.
    */
   public void endTurn() {
-    currentTurn = (currentTurn + 1) % numberOfPlayers;
+    if (!getTurnOwner().getName().equals(getTacticians().get(currentTurn).getName())) {
+      turnOwner = getTacticians().get(currentTurn);
+      return;
+    }
+    currentTurn = (currentTurn + 1) % getNumberOfPlayers();
     if (currentTurn == 0) {
       currentRound++;
       shufflePlayers();
@@ -114,17 +159,22 @@ public class GameController {
     for (int i = 0; i < players.size(); i++) {
       if (players.get(i).getName().equals(tactician)) index = i;
     }
-    if (index != -1) players.remove(index);
+    if (index != -1) {
+      players.remove(index);
+    }
   }
 
   /**
    * Starts the game.
-   * @param maxTurns
-   *  the maximum number of turns the game can last
+   * @param totalRounds
+   *  the maximum number of rounds the game can last
    */
-  public void initGame(final int maxTurns) {
-    maxRounds = maxTurns;
-    currentRound = 0;
+  public void initGame(final int totalRounds) {
+    players = new ArrayList<>(originalPlayers);
+    shuffle(players, random);
+    turnOwner = players.get(0);
+    maxRounds = totalRounds;
+    currentRound = 1;
     currentTurn = 0;
   }
 
@@ -132,21 +182,30 @@ public class GameController {
    * Starts a game without a limit of turns.
    */
   public void initEndlessGame() {
-    maxRounds = -1;
-    currentRound = 0;
-    currentTurn = 0;
+    this.initGame(-1);
   }
 
   /**
    * @return the winner of this game, if the match ends in a draw returns a list of all the winners
    */
-  public List<String> getWinners() { return null; }
+  public List<String> getWinners() {
+    List<String> names = new ArrayList<>();
+    players.forEach(player -> names.add(player.getName()));
+    if (names.size() == 1) {
+      return names;
+    }
+    if ( getMaxRounds() == -1 || names.size() == 0 || (!endedGame())) {
+      return null;
+    } else {
+      return names;
+    }
+  }
 
   /**
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-    return null;
+    return turnOwner.getSelectedUnit();
   }
 
   /**
@@ -158,14 +217,14 @@ public class GameController {
    *     vertical position of the unit
    */
   public void selectUnitIn(int x, int y) {
-
+    selectedUnit = map.getCell(y, x).getUnit();
   }
 
   /**
    * @return the inventory of the currently selected unit.
    */
   public List<IEquipableItem> getItems() {
-    return null;
+    return getSelectedUnit().getItems();
   }
 
   /**
@@ -175,7 +234,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void equipItem(int index) {
-
+    getSelectedUnit().equipItem(getItems().get(index));
   }
 
   /**
@@ -197,7 +256,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void selectItem(int index) {
-
+    selectedItem = turnOwner.getSelectedItem();
   }
 
   /**
@@ -216,10 +275,29 @@ public class GameController {
    * Shuffles the list of tacticians in order to get new turns for a round.
    */
   public void shufflePlayers(){
-    Tactician lastTactician = players.get(numberOfPlayers - 1);
-    int newPositionLastTactician = new Random().nextInt(numberOfPlayers);
-    players.remove(numberOfPlayers - 1);
-    shuffle(players, new Random());
+    Tactician lastTactician = players.get(getNumberOfPlayers() - 1);
+    int newPositionLastTactician = random.nextInt(getNumberOfPlayers() - 1) + 1;
+    players.remove(getNumberOfPlayers() - 1);
+    shuffle(players, random);
     players.add(newPositionLastTactician, lastTactician);
+    turnOwner = players.get(currentTurn);
+  }
+
+  /**
+   * Determines if the game ended, seeing the current round.
+   *
+   * @return true if the game ended. Returns false if not.
+   */
+  private boolean endedGame(){
+    return getRoundNumber() > getMaxRounds() && getMaxRounds() != -1;
+  }
+
+  public void createMap(){
+    map = new Field();
+    for (int i = 0; i < mapSize; i++) {
+      for (int j = 0; j < mapSize; j++) {
+        map.addCells(false, new Location(i, j));
+      }
+    }
   }
 }

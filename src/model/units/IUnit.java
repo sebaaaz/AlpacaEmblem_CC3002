@@ -61,6 +61,9 @@ public interface IUnit {
 
   /**
    * Sets a new location for this unit
+   *
+   * @param location
+   *      the location for the unit
    */
   void setLocation(final Location location);
 

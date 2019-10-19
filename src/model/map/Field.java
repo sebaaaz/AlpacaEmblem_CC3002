@@ -1,6 +1,7 @@
 package model.map;
 
 import java.util.*;
+import java.lang.Math;
 
 /**
  * This class represents the map where the units are located and the game is played.
@@ -17,6 +18,17 @@ public class Field {
   private Map<String, Location> map = new HashMap<>();
   private Random random = new Random();
   private StringBuilder builder = new StringBuilder();
+
+  /**
+   * Sets the seed to be used as param of random events.
+   *
+   * @param seed
+   *      the value of the seed
+   */
+  public void setSeed(long seed) {
+    random = new Random();
+    random.setSeed(seed);
+  }
 
   /**
    * Add cells to the map.
@@ -141,7 +153,10 @@ public class Field {
     return cell1.isNeighbour(cell2);
   }
 
+  /**
+   * @return the size of the side of the map
+   */
   public int getSize() {
-    return map.size();
+    return (int) Math.pow(map.size(), 0.5);
   }
 }

@@ -1,6 +1,7 @@
 package model;
 
 import model.items.IEquipableItem;
+import model.unitFactories.IUnitFactory;
 import model.units.IUnit;
 
 import java.util.ArrayList;
@@ -27,23 +28,43 @@ public class Tactician {
   /**
    * Creates a new Tactician/Player
    *
-   * @param name the name of this player
+   * @param name
+   *      the name of this player
    */
   public Tactician(String name) {
     this.name = name;
   }
 
-  @Override
-  public boolean equals(Object o) {
-    return o instanceof Tactician && this.getName().equals(((Tactician) o).getName());
-  }
-
+  /**
+   * Sets a new unit factory for this tactician.
+   *
+   * @param anUnitFactory
+   *      the unit factory to be setted.
+   */
   public void unitFactory(IUnitFactory anUnitFactory) {
     unitFactory = anUnitFactory;
   }
 
-  public void addUnit(IUnit unit) {
-    units.add(unitFactory.create());
+  /**
+   * Adds a unit to the units list. This unit is created by the current factory.
+   */
+  public void addUnit() {
+    units.add(unitFactory.createUnit());
+  }
+
+  /**
+   * Removes a unit from the units list.
+   *
+   * @param index
+   *      the index of the unit in the units list.
+   */
+  public void removeUnit(int index) {
+    if ( index >= 0 && index < getUnits().size() ) units.remove(index);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return o instanceof Tactician && this.getName().equals(((Tactician) o).getName());
   }
 
   /**
@@ -62,6 +83,12 @@ public class Tactician {
   public IEquipableItem getSelectedItem() { return selectedItem; }
 
   /**
+   * @return the alive units of this tactician.
+   */
+  public List<IUnit> getUnits() { return units; }
+
+  /**
+   * Selects a unit.
    * @param unit
    *      the unit to be selected by the player
    */
@@ -69,17 +96,16 @@ public class Tactician {
     selectedUnit = unit;
   }
 
-  public void selectItem(int index) {
-    selectedItem = selectedUnit.getItems().get(index);
-  }
-
   /**
-   * @param unit
-   *      the unit to be added to the tactician.
+   * Selects an item.
+   * @param index
+   *      the index of the item in the items list.
    */
-  public void addUnit(IUnit unit) {
-    units.add(unit);
+  public void selectItem(int index) {
+    IEquipableItem item;
+    if (selectedUnit != null) {
+      item = selectedUnit.getItem(index);
+      selectedItem = (item == null) ? selectedItem : item;
+    }
   }
-
-
 }

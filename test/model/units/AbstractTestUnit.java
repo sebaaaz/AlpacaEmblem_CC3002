@@ -99,12 +99,6 @@ public abstract class AbstractTestUnit implements ITestUnit {
   }
 
   /**
-   * @return the current unit being tested
-   */
-  @Override
-  public abstract IUnit getTestUnit();
-
-  /**
    * Tries to equip a weapon to the alpaca and verifies that it was not equipped
    *
    * @param item

@@ -12,8 +12,8 @@ public abstract class AbstractItem implements IEquipableItem {
 
   private final String name;
   private final int power;
-  private int maxRange;
   private int minRange;
+  private int maxRange;
   private IUnit owner;
 
   /**

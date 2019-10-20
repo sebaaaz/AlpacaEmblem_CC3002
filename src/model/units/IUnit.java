@@ -39,6 +39,16 @@ public interface IUnit {
   List<IEquipableItem> getItems();
 
   /**
+   * Given an index, return the item in that position.
+   *
+   * @param index
+   *      the index of the item list
+   * @return the item in that position of the item list. Return null if
+   *      index out of bounds.
+   */
+  IEquipableItem getItem(int index);
+
+  /**
    * @return the maximum amount of items a unit can carry
    */
   int getMaxItems();

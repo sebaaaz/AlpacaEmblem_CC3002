@@ -136,10 +136,6 @@ public class GameController {
    * Finishes the current player's turn.
    */
   public void endTurn() {
-    if (!getTurnOwner().getName().equals(getTacticians().get(currentTurn).getName())) {
-      turnOwner = getTacticians().get(currentTurn);
-      return;
-    }
     currentTurn = (currentTurn + 1) % getNumberOfPlayers();
     if (currentTurn == 0) {
       currentRound++;
@@ -161,6 +157,7 @@ public class GameController {
     }
     if (index != -1) {
       players.remove(index);
+      turnOwner = getTacticians().get(currentTurn);
     }
   }
 
@@ -174,7 +171,7 @@ public class GameController {
     shuffle(players, random);
     turnOwner = players.get(0);
     maxRounds = totalRounds;
-    currentRound = 1;
+    currentRound = 0;
     currentTurn = 0;
   }
 
@@ -288,8 +285,8 @@ public class GameController {
    *
    * @return true if the game ended. Returns false if not.
    */
-  private boolean endedGame(){
-    return getRoundNumber() > getMaxRounds() && getMaxRounds() != -1;
+  public boolean endedGame(){
+    return getRoundNumber() >= getMaxRounds() && getMaxRounds() != -1;
   }
 
   public void createMap(){

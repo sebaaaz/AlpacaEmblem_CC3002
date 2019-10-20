@@ -63,6 +63,11 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
+  public IEquipableItem getItem(int index) {
+    return (index >= 0 && index < getItems().size()) ? getItems().get(index) : null;
+  }
+
+  @Override
   public int getMaxItems() {
     return maxItems;
   }

@@ -65,7 +65,7 @@ public interface IEquipableItem {
   void equipTo(IUnit unit);
 
   /**
-   * Uses this item against an unit
+   * Uses this item against a unit
    *
    * @param unit
    *      the unit that will receive the effect of this item

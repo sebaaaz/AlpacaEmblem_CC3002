@@ -74,22 +74,20 @@ class GameControllerTest {
     controller.endTurn();
     assertEquals("Player 1", controller.getTurnOwner().getName());
     controller.removeTactician("Player 1"); // Player 0 Player 3 Player 2
-    controller.endTurn();
     assertEquals("Player 3", controller.getTurnOwner().getName());
 
     controller.removeTactician("Player 2"); // Player 0 Player 3
+    assertEquals("Player 3", controller.getTurnOwner().getName());
     controller.endTurn();
     assertEquals("Player 0", controller.getTurnOwner().getName());
     controller.endTurn();
     assertEquals("Player 3", controller.getTurnOwner().getName());
-    controller.endTurn();
-    assertEquals("Player 0", controller.getTurnOwner().getName());
   }
 
   @Test
   void getRoundNumber() {
     controller.initGame(10);
-    for (int i = 1; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
       assertEquals(i, controller.getRoundNumber());
       for (int j = 0; j < 4; j++) {
         controller.endTurn();
@@ -148,11 +146,15 @@ class GameControllerTest {
         .forEach(player -> Assertions.assertTrue(testTacticians.contains(player)));
 
     controller.initGame(2);
+    controller.printNames();
     IntStream.range(0, 4).forEach(i -> controller.endTurn());
     assertNull(controller.getWinners());
+    controller.printNames();
     controller.removeTactician("Player 0");
     controller.removeTactician("Player 2");
-    IntStream.range(0, 2).forEach(i -> controller.endTurn());
+    IntStream.range(0, 2).forEach(i -> {
+      controller.endTurn();
+    });
     List<String> winners = controller.getWinners();
     assertEquals(2, winners.size());
     assertTrue(List.of("Player 1", "Player 3").containsAll(winners));

@@ -3,8 +3,6 @@ package model.units;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import model.items.Spear;
-import model.items.Staff;
 import org.junit.jupiter.api.Test;
 
 /**

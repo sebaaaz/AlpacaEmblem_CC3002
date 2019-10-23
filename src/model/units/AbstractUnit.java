@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import model.items.IEquipableItem;
+import model.items.NullItem;
+import model.map.InvalidLocation;
 import model.map.Location;
 
 /**
@@ -21,11 +23,11 @@ import model.map.Location;
 public abstract class AbstractUnit implements IUnit {
 
   private List<IEquipableItem> items = new ArrayList<>();
+  private IEquipableItem equippedItem;
   private final int maxItems;
   private final int maxHitPoints;
-  private int currentHitPoints;
+  private int hitPoints;
   private final int movement;
-  private IEquipableItem equippedItem;
   private Location location;
 
   /**
@@ -40,12 +42,16 @@ public abstract class AbstractUnit implements IUnit {
   protected AbstractUnit(final int maxHitPoints, final int movement,
                          final Location location, final int maxItems, final IEquipableItem... items) {
     this.maxHitPoints = maxHitPoints;
-    this.currentHitPoints = this.maxHitPoints;
+    this.hitPoints = this.maxHitPoints;
     this.movement = movement;
     this.location = location;
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
     this.maxItems = maxItems;
+    this.equippedItem = new NullItem(this);
   }
+
+  @Override
+  public boolean isNull() { return false; }
 
   @Override
   public int getMaxHitPoints() {
@@ -53,8 +59,8 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public int getCurrentHitPoints() {
-    return currentHitPoints;
+  public int getHitPoints() {
+    return hitPoints;
   }
 
   @Override
@@ -64,7 +70,7 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public IEquipableItem getItem(int index) {
-    return (index >= 0 && index < getItems().size()) ? getItems().get(index) : null;
+    return (index >= 0 && index < getItems().size()) ? getItems().get(index) : new NullItem(this);
   }
 
   @Override
@@ -78,19 +84,8 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void setEquippedItem(final IEquipableItem item) {
-    this.equippedItem = item;
-  }
-
-  @Override
   public Location getLocation() {
     return location;
-  }
-
-  @Override
-  public void setLocation(final Location location) {
-    location.setUnit(this);
-    this.location = location;
   }
 
   @Override
@@ -99,54 +94,62 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
+  public void setEquippedItem(IEquipableItem item) {
+    this.equippedItem = item;
+  }
+
+  @Override
+  public void setHitPoints(int hitPoints) { this.hitPoints = hitPoints; }
+
+  @Override
+  public void setLocation(final Location location) {
+    location.setUnit(this);
+    this.location = location;
+  }
+
+  @Override
   public void moveTo(final Location targetLocation) {
     if (getLocation().distanceTo(targetLocation) <= getMovement()
-        && targetLocation.getUnit() == null) {
+        && targetLocation.getUnit().isNull()) {
       setLocation(targetLocation);
     }
   }
 
   @Override
   public void equipItem(IEquipableItem item) {
-    if (this.items.contains(item))
+    if (this.items.contains(item) || item.isNull())
       item.equipTo(this);
   }
 
   @Override
-  public void equipAxe(IEquipableItem item) {
-  }
+  public void equipAxe(IEquipableItem item) {}
 
   @Override
-  public void equipBow(IEquipableItem item) {
-  }
+  public void equipBow(IEquipableItem item) {}
 
   @Override
-  public void equipSpear(IEquipableItem item) {
-  }
+  public void equipSpear(IEquipableItem item) {}
 
   @Override
-  public void equipStaff(IEquipableItem item) {
-  }
+  public void equipStaff(IEquipableItem item) {}
 
   @Override
-  public void equipSword(IEquipableItem item) {
-  }
+  public void equipSword(IEquipableItem item) {}
 
   @Override
-  public void equipLightBook(IEquipableItem item) {
-  }
+  public void equipLightBook(IEquipableItem item) {}
 
   @Override
-  public void equipDarkBook(IEquipableItem item) {
-  }
+  public void equipDarkBook(IEquipableItem item) {}
 
   @Override
-  public void equipSoulBook(IEquipableItem item) {
-  }
+  public void equipSoulBook(IEquipableItem item) {}
 
   @Override
   public void giveItemTo(IEquipableItem item, IUnit unit) {
-    if (this.items.contains(item)
+    if (!item.isNull()
+        && !unit.isNull()
+        && this.items.contains(item)
         && unit.getItems().size() < unit.getMaxItems()
         && this.location.distanceTo(unit.getLocation()) == 1) {
       if (item == equippedItem) {
@@ -160,12 +163,13 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void unequipItem() {
-    this.equippedItem = null;
+    this.equippedItem = new NullItem(this);
   }
 
   @Override
   public void addItem(IEquipableItem item) {
-    if (items.size() < getMaxItems()) {
+    if (items.size() < getMaxItems() && !item.isNull()) {
+      item.setOwner(this);
       items.add(item);
     }
   }
@@ -173,67 +177,15 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void removeItem(IEquipableItem item) {
     this.unequipItem();
+    item.setOwner(new NullUnit());
     items.remove(item);
   }
 
   @Override
-  public void receiveHealing(IEquipableItem item) {
-    this.currentHitPoints = Math.min(this.currentHitPoints + item.getPower(), this.getMaxHitPoints());
-  }
-
-  @Override
-  public void receiveNormalAttack(IEquipableItem item) {
-    this.currentHitPoints = Math.max(this.currentHitPoints - item.getPower(), 0);
-  }
-
-  @Override
-  public void receiveWeaknessAttack(IEquipableItem item) {
-    int damage = (int) (item.getPower()*1.5);
-    this.currentHitPoints = Math.max(this.currentHitPoints - damage, 0);
-  }
-
-  public void receiveResistantAttack(IEquipableItem item) {
-    int damage = Math.max(item.getPower() - 20, 0);
-    this.currentHitPoints = Math.max(this.currentHitPoints - damage, 0);
-  }
-
-  @Override
-  public void receiveMagicalAttack(IEquipableItem item) { item.sendAttack(this); }
-
-  @Override
-  public void receivePhysicalAttack(IEquipableItem item) { item.sendAttack(this); }
-
-  @Override
-  public void receiveAxeAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
-  @Override
-  public void receiveBowAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
-  @Override
-  public void receiveDarkBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
-  @Override
-  public void receiveLightBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
-  @Override
-  public void receiveSoulBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
-  @Override
-  public void receiveSpearAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
-  @Override
-  public void receiveSwordAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
-  @Override
-  public void receiveStaffHealing(IEquipableItem item) { receiveHealing(item); }
-
-  @Override
   public void useItemAgainst(IUnit unit) {
-    if (getEquippedItem() != null) {
-      if (getLocation().distanceTo(unit.getLocation()) <= getEquippedItem().getMaxRange()
-      &&  getLocation().distanceTo(unit.getLocation()) >= getEquippedItem().getMinRange()) {
-        getEquippedItem().useAgainst(unit);
-      }
+    if (getLocation().distanceTo(unit.getLocation()) <= getEquippedItem().getMaxRange()
+    &&  getLocation().distanceTo(unit.getLocation()) >= getEquippedItem().getMinRange()) {
+      getEquippedItem().useAgainst(unit);
     }
   }
 
@@ -245,8 +197,6 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void startCombat(IUnit unit) {
     useItemAgainst(unit);
-    if (unit.getEquippedItem() != null) {
-      getEquippedItem().motivateCounterAttack(unit);
-    }
+    getEquippedItem().motivateCounterAttack(unit);
   }
 }

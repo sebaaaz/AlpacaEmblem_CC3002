@@ -10,8 +10,8 @@ import model.units.IUnit;
  */
 public abstract class AbstractItem implements IEquipableItem {
 
-  private final String name;
-  private final int power;
+  private String name;
+  private int power;
   private int minRange;
   private int maxRange;
   private IUnit owner;
@@ -28,7 +28,7 @@ public abstract class AbstractItem implements IEquipableItem {
    * @param maxRange
    *     the maximum range of the item
    */
-  public AbstractItem(final String name, final int power, final int minRange, final int maxRange) {
+  public AbstractItem(String name, int power, int minRange, int maxRange) {
     this.name = name;
     this.power = power;
     this.minRange = Math.max(minRange, 1);
@@ -64,14 +64,68 @@ public abstract class AbstractItem implements IEquipableItem {
   public void setOwner(IUnit owner) { this.owner = owner; }
 
   @Override
+  public void setName(String name) { this.name = name; }
+
+  @Override
+  public void setPower(int power) { this.power = power; }
+
+  @Override
   public void setMinRange(int minRange) { this.minRange = minRange; }
 
   @Override
   public void setMaxRange(int maxRange) { this.maxRange = maxRange; }
 
   @Override
-  public void counterAttackTo(IUnit unit) { owner.useItemAgainst(unit); }
+  public boolean isNull() { return false; }
 
   @Override
-  public void motivateCounterAttack(IUnit unit) { unit.counterAttack(getOwner()); }
+  public void receiveHealing(IEquipableItem item) {
+    owner.setHitPoints( Math.min(owner.getHitPoints() + item.getPower(), owner.getMaxHitPoints()) );
+  }
+
+  @Override
+  public void receiveNormalAttack(IEquipableItem item) {
+    owner.setHitPoints( Math.max(owner.getHitPoints() - item.getPower(), 0) );
+  }
+
+  @Override
+  public void receiveWeaknessAttack(IEquipableItem item) {
+    int damage = (int) (item.getPower()*1.5);
+    owner.setHitPoints( Math.max(owner.getHitPoints() - damage, 0) );
+  }
+
+  public void receiveResistantAttack(IEquipableItem item) {
+    int damage = Math.max(item.getPower() - 20, 0);
+    owner.setHitPoints( Math.max(owner.getHitPoints() - damage, 0) );
+  }
+
+  @Override
+  public void receiveMagicalAttack(IEquipableItem item) { item.sendAttack(this); }
+
+  @Override
+  public void receivePhysicalAttack(IEquipableItem item) { item.sendAttack(this); }
+
+  @Override
+  public void receiveAxeAttack(IEquipableItem item) { receiveNormalAttack(item); }
+
+  @Override
+  public void receiveBowAttack(IEquipableItem item) { receiveNormalAttack(item); }
+
+  @Override
+  public void receiveDarkBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
+
+  @Override
+  public void receiveLightBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
+
+  @Override
+  public void receiveSoulBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
+
+  @Override
+  public void receiveSpearAttack(IEquipableItem item) { receiveNormalAttack(item); }
+
+  @Override
+  public void receiveSwordAttack(IEquipableItem item) { receiveNormalAttack(item); }
+
+  @Override
+  public void receiveStaffHealing(IEquipableItem item) { receiveHealing(item); }
 }

@@ -1,6 +1,7 @@
 package model.units;
 
 import model.items.IEquipableItem;
+import model.items.NullItem;
 import model.map.Location;
 
 /**
@@ -36,6 +37,6 @@ public class Alpaca extends AbstractUnit {
    */
   @Override
   public void equipItem(final IEquipableItem item) {
-    // Method body intentionally left empty
+    unequipItem();
   }
 }

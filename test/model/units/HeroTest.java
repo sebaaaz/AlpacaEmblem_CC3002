@@ -1,7 +1,7 @@
 package model.units;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -34,14 +34,14 @@ public class HeroTest extends AbstractTestUnit {
   @Override
   @Test
   public void equipSpearTest() {
-    assertNull(hero.getEquippedItem());
+    assertTrue(hero.getEquippedItem().isNull());
     hero.equipItem(spear);
-    assertNull(hero.getEquippedItem());
+    assertTrue(hero.getEquippedItem().isNull());
     hero.addItem(spear);
     hero.equipItem(spear);
     assertEquals(spear, hero.getEquippedItem());
     hero.unequipItem();
-    assertNull(hero.getEquippedItem());
+    assertTrue(hero.getEquippedItem().isNull());
   }
 
   @Override
@@ -50,30 +50,30 @@ public class HeroTest extends AbstractTestUnit {
     IUnit unit = hero;
     unit.addItem(getSpear());
     unit.equipSpear(getSpear());
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getBow().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(unit.getHitPoints(), 40);
     getStaff().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
 
     getLightBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 20);
+    assertEquals(unit.getHitPoints(), 20);
 
     godStaff.useAgainst(unit);
 
     getSoulBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
 
     godStaff.useAgainst(unit);
 
     getSword().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getAxe().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
   }
 }

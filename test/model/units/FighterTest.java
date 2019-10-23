@@ -1,9 +1,8 @@
 package model.units;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -34,14 +33,14 @@ public class FighterTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipAxeTest() {
-    assertNull(fighter.getEquippedItem());
+    assertTrue(fighter.getEquippedItem().isNull());
     fighter.equipItem(axe);
-    assertNull(fighter.getEquippedItem());
+    assertTrue(fighter.getEquippedItem().isNull());
     fighter.addItem(axe);
     fighter.equipItem(axe);
     assertEquals(axe, fighter.getEquippedItem());
     fighter.unequipItem();
-    assertNull(fighter.getEquippedItem());
+    assertTrue(fighter.getEquippedItem().isNull());
   }
 
   @Override
@@ -50,30 +49,30 @@ public class FighterTest extends AbstractTestUnit {
     IUnit unit = fighter;
     unit.addItem(getAxe());
     unit.equipAxe(getAxe());
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getBow().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(unit.getHitPoints(), 40);
     getStaff().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
 
     getLightBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 20);
+    assertEquals(unit.getHitPoints(), 20);
 
     godStaff.useAgainst(unit);
 
     getSoulBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
 
     godStaff.useAgainst(unit);
 
     getSword().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
 
     getSpear().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
   }
 }

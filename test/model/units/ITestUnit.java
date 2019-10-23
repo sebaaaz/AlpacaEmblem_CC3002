@@ -188,4 +188,10 @@ public interface ITestUnit {
    */
   @Test
   void simpleCombatTest();
+
+  /**
+   * Tests some methods of Null unit and Null item.
+   */
+  @Test
+  void nullTest();
 }

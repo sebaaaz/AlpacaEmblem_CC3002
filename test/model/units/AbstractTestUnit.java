@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import model.items.*;
 import model.map.Field;
+import model.map.InvalidLocation;
 import model.map.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,19 +18,21 @@ import org.junit.jupiter.api.Test;
  */
 public abstract class AbstractTestUnit implements ITestUnit {
 
-  protected Alpaca targetAlpaca;
-  protected Alpaca targetAlpaca2;
-  protected Bow bow;
   protected Field field;
-  protected Axe axe;
-  protected Sword sword;
-  protected Staff staff;
-  protected Spear spear;
-  protected DarkBook darkBook;
-  protected LightBook lightBook;
-  protected SoulBook soulBook;
-  protected Bow mortalBow;
-  protected Staff godStaff;
+  private Alpaca targetAlpaca;
+  private Alpaca targetAlpaca2;
+  private Bow mortalBow;
+  Bow bow;
+  Axe axe;
+  Sword sword;
+  Staff staff;
+  Spear spear;
+  DarkBook darkBook;
+  LightBook lightBook;
+  SoulBook soulBook;
+  Staff godStaff;
+  private NullItem nullItem;
+  private NullUnit nullUnit;
 
   @Override
   public void setTargetAlpaca() {
@@ -49,6 +52,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     setTargetAlpaca();
     setTargetAlpaca2();
     setWeapons();
+    nullUnit = new NullUnit();
   }
 
   /**
@@ -83,6 +87,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     this.soulBook = new SoulBook("SoulBook", 10, 2, 4);
     this.mortalBow = new Bow("Mortal Bow", 10000, 1, 2);
     this.godStaff = new Staff("Staff of gods", 10000, 1, 2);
+    this.nullItem = new NullItem(nullUnit);
   }
 
   /**
@@ -91,7 +96,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Override
   @Test
   public void constructorTest() {
-    assertEquals(50, getTestUnit().getCurrentHitPoints());
+    assertEquals(50, getTestUnit().getHitPoints());
     assertEquals(50, getTestUnit().getMaxHitPoints());
     assertEquals(2, getTestUnit().getMovement());
     assertEquals(new Location(0, 0), getTestUnit().getLocation());
@@ -106,11 +111,11 @@ public abstract class AbstractTestUnit implements ITestUnit {
    */
   @Override
   public void checkEquippedItem(IEquipableItem item) {
-    assertNull(getTestUnit().getEquippedItem());
+    assertTrue(getTestUnit().getEquippedItem().isNull());
     getTestUnit().equipItem(item);
-    assertNull(getTestUnit().getEquippedItem());
+    assertTrue(getTestUnit().getEquippedItem().isNull());
     getTestUnit().unequipItem();
-    assertNull(getTestUnit().getEquippedItem());
+    assertTrue(getTestUnit().getEquippedItem().isNull());
   }
 
   @Override
@@ -334,31 +339,31 @@ public abstract class AbstractTestUnit implements ITestUnit {
   public void bigAttackTest() {
     IUnit unit = getTestUnit();
     mortalBow.useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 0);
+    assertEquals(unit.getHitPoints(), 0);
     godStaff.useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
   }
 
   @Override
   @Test
   public void receiveAttackWithoutEquippedItem() {
     IUnit unit = getTestUnit();
-    unit.equipItem(null);
+    assertTrue(unit.getEquippedItem().isNull());
     getAxe().useAgainst(unit);
-    assertEquals(40, unit.getCurrentHitPoints());
+    assertEquals(40, unit.getHitPoints());
     getBow().useAgainst(unit);
-    assertEquals(30, unit.getCurrentHitPoints());
+    assertEquals(30, unit.getHitPoints());
     getDarkBook().useAgainst(unit);
-    assertEquals(20, unit.getCurrentHitPoints());
+    assertEquals(20, unit.getHitPoints());
     getLightBook().useAgainst(unit);
-    assertEquals(10, unit.getCurrentHitPoints());
+    assertEquals(10, unit.getHitPoints());
     getSoulBook().useAgainst(unit);
-    assertEquals(0, unit.getCurrentHitPoints());
+    assertEquals(0, unit.getHitPoints());
     godStaff.useAgainst(unit);
     getSpear().useAgainst(unit);
-    assertEquals(40, unit.getCurrentHitPoints());
+    assertEquals(40, unit.getHitPoints());
     getSword().useAgainst(unit);
-    assertEquals(30, unit.getCurrentHitPoints());
+    assertEquals(30, unit.getHitPoints());
   }
 
   @Override
@@ -367,9 +372,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
     Hero hero = new Hero(50, 2, field.getCell(0, 0));
     SwordMaster swordMaster = new SwordMaster(50, 2, field.getCell(0, 1));
     Cleric cleric = new Cleric(50, 2, field.getCell(1, 0));
-    assertEquals(hero.getCurrentHitPoints(), 50);
-    assertEquals(swordMaster.getCurrentHitPoints(), 50);
-    assertEquals(cleric.getCurrentHitPoints(), 50);
+    assertEquals(hero.getHitPoints(), 50);
+    assertEquals(swordMaster.getHitPoints(), 50);
+    assertEquals(cleric.getHitPoints(), 50);
 
     hero.addItem(getSpear());
     hero.equipSpear(getSpear());
@@ -379,15 +384,66 @@ public abstract class AbstractTestUnit implements ITestUnit {
     cleric.equipStaff(getStaff());
 
     hero.startCombat(swordMaster);
-    assertEquals(swordMaster.getCurrentHitPoints(), 35);
-    assertEquals(hero.getCurrentHitPoints(), 50);
+    assertEquals(swordMaster.getHitPoints(), 35);
+    assertEquals(hero.getHitPoints(), 50);
 
     swordMaster.startCombat(cleric);
-    assertEquals(cleric.getCurrentHitPoints(), 40);
-    assertEquals(swordMaster.getCurrentHitPoints(), 35);
+    assertEquals(cleric.getHitPoints(), 40);
+    assertEquals(swordMaster.getHitPoints(), 35);
 
     cleric.startCombat(swordMaster);
-    assertEquals(swordMaster.getCurrentHitPoints(), 45);
-    assertEquals(cleric.getCurrentHitPoints(), 40);
+    assertEquals(swordMaster.getHitPoints(), 45);
+    assertEquals(cleric.getHitPoints(), 40);
   }
+
+  @Override
+  @Test
+  public void nullTest() {
+    // Null Unit
+    IUnit testUnit = new SwordMaster(50, 1, new InvalidLocation());
+    testUnit.addItem(sword);
+    testUnit.giveItemTo(sword, nullUnit);
+    testUnit.equipItem(sword);
+
+    assertTrue(nullUnit.isNull());
+
+    assertEquals(0, nullUnit.getItems().size());
+    nullUnit.addItem(sword);
+    assertEquals(0, nullUnit.getItems().size());
+    assertEquals(1, testUnit.getItems().size());
+
+    assertTrue(nullUnit.getEquippedItem().isNull());
+    nullUnit.setEquippedItem(nullItem);
+    nullUnit.equipItem(nullItem);
+    assertTrue(nullUnit.getEquippedItem().isNull());
+
+    nullUnit.setHitPoints(42);
+    assertEquals(1, nullUnit.getHitPoints());
+
+    nullUnit.moveTo(new Location(0,0));
+    nullUnit.setLocation(new Location(0,0));
+    assertEquals(-1, nullUnit.getLocation().getRow());
+    assertEquals(-1, nullUnit.getLocation().getColumn());
+
+    testUnit.startCombat(nullUnit);
+    assertEquals(1, nullUnit.getHitPoints());
+
+    assertEquals(50, testUnit.getHitPoints());
+    nullUnit.startCombat(getTestUnit());
+    assertEquals(50, testUnit.getHitPoints());
+
+    // Null Item
+    getTestUnit().unequipItem();
+    getTestUnit().startCombat(testUnit);
+    assertEquals(50, testUnit.getHitPoints());
+
+    testUnit.startCombat(getTestUnit());
+    assertEquals(50, getTestUnit().getHitPoints());
+    assertEquals(50, testUnit.getHitPoints());
+
+    nullItem.equipTo(testUnit);
+    assertTrue(testUnit.getEquippedItem().isNull());
+  }
+
+
 }

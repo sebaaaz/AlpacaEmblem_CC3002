@@ -58,7 +58,7 @@ public abstract class AbstractTestItem {
   public abstract IEquipableItem getWrongTestItem();
 
   /**
-   * Tests that the constructor for the tested item works properly
+   * Tests that the constructor for the tested item works properly and also test setters.
    */
   @Test
   public void constructorTest() {
@@ -66,6 +66,16 @@ public abstract class AbstractTestItem {
     assertEquals(getExpectedBasePower(), getTestItem().getPower());
     assertEquals(getExpectedMinRange(), getTestItem().getMinRange());
     assertEquals(getExpectedMaxRange(), getTestItem().getMaxRange());
+
+    getTestItem().setName("Test item");
+    getTestItem().setPower(42);
+    getTestItem().setMinRange(42);
+    getTestItem().setMaxRange(42);
+
+    assertEquals("Test item", getTestItem().getName());
+    assertEquals(42, getTestItem().getPower());
+    assertEquals(42, getTestItem().getMinRange());
+    assertEquals(42, getTestItem().getMaxRange());
   }
 
   /**

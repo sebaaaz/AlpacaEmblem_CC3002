@@ -2,8 +2,7 @@ package model.units;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -30,14 +29,14 @@ public class SwordMasterTest extends AbstractTestUnit {
 
   @Override
   public void equipSwordTest() {
-    assertNull(swordMaster.getEquippedItem());
+    assertTrue(swordMaster.getEquippedItem().isNull());
     swordMaster.equipItem(sword);
-    assertNull(swordMaster.getEquippedItem());
+    assertTrue(swordMaster.getEquippedItem().isNull());
     swordMaster.addItem(sword);
     swordMaster.equipItem(sword);
     assertEquals(sword, swordMaster.getEquippedItem());
     swordMaster.unequipItem();
-    assertNull(swordMaster.getEquippedItem());
+    assertTrue(swordMaster.getEquippedItem().isNull());
   }
 
   @Override
@@ -46,30 +45,30 @@ public class SwordMasterTest extends AbstractTestUnit {
     IUnit unit = swordMaster;
     unit.addItem(getSword());
     unit.equipSword(getSword());
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getBow().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(unit.getHitPoints(), 40);
     getStaff().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
 
     getLightBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 20);
+    assertEquals(unit.getHitPoints(), 20);
 
     godStaff.useAgainst(unit);
 
     getSoulBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
 
     godStaff.useAgainst(unit);
 
     getAxe().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getSpear().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
   }
 }

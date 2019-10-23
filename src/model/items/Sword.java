@@ -10,7 +10,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Sword extends AbstractItem {
+public class Sword extends AbstractPhysicalWeapon {
 
   /**
    * Creates a new Sword.
@@ -24,7 +24,7 @@ public class Sword extends AbstractItem {
    * @param maxRange
    *     the maximum range of the sword
    */
-  public Sword(final String name, final int power, final int minRange, final int maxRange) {
+  public Sword(String name, int power, int minRange, int maxRange) {
     super(name, power, minRange, maxRange);
   }
 
@@ -34,10 +34,15 @@ public class Sword extends AbstractItem {
   }
 
   @Override
-  public void useAgainst(IUnit unit) {
-    unit.receivePhysicalAttack(this);
+  public void sendAttack(IEquipableItem item) { item.receiveSwordAttack(this); }
+
+  @Override
+  public void receiveAxeAttack(IEquipableItem item) {
+    receiveResistantAttack(item);
   }
 
   @Override
-  public void sendAttack(IUnit unit) { unit.receiveSwordAttack(this); }
+  public void receiveSpearAttack(IEquipableItem item) {
+    receiveWeaknessAttack(item);
+  }
 }

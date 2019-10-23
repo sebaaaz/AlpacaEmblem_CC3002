@@ -10,7 +10,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Spear extends AbstractItem {
+public class Spear extends AbstractPhysicalWeapon {
 
   /**
    * Creates a new Spear item
@@ -24,7 +24,7 @@ public class Spear extends AbstractItem {
    * @param maxRange
    *     the maximum range of the Spear
    */
-  public Spear(final String name, final int power, final int minRange, final int maxRange) {
+  public Spear(String name, int power, int minRange, int maxRange) {
     super(name, power, minRange, maxRange);
   }
 
@@ -32,10 +32,15 @@ public class Spear extends AbstractItem {
   public void equipTo(IUnit unit) { unit.equipSpear(this); }
 
   @Override
-  public void useAgainst(IUnit unit) {
-    unit.receivePhysicalAttack(this);
+  public void sendAttack(IEquipableItem item) { item.receiveSpearAttack(this); }
+
+  @Override
+  public void receiveAxeAttack(IEquipableItem item) {
+    receiveWeaknessAttack(item);
   }
 
   @Override
-  public void sendAttack(IUnit unit) { unit.receiveSpearAttack(this); }
+  public void receiveSwordAttack(IEquipableItem item) {
+    receiveResistantAttack(item);
+  }
 }

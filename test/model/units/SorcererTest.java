@@ -1,9 +1,8 @@
 package model.units;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test set for the Archer unit.
@@ -24,47 +23,47 @@ public class SorcererTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipDarkBookTest() {
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
     sorcerer.equipItem(darkBook);
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
     sorcerer.addItem(darkBook);
     sorcerer.equipItem(darkBook);
     assertEquals(darkBook, sorcerer.getEquippedItem());
     sorcerer.unequipItem();
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
   }
 
   @Test
   @Override
   public void equipLightBookTest() {
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
     sorcerer.equipItem(lightBook);
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
     sorcerer.addItem(lightBook);
     sorcerer.equipItem(lightBook);
     assertEquals(lightBook, sorcerer.getEquippedItem());
     sorcerer.unequipItem();
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
   }
 
   @Test
   @Override
   public void equipSoulBookTest() {
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
     sorcerer.equipItem(soulBook);
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
     sorcerer.addItem(soulBook);
     sorcerer.equipItem(soulBook);
     assertEquals(soulBook, sorcerer.getEquippedItem());
     sorcerer.unequipItem();
-    assertNull(sorcerer.getEquippedItem());
+    assertTrue(sorcerer.getEquippedItem().isNull());
   }
 
   @Override
   @Test
   public void receiveAttacksTest() {
     IUnit unit = sorcerer;
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
     unit.addItem(getDarkBook());
     unit.addItem(getLightBook());
     unit.addItem(getSoulBook());
@@ -72,34 +71,34 @@ public class SorcererTest extends AbstractTestUnit {
     unit.equipDarkBook(getDarkBook());
 
     getBow().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
     getStaff().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 45);
+    assertEquals(unit.getHitPoints(), 45);
     godStaff.useAgainst(unit);
 
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(unit.getHitPoints(), 40);
     getSoulBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(unit.getHitPoints(), 40);
     getLightBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 25);
+    assertEquals(unit.getHitPoints(), 25);
     godStaff.useAgainst(unit);
 
     unit.equipLightBook(getLightBook());
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
     getSoulBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
     getLightBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 25);
+    assertEquals(unit.getHitPoints(), 25);
     godStaff.useAgainst(unit);
 
     unit.equipSoulBook(getSoulBook());
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 35);
+    assertEquals(unit.getHitPoints(), 35);
     getSoulBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 25);
+    assertEquals(unit.getHitPoints(), 25);
     getLightBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 25);
+    assertEquals(unit.getHitPoints(), 25);
   }
 }

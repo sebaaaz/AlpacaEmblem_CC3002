@@ -25,7 +25,7 @@ public class Archer extends AbstractUnit {
    * @param items
    *     the items carried by this unit
    */
-  public Archer(final int maxHitPoints, final int movement, final Location location,
+  public Archer(int maxHitPoints, int movement, Location location,
       IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
   }
@@ -34,14 +34,5 @@ public class Archer extends AbstractUnit {
   public void equipBow(IEquipableItem item) {
     this.setEquippedItem(item);
     item.setOwner(this);
-  }
-
-  @Override
-  public void receiveMagicalAttack(IEquipableItem item) {
-    if (getEquippedItem() != null) {
-      receiveWeaknessAttack(item);
-    } else {
-      receiveNormalAttack(item);
-    }
   }
 }

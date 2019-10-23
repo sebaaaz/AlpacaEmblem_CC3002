@@ -24,7 +24,7 @@ public class Cleric extends AbstractUnit {
    * @param items
    *     the items carried by this unit
    */
-  public Cleric(final int maxHitPoints, final int movement, final Location location,
+  public Cleric(int maxHitPoints, int movement, Location location,
       IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
   }
@@ -33,14 +33,5 @@ public class Cleric extends AbstractUnit {
   public void equipStaff(final IEquipableItem item) {
     this.setEquippedItem(item);
     item.setOwner(this);
-  }
-
-  @Override
-  public void receiveMagicalAttack(IEquipableItem item) {
-    if (getEquippedItem() != null) {
-      receiveWeaknessAttack(item);
-    } else {
-      receiveNormalAttack(item);
-    }
   }
 }

@@ -25,7 +25,7 @@ public class SwordMaster extends AbstractUnit {
    * @param items
    *     the items carried by this unit
    */
-  public SwordMaster(final int maxHitPoints, final int movement, final Location location,
+  public SwordMaster(int maxHitPoints, int movement, Location location,
       IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
   }
@@ -34,32 +34,5 @@ public class SwordMaster extends AbstractUnit {
   public void equipSword(final IEquipableItem item) {
     this.setEquippedItem(item);
     item.setOwner(this);
-  }
-
-  @Override
-  public void receiveAxeAttack(IEquipableItem item) {
-    if (getEquippedItem() != null) {
-      receiveResistantAttack(item);
-    } else {
-      receiveNormalAttack(item);
-    }
-  }
-
-  @Override
-  public void receiveSpearAttack(IEquipableItem item) {
-    if (getEquippedItem() != null) {
-      receiveWeaknessAttack(item);
-    } else {
-      receiveNormalAttack(item);
-    }
-  }
-
-  @Override
-  public void receiveMagicalAttack(IEquipableItem item) {
-    if (getEquippedItem() != null) {
-      receiveWeaknessAttack(item);
-    } else {
-      receiveNormalAttack(item);
-    }
   }
 }

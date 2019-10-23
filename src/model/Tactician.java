@@ -1,8 +1,11 @@
 package model;
 
 import model.items.IEquipableItem;
-import model.unitFactories.IUnitFactory;
+import model.factories.unitFactories.IUnitFactory;
+import model.items.NullItem;
+import model.map.InvalidLocation;
 import model.units.IUnit;
+import model.units.NullUnit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,8 @@ public class Tactician {
    */
   public Tactician(String name) {
     this.name = name;
+    selectedUnit = new NullUnit();
+    selectedItem = new NullItem(selectedUnit);
   }
 
   /**
@@ -48,8 +53,20 @@ public class Tactician {
   /**
    * Adds a unit to the units list. This unit is created by the current factory.
    */
-  public void addUnit() {
+  public void addDefaultUnit() {
     units.add(unitFactory.createUnit());
+  }
+
+  /**
+   * Adds a custom unit to the units list. This unit is created by the current factory.
+   *
+   * @param maxHitPoints
+   *    the maximum hit points that the unit will have.
+   * @param movement
+   *    the amount of cells this unit can move in every turn.
+   */
+  public void addCustomUnit(int maxHitPoints, int movement) {
+    units.add(unitFactory.createFullCustomUnit(maxHitPoints, movement));
   }
 
   /**
@@ -62,10 +79,10 @@ public class Tactician {
     if ( index >= 0 && index < getUnits().size() ) units.remove(index);
   }
 
-  @Override
-  public boolean equals(Object o) {
-    return o instanceof Tactician && this.getName().equals(((Tactician) o).getName());
-  }
+  /**
+   * Removes all the units of the tactician.
+   */
+  public void removeAllUnits() {units = new ArrayList<>(); }
 
   /**
    * @return the name of this tactician.
@@ -102,10 +119,12 @@ public class Tactician {
    *      the index of the item in the items list.
    */
   public void selectItem(int index) {
-    IEquipableItem item;
-    if (selectedUnit != null) {
-      item = selectedUnit.getItem(index);
-      selectedItem = (item == null) ? selectedItem : item;
-    }
+    IEquipableItem item = selectedUnit.getItem(index);
+    selectedItem = (item.isNull()) ? selectedItem : item;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    return object instanceof Tactician && this.getName().equals(((Tactician) object).getName());
   }
 }

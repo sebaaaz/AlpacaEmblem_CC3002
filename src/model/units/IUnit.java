@@ -31,7 +31,7 @@ public interface IUnit {
   /**
    * @return hit points of the unit
    */
-  int getCurrentHitPoints();
+  int getHitPoints();
 
   /**
    * @return the items carried by this unit
@@ -76,6 +76,14 @@ public interface IUnit {
    *      the location for the unit
    */
   void setLocation(final Location location);
+
+  /**
+   * Sets the hit points of this unit
+   *
+   * @param hitPoints
+   *      the new hit points of this unit
+   */
+  void setHitPoints(int hitPoints);
 
   /**
    * @return the number of cells this unit can move
@@ -190,118 +198,6 @@ public interface IUnit {
   void removeItem(IEquipableItem item);
 
   /**
-   * Receives damage from a magic item attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveMagicalAttack(IEquipableItem item);
-
-  /**
-   * Receives damage from a physical item attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receivePhysicalAttack(IEquipableItem item);
-
-  /**
-   * Receives damage from an axe attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveAxeAttack(IEquipableItem item);
-
-  /**
-   * Receives damage from a bow attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveBowAttack(IEquipableItem item);
-
-  /**
-   * Receives damage from a dark book attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveDarkBookAttack(IEquipableItem item);
-
-  /**
-   * Receives damage from a light book attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveLightBookAttack(IEquipableItem item);
-
-  /**
-   * Receives damage from a soul book attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveSoulBookAttack(IEquipableItem item);
-
-  /**
-   * Receives damage from a spear attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveSpearAttack(IEquipableItem item);
-
-  /**
-   * Receives healing from a staff attack
-   *
-   * @param item
-   *      the item that does the healing
-   */
-  void receiveStaffHealing(IEquipableItem item);
-
-  /**
-   * Receives damage from an sword attack
-   *
-   * @param item
-   *      the item that does the damage
-   */
-  void receiveSwordAttack(IEquipableItem item);
-
-  /**
-   * Receives positive healing from an attack with the item
-   *
-   * @param item
-   *      Item which heals this unit
-   */
-  void receiveHealing(IEquipableItem item);
-
-  /**
-   * Receives negative damage from an attack with the item
-   *
-   * @param item
-   *      Item which attacks this unit
-   */
-  void receiveNormalAttack(IEquipableItem item);
-
-  /**
-   * Receives negative increased damage from an attack with the item
-   *
-   * @param item
-   *      Item which attacks this unit
-   */
-  void receiveWeaknessAttack(IEquipableItem item);
-
-  /**
-   * Receives negative reduced damage from an attack with the item
-   *
-   * @param item
-   *      Item which attacks this unit
-   */
-  void receiveResistantAttack(IEquipableItem item);
-
-  /**
    * Uses the item equipped against other unit.
    *
    * @param unit
@@ -325,4 +221,9 @@ public interface IUnit {
    *      the unit to be combated
    */
   void startCombat(IUnit unit);
+
+  /**
+   * @return true if the unit is a null item. Returns false if not.
+   */
+  boolean isNull();
 }

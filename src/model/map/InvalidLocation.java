@@ -1,5 +1,7 @@
 package model.map;
 
+import model.units.IUnit;
+
 /**
  * This class represents an empty or invalid location on the game's map.
  *

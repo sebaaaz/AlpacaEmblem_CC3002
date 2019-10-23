@@ -1,9 +1,8 @@
 package model.units;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test set for the Archer unit.
@@ -37,14 +36,14 @@ public class ArcherTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipBowTest() {
-    assertNull(archer.getEquippedItem());
+    assertTrue(archer.getEquippedItem().isNull());
     archer.equipItem(bow);
-    assertNull(archer.getEquippedItem());
+    assertTrue(archer.getEquippedItem().isNull());
     archer.addItem(bow);
     archer.equipItem(bow);
     assertEquals(bow, archer.getEquippedItem());
     archer.unequipItem();
-    assertNull(archer.getEquippedItem());
+    assertTrue(archer.getEquippedItem().isNull());
   }
 
 
@@ -53,17 +52,17 @@ public class ArcherTest extends AbstractTestUnit {
   @Test
   public void receiveAttacksTest() {
     IUnit unit = archer;
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
     getBow().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(unit.getHitPoints(), 40);
     getStaff().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(unit.getHitPoints(), 50);
 
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(unit.getHitPoints(), 40);
     unit.addItem(getBow());
     unit.equipBow(getBow());
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 25);
+    assertEquals(unit.getHitPoints(), 25);
   }
 }

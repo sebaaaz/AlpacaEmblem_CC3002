@@ -10,7 +10,7 @@ import model.units.IUnit;
  * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
-public class LightBook extends AbstractItem implements IMagicBook {
+public class LightBook extends AbstractMagicWeapon {
 
   /**
    * Creates a new Light Book.
@@ -24,7 +24,7 @@ public class LightBook extends AbstractItem implements IMagicBook {
    * @param maxRange
    *     the maximum range of the book
    */
-  public LightBook(final String name, final int power, final int minRange, final int maxRange) {
+  public LightBook(String name, int power, int minRange, int maxRange) {
     super(name, power, minRange, maxRange);
   }
 
@@ -32,30 +32,15 @@ public class LightBook extends AbstractItem implements IMagicBook {
   public void equipTo(IUnit unit) { unit.equipLightBook(this); }
 
   @Override
-  public void useAgainst(IUnit unit) {
-    unit.receiveMagicalAttack(this);
+  public void sendAttack(IEquipableItem item) { item.receiveLightBookAttack(this); }
+
+  @Override
+  public void receiveDarkBookAttack(IEquipableItem item) {
+    receiveResistantAttack(item);
   }
 
   @Override
-  public void sendAttack(IUnit unit) { unit.receiveLightBookAttack(this); }
-
-  @Override
-  public void receiveDarkAttack(IEquipableItem attack) {
-    getOwner().receiveResistantAttack(attack);
-  }
-
-  @Override
-  public void receiveLightAttack(IEquipableItem attack) {
-    getOwner().receiveNormalAttack(attack);
-  }
-
-  @Override
-  public void receiveSoulAttack(IEquipableItem attack) {
-    getOwner().receiveWeaknessAttack(attack);
-  }
-
-  @Override
-  public void sendMagicalAttack(IMagicBook book) {
-    book.receiveLightAttack(this);
+  public void receiveSoulBookAttack(IEquipableItem item) {
+    receiveWeaknessAttack(item);
   }
 }

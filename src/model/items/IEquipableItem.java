@@ -45,14 +45,26 @@ public interface IEquipableItem {
   void setOwner(IUnit owner);
 
   /**
+   * @param name
+   *      Sets a new name for this item
+   */
+  void setName(String name);
+
+  /**
+   * @param power
+   *      Sets the new power of this item
+   */
+  void setPower(int power);
+
+  /**
    * @param minRange
-   *      Sets the minimum range of the item
+   *      Sets the minimum range of this item
    */
   void setMinRange(int minRange);
 
   /**
    * @param maxRange
-   *      Sets the maximum range of the item
+   *      Sets the maximum range of this item
    */
   void setMaxRange(int maxRange);
 
@@ -65,7 +77,7 @@ public interface IEquipableItem {
   void equipTo(IUnit unit);
 
   /**
-   * Uses this item against a unit
+   * Uses this item against an unit
    *
    * @param unit
    *      the unit that will receive the effect of this item
@@ -75,10 +87,10 @@ public interface IEquipableItem {
   /**
    * Sends the specific attack of this item
    *
-   * @param unit
-   *      the unit that will receive the specific attack
+   * @param item
+   *      the item that will receive the specific attack
    */
-  void sendAttack(IUnit unit);
+  void sendAttack(IEquipableItem item);
 
   /**
    * Sends an attack in the context of counter attack
@@ -96,4 +108,122 @@ public interface IEquipableItem {
    *      the unit that will be allowed to counter attack
    */
   void motivateCounterAttack(IUnit unit);
+
+  /**
+   * @return true if the item is a null item. Returns false if not.
+   */
+  boolean isNull();
+
+  /**
+   * Receives damage from a magic item attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveMagicalAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a physical item attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receivePhysicalAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from an axe attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveAxeAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a bow attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveBowAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a dark book attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveDarkBookAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a light book attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveLightBookAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a soul book attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveSoulBookAttack(IEquipableItem item);
+
+  /**
+   * Receives damage from a spear attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveSpearAttack(IEquipableItem item);
+
+  /**
+   * Receives healing from a staff attack
+   *
+   * @param item
+   *      the item that does the healing
+   */
+  void receiveStaffHealing(IEquipableItem item);
+
+  /**
+   * Receives damage from an sword attack
+   *
+   * @param item
+   *      the item that does the damage
+   */
+  void receiveSwordAttack(IEquipableItem item);
+
+  /**
+   * Receives positive healing from an attack with the item
+   *
+   * @param item
+   *      Item which heals this unit
+   */
+  void receiveHealing(IEquipableItem item);
+
+  /**
+   * Receives negative damage from an attack with the item
+   *
+   * @param item
+   *      Item which attacks this unit
+   */
+  void receiveNormalAttack(IEquipableItem item);
+
+  /**
+   * Receives negative increased damage from an attack with the item
+   *
+   * @param item
+   *      Item which attacks this unit
+   */
+  void receiveWeaknessAttack(IEquipableItem item);
+
+  /**
+   * Receives negative reduced damage from an attack with the item
+   *
+   * @param item
+   *      Item which attacks this unit
+   */
+  void receiveResistantAttack(IEquipableItem item);
+
 }

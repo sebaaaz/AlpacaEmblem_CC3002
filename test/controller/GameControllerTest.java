@@ -146,10 +146,8 @@ class GameControllerTest {
         .forEach(player -> Assertions.assertTrue(testTacticians.contains(player)));
 
     controller.initGame(2);
-    controller.printNames();
     IntStream.range(0, 4).forEach(i -> controller.endTurn());
     assertNull(controller.getWinners());
-    controller.printNames();
     controller.removeTactician("Player 0");
     controller.removeTactician("Player 2");
     IntStream.range(0, 2).forEach(i -> {

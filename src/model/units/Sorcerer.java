@@ -1,7 +1,6 @@
 package model.units;
 
 import model.items.IEquipableItem;
-import model.items.IMagicBook;
 import model.map.Location;
 
 /**
@@ -13,7 +12,7 @@ import model.map.Location;
  * @since 1.0
  */
 
-public class Sorcerer extends AbstractUnit{
+public class Sorcerer extends AbstractUnit {
 
   /**
    * Creates a new Sorcerer
@@ -47,23 +46,5 @@ public class Sorcerer extends AbstractUnit{
   public void equipSoulBook(IEquipableItem item) {
     this.setEquippedItem(item);
     item.setOwner(this);
-  }
-
-  @Override
-  public void receivePhysicalAttack(IEquipableItem item) {
-    if (getEquippedItem() != null) {
-      receiveWeaknessAttack(item);
-    } else {
-      receiveNormalAttack(item);
-    }
-  }
-
-  @Override
-  public void receiveMagicalAttack(IEquipableItem item) {
-    if (getEquippedItem() != null) {
-      ((IMagicBook) item).sendMagicalAttack((IMagicBook) getEquippedItem());
-    } else {
-      receiveNormalAttack(item);
-    }
   }
 }

@@ -1,10 +1,9 @@
 package model;
 
+import model.factories.unitFactories.*;
 import model.items.IEquipableItem;
 import model.items.Sword;
 import model.map.Location;
-import model.unitFactories.IUnitFactory;
-import model.unitFactories.SwordMasterFactory;
 import model.units.IUnit;
 import model.units.SwordMaster;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,16 +48,15 @@ public class TacticianTest {
   @Test
   public void selectTest() {
     tacticianTest.selectItem(0);
-    assertNull(tacticianTest.getSelectedItem());
+    assertTrue(tacticianTest.getSelectedItem().isNull());
     tacticianTest.selectItem(-1);
-    assertNull(tacticianTest.getSelectedItem());
+    assertTrue(tacticianTest.getSelectedItem().isNull());
 
-    assertNull(tacticianTest.getSelectedUnit());
     tacticianTest.selectUnit(unitTest);
     assertEquals(unitTest, tacticianTest.getSelectedUnit());
 
     tacticianTest.selectItem(1);
-    assertNull(tacticianTest.getSelectedItem());
+    assertTrue(tacticianTest.getSelectedItem().isNull());
     tacticianTest.selectItem(0);
     assertEquals(itemTest, tacticianTest.getSelectedItem());
     tacticianTest.selectItem(1);
@@ -69,14 +67,15 @@ public class TacticianTest {
   public void unitsTest() {
     assertEquals(0, tacticianTest.getUnits().size());
     tacticianTest.unitFactory(unitFactoryTest);
-    tacticianTest.addUnit();
-    tacticianTest.addUnit();
+    tacticianTest.addDefaultUnit();
+    tacticianTest.addDefaultUnit();
+    tacticianTest.addCustomUnit(50, 2);
+    assertEquals(3, tacticianTest.getUnits().size());
+    tacticianTest.removeUnit(2);
     assertEquals(2, tacticianTest.getUnits().size());
-    tacticianTest.removeUnit(1);
-    assertEquals(1, tacticianTest.getUnits().size());
-    tacticianTest.removeUnit(1);
-    assertEquals(1, tacticianTest.getUnits().size());
-    tacticianTest.removeUnit(0);
+    tacticianTest.removeUnit(2);
+    assertEquals(2, tacticianTest.getUnits().size());
+    tacticianTest.removeAllUnits();
     assertEquals(0, tacticianTest.getUnits().size());
   }
 

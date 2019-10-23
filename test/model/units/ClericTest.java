@@ -1,9 +1,8 @@
 package model.units;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -31,31 +30,31 @@ public class ClericTest extends AbstractTestUnit {
   @Test
   @Override
   public void equipStaffTest() {
-    assertNull(cleric.getEquippedItem());
+    assertTrue(cleric.getEquippedItem().isNull());
     cleric.equipItem(staff);
-    assertNull(cleric.getEquippedItem());
+    assertTrue(cleric.getEquippedItem().isNull());
     cleric.addItem(staff);
     cleric.equipItem(staff);
     assertEquals(staff, cleric.getEquippedItem());
     cleric.unequipItem();
-    assertNull(cleric.getEquippedItem());
+    assertTrue(cleric.getEquippedItem().isNull());
   }
 
   @Override
   @Test
   public void receiveAttacksTest() {
     IUnit unit = cleric;
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(50, unit.getHitPoints());
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(40, unit.getHitPoints());
     getStaff().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 50);
+    assertEquals(50, unit.getHitPoints());
 
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 40);
+    assertEquals(40, unit.getHitPoints());
     unit.addItem(getStaff());
     unit.equipStaff(getStaff());
     getDarkBook().useAgainst(unit);
-    assertEquals(unit.getCurrentHitPoints(), 25);
+    assertEquals(25, unit.getHitPoints());
   }
 }

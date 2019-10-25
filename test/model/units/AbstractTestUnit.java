@@ -443,7 +443,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
 
     nullItem.equipTo(testUnit);
     assertTrue(testUnit.getEquippedItem().isNull());
+
+    IUnit nullUnit1 = new NullUnit();
+    IUnit nullUnit2 = new NullUnit();
+    assertEquals(nullUnit1, nullUnit2);
   }
-
-
 }

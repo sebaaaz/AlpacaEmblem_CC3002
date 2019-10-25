@@ -1,12 +1,16 @@
 package model;
 
+import controller.Listeners.GameControllerListeners;
+import model.factories.itemFactories.IEquipableItemFactory;
 import model.items.IEquipableItem;
 import model.factories.unitFactories.IUnitFactory;
 import model.items.NullItem;
-import model.map.InvalidLocation;
 import model.units.IUnit;
 import model.units.NullUnit;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,9 +25,15 @@ import java.util.List;
  */
 public class Tactician {
 
-  private IUnitFactory unitFactory;
+  private PropertyChangeSupport
+      endTurnEvent = new PropertyChangeSupport(this),
+      heroDiesEvent = new PropertyChangeSupport(this),
+      selectUnitEvent = new PropertyChangeSupport(this),
+      selectItemEvent = new PropertyChangeSupport(this);
 
-  private String name;
+  private IUnitFactory unitFactory;
+  private IEquipableItemFactory itemFactory;
+  private final String name;
   private List<IUnit> units = new ArrayList<>();
   private IUnit selectedUnit;
   private IEquipableItem selectedItem;
@@ -51,14 +61,17 @@ public class Tactician {
   }
 
   /**
-   * Adds a unit to the units list. This unit is created by the current factory.
+   * Adds a unit to the units list. This unit is created by the current factory and
+   * then is selected.
    */
   public void addDefaultUnit() {
     units.add(unitFactory.createUnit());
+    selectUnit(units.get(units.size()-1));
   }
 
   /**
-   * Adds a custom unit to the units list. This unit is created by the current factory.
+   * Adds a custom unit to the units list. This unit is created by the current factory
+   * and then is selected.
    *
    * @param maxHitPoints
    *    the maximum hit points that the unit will have.
@@ -67,6 +80,7 @@ public class Tactician {
    */
   public void addCustomUnit(int maxHitPoints, int movement) {
     units.add(unitFactory.createFullCustomUnit(maxHitPoints, movement));
+    selectUnit(units.get(units.size()-1));
   }
 
   /**
@@ -110,6 +124,7 @@ public class Tactician {
    *      the unit to be selected by the player
    */
   public void selectUnit(IUnit unit) {
+    selectUnitEvent.firePropertyChange(new PropertyChangeEvent(this, "New unit selected", getSelectedUnit(), unit));
     selectedUnit = unit;
   }
 
@@ -119,8 +134,40 @@ public class Tactician {
    *      the index of the item in the items list.
    */
   public void selectItem(int index) {
-    IEquipableItem item = selectedUnit.getItem(index);
-    selectedItem = (item.isNull()) ? selectedItem : item;
+    selectedItem = selectedUnit.getItem(index).itemOrThis(selectedItem);
+    selectItemEvent.firePropertyChange(new PropertyChangeEvent(this, "New item selected", null, index));
+  }
+
+  // Listeners
+
+  public void addListener(GameControllerListeners listener) {
+    listener.subscribeTo(this);
+  }
+  public void addEndTurnListener(PropertyChangeListener listener) {
+    endTurnEvent.addPropertyChangeListener(listener);
+  }
+  public void addHeroDiesListener(PropertyChangeListener listener) {
+    heroDiesEvent.addPropertyChangeListener(listener);
+  }
+  public void addSelectUnitListener(PropertyChangeListener listener) {
+    selectUnitEvent.addPropertyChangeListener(listener);
+  }
+  public void addSelectItemListener(PropertyChangeListener listener) {
+    selectItemEvent.addPropertyChangeListener(listener);
+  }
+
+  /**
+   * Ends the turn of this tactician.
+   */
+  public void endTurn() {
+    endTurnEvent.firePropertyChange(new PropertyChangeEvent(this, "Ended turn", null, null));
+  }
+
+  /**
+   * Notifies to the listener of this event that a hero of this tactician died.
+   */
+  public void notifyHeroDefeated() {
+    heroDiesEvent.firePropertyChange(new PropertyChangeEvent(this, "Hero died", null, getName()));
   }
 
   @Override

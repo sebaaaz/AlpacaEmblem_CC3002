@@ -8,8 +8,10 @@ import model.map.Location;
 /**
  * This class represents a Null Unit.
  * <p>
- *   Null units do not affect the game in any way. They allow a better
- *   handling of some item events.
+ * Null units do not affect the game in any way. They allow a better
+ * handling of some item events.
+ * <p>
+ * Null units can't be created by a player.
  *
  * @author Sebastián Zapata Ascencio
  * @since 2.0
@@ -74,4 +76,13 @@ public class NullUnit extends AbstractUnit {
 
   @Override
   public void startCombat(IUnit unit) {}
+
+  @Override
+  public boolean equals(Object obj) {
+    NullUnit unit;
+    if (obj instanceof NullUnit) unit = (NullUnit) obj;
+    else return false;
+    return unit.getLocation() instanceof InvalidLocation ||
+           this.getLocation() == unit.getLocation();
+  }
 }

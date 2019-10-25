@@ -79,6 +79,11 @@ public abstract class AbstractItem implements IEquipableItem {
   public boolean isNull() { return false; }
 
   @Override
+  public IEquipableItem itemOrThis(IEquipableItem item) {
+    return this;
+  }
+
+  @Override
   public void receiveHealing(IEquipableItem item) {
     owner.setHitPoints( Math.min(owner.getHitPoints() + item.getPower(), owner.getMaxHitPoints()) );
   }

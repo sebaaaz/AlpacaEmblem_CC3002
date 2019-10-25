@@ -145,6 +145,10 @@ public class Location {
   /**
    * Gets the shortest path to another node storing a set of already visited nodes
    *
+   * @param otherNode
+   *      the other location
+   * @param visited
+   *      a set of visited locations. Useful for not analyzing again those locations.
    * @return the distance between the nodes
    */
   private double shortestPathTo(final Location otherNode, final Set<Location> visited) {

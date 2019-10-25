@@ -24,6 +24,8 @@ public class Alpaca extends AbstractUnit {
    *     number of cells the unit can move
    * @param location
    *     the initial position of the unit
+   * @param items
+   *    *     the items carried by this unit
    */
   public Alpaca(final int maxHitPoints, final int movement, final Location location,
       final IEquipableItem... items) {

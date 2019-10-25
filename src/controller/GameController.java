@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import static java.util.Collections.shuffle;
 
+import controller.Listeners.*;
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Field;
@@ -36,6 +37,8 @@ public class GameController {
   private IUnit selectedUnit;
   private IEquipableItem selectedItem;
 
+  private List<GameControllerListeners> listeners = new ArrayList<>();
+
   /**
    * Creates the controller for a new game.
    *
@@ -45,13 +48,40 @@ public class GameController {
    *     the dimensions of the map, for simplicity, all maps are squares
    */
   public GameController(int numberOfPlayers, int mapSize) {
-    for (int i = 0; i < numberOfPlayers; i++) {
+    setListeners();
+
+    for (int i = 0; i < numberOfPlayers; i++)
+    {
       Tactician player = new Tactician("Player " + i);
+      registerListenersTo(player);
       originalPlayers.add(player);
     }
+
     players = new ArrayList<>(originalPlayers);
     turnOwner = players.get(0);
     this.mapSize = mapSize;
+    selectedUnit = turnOwner.getSelectedUnit();
+    selectedItem = turnOwner.getSelectedItem();
+  }
+
+  /**
+   * Sets up the listeners of the game controller.
+   */
+  private void setListeners() {
+    listeners.add(new LEndTurn(this));
+    listeners.add(new LHeroDies(this));
+    listeners.add(new LSelectItem(this));
+    listeners.add(new LSelectUnit(this));
+  }
+
+  /**
+   * Registers all the listeners to a tactician
+   *
+   * @param tactician
+   *      the tactician that will the listeners listen to
+   */
+  private void registerListenersTo(Tactician tactician) {
+    listeners.forEach(tactician::addListener);
   }
 
   /**
@@ -107,7 +137,10 @@ public class GameController {
   public void printNames() {
     StringBuilder names = new StringBuilder();
     names.setLength(0);
-    players.forEach(player -> names.append(player.getName()).append(" "));
+    players.forEach(player -> {
+      names.append(player.getName()).append(" ");
+    });
+
     System.out.println(names);
   }
 
@@ -156,8 +189,11 @@ public class GameController {
       if (players.get(i).getName().equals(tactician)) index = i;
     }
     if (index != -1) {
+      if (getTurnOwner() == players.get(index)) {
+        endTurn();
+      }
       players.remove(index);
-      turnOwner = getTacticians().get(currentTurn);
+      currentTurn = players.indexOf(getTurnOwner());
     }
   }
 
@@ -206,6 +242,14 @@ public class GameController {
   }
 
   /**
+   * @param unit
+   *      the unit to be selected
+   */
+  public void setSelectedUnit(IUnit unit) {
+    selectedUnit = unit;
+  }
+
+  /**
    * Selects a unit in the game map
    *
    * @param x
@@ -215,6 +259,7 @@ public class GameController {
    */
   public void selectUnitIn(int x, int y) {
     selectedUnit = map.getCell(y, x).getUnit();
+    getTurnOwner().selectUnit(selectedUnit);
   }
 
   /**
@@ -231,7 +276,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void equipItem(int index) {
-    getSelectedUnit().equipItem(getItems().get(index));
+    getSelectedUnit().equipItem(getSelectedUnit().getItem(index));
   }
 
   /**
@@ -253,7 +298,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void selectItem(int index) {
-    selectedItem = turnOwner.getSelectedItem();
+    selectedItem = selectedUnit.getItem(index).itemOrThis(selectedItem);
   }
 
   /**
@@ -288,6 +333,7 @@ public class GameController {
   public boolean endedGame(){
     return getRoundNumber() >= getMaxRounds() && getMaxRounds() != -1;
   }
+
 
   public void createMap(){
     map = new Field();

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 import model.Tactician;
+import model.factories.unitFactories.FighterFactory;
+import model.factories.unitFactories.HeroFactory;
+import model.factories.unitFactories.IUnitFactory;
 import model.map.Field;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,16 +24,25 @@ import org.junit.jupiter.api.Test;
 class GameControllerTest {
 
   private GameController controller;
-  private long randomSeed;
+  private long testSeed;
   private List<String> testTacticians;
+  private Tactician testPlayer;
+  private IUnitFactory fighterFactory = new FighterFactory();
+  private IUnitFactory heroFactory = new HeroFactory();
 
+  /**
+   * Sets up the controller and tacticians to be tested. Always it sets up other attributes.
+   */
   @BeforeEach
   void setUp() {
-    randomSeed = 42;
+    testSeed = 42;
     controller = new GameController(4, 7);
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
   }
 
+  /**
+   * Checks the controller has the correct list of tacticians.
+   */
   @Test
   void getTacticians() {
     List<Tactician> tacticians = controller.getTacticians();
@@ -46,7 +58,7 @@ class GameControllerTest {
     Field gameMap = controller.getGameMap();
     assertEquals(7, gameMap.getSize());
     assertTrue(controller.getGameMap().isConnected());
-    Random testRandom = new Random(randomSeed);
+    Random testRandom = new Random(testSeed);
     // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
     //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
     //    las dimensiones definidas y que sea conexo.
@@ -58,32 +70,48 @@ class GameControllerTest {
     //  ESTO ÚLTIMO NO ESTÁ IMPLEMENTADO EN EL MAPA, ASÍ QUE DEBEN AGREGARLO (!)
   }
 
+  /**
+   * Checks if the turn owner is correctly setted after every end turn event.
+   */
   @Test
   void getTurnOwner() {
-    controller.setSeed(randomSeed); // Player 3 Player 1 Player 0 Player 2
+    controller.setSeed(testSeed); // Player 3 Player 1 Player 0 Player 2
     controller.initEndlessGame();
     assertEquals("Player 3", controller.getTurnOwner().getName());
+    assertEquals(0, controller.getTurnNumber());
     controller.endTurn();
     assertEquals("Player 1", controller.getTurnOwner().getName());
+    assertEquals(1, controller.getTurnNumber());
     controller.endTurn();
     assertEquals("Player 0", controller.getTurnOwner().getName());
+    assertEquals(2, controller.getTurnNumber());
     controller.endTurn();
     assertEquals("Player 2", controller.getTurnOwner().getName());
+    assertEquals(3, controller.getTurnNumber());
 
     controller.endTurn();           // Player 0 Player 1 Player 3 Player 2
+    assertEquals(0, controller.getTurnNumber());
     controller.endTurn();
+    assertEquals(1, controller.getTurnNumber());
     assertEquals("Player 1", controller.getTurnOwner().getName());
     controller.removeTactician("Player 1"); // Player 0 Player 3 Player 2
     assertEquals("Player 3", controller.getTurnOwner().getName());
+    assertEquals(1, controller.getTurnNumber());
 
     controller.removeTactician("Player 2"); // Player 0 Player 3
     assertEquals("Player 3", controller.getTurnOwner().getName());
-    controller.endTurn();
+    assertEquals(1, controller.getTurnNumber());
+    controller.endTurn();                   // Player 0 Player 3
     assertEquals("Player 0", controller.getTurnOwner().getName());
+    assertEquals(0, controller.getTurnNumber());
     controller.endTurn();
     assertEquals("Player 3", controller.getTurnOwner().getName());
+    assertEquals(1, controller.getTurnNumber());
   }
 
+  /**
+   * Checks if the turns are correct after every end turn event.
+   */
   @Test
   void getRoundNumber() {
     controller.initGame(10);
@@ -95,6 +123,9 @@ class GameControllerTest {
     }
   }
 
+  /**
+   * Checks if the max amount of rounds are returned correctly.
+   */
   @Test
   void getMaxRounds() {
     Random randomTurnSequence = new Random();
@@ -106,10 +137,13 @@ class GameControllerTest {
     assertEquals(-1, controller.getMaxRounds());
   }
 
+  /**
+   * Checks if the turn owner and the current turn
+   */
   @Test
   void endTurn() {
-    controller.setSeed(randomSeed);
-    controller.shufflePlayers(); // Player 2 Player 1 Player 0 Player 3
+    controller.setSeed(testSeed);
+    controller.initGame(1); // Player 3 Player 1 Player 0 Player 2
     Tactician firstPlayer = controller.getTurnOwner();
     Tactician secondPlayer = new Tactician("Player 1");
     assertNotEquals(secondPlayer.getName(), firstPlayer.getName());
@@ -119,6 +153,9 @@ class GameControllerTest {
     assertEquals(secondPlayer.getName(), controller.getTurnOwner().getName());
   }
 
+  /**
+   * Checks if the removal of a tactician is successful.
+   */
   @Test
   void removeTactician() {
     assertEquals(4, controller.getTacticians().size());
@@ -137,6 +174,9 @@ class GameControllerTest {
         .forEach(tactician -> Assertions.assertTrue(testTacticians.contains(tactician.getName())));
   }
 
+  /**
+   * Checks if the winners of the game are returned correctly.
+   */
   @Test
   void getWinners() {
     controller.initGame(2);
@@ -165,12 +205,19 @@ class GameControllerTest {
     assertTrue(List.of("Player 3").containsAll(controller.getWinners()));
   }
 
+  /**
+   *
+   */
   @Test
   void getSelectedUnit() {
+    controller.getTurnOwner().unitFactory(fighterFactory);
+    controller.getTurnOwner().addDefaultUnit(); // this selects the last unit created
+    assertEquals(controller.getSelectedUnit(), controller.getTurnOwner().getSelectedUnit());
   }
 
   @Test
   void selectUnitIn() {
+
   }
 
   @Test

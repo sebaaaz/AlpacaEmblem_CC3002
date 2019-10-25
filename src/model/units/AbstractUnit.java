@@ -109,15 +109,15 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void moveTo(final Location targetLocation) {
-    if (getLocation().distanceTo(targetLocation) <= getMovement()
-        && targetLocation.getUnit().isNull()) {
+    if (getLocation().distanceTo(targetLocation) <= getMovement() &&
+        targetLocation.getUnit().isNull()) {
       setLocation(targetLocation);
     }
   }
 
   @Override
   public void equipItem(IEquipableItem item) {
-    if (this.items.contains(item) || item.isNull())
+    if (this.items.contains(item))
       item.equipTo(this);
   }
 

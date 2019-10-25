@@ -7,6 +7,8 @@ import model.units.IUnit;
  * <p>
  * Null items do not not affect the game in any way. They allow a better
  * handling of some item events.
+ * <p>
+ * Null items can't be created by a player.
  *
  * @author Sebastián Zapata Ascencio
  * @since 2.0
@@ -50,5 +52,15 @@ public class NullItem extends AbstractItem {
   @Override
   public boolean isNull() {
     return true;
+  }
+
+  @Override
+  public IEquipableItem itemOrThis(IEquipableItem item) {
+    return item;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    return object instanceof NullItem;
   }
 }

@@ -94,6 +94,9 @@ public interface IUnit {
    * Moves this unit to another location.
    * <p>
    * If the other location is out of this unit's movement range, the unit doesn't move.
+   *
+   * @param targetLocation
+   *      the new location where the unit will move on
    */
   void moveTo(Location targetLocation);
 

@@ -226,4 +226,13 @@ public interface IEquipableItem {
    */
   void receiveResistantAttack(IEquipableItem item);
 
+  /**
+   * Decides if return this item (only non Null items will do it) or the passed item.
+   *
+   * @param item
+   *      the item to analyze
+   *
+   * @return this, if this item is not the Null item. Returns the item passed if so.
+   */
+  IEquipableItem itemOrThis(IEquipableItem item);
 }

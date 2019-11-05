@@ -1,4 +1,4 @@
-package model.factories.unitFactories;
+package model.factories.unitFactory;
 
 import model.map.InvalidLocation;
 import model.units.Archer;

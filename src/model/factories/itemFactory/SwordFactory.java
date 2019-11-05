@@ -1,22 +1,22 @@
-package model.factories.itemFactories;
+package model.factories.itemFactory;
 
-import model.items.Axe;
 import model.items.IEquipableItem;
+import model.items.Sword;
 
-public class AxeFactory implements IEquipableItemFactory {
+public class SwordFactory implements IEquipableItemFactory {
 
   @Override
   public IEquipableItem createItem() {
-    return new Axe("Common Axe", 12, 1, 2);
+    return new Sword("Common Sword", 10, 1, 1);
   }
 
   @Override
   public IEquipableItem createFullCustomItem(String name, int power, int minRange, int maxRange) {
-    return new Axe(name, power, minRange, maxRange);
+    return new Sword(name, power, minRange, maxRange);
   }
 
   @Override
   public IEquipableItem createCustomPowerItem(String name, int power) {
-    return new Axe(name, power, 1, 2);
+    return new Sword(name, power, 1, 1);
   }
 }

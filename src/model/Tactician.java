@@ -1,18 +1,19 @@
 package model;
 
 import controller.Listeners.GameControllerListeners;
-import model.factories.itemFactories.IEquipableItemFactory;
+import model.factories.itemFactory.IEquipableItemFactory;
 import model.items.IEquipableItem;
-import model.factories.unitFactories.IUnitFactory;
 import model.items.NullItem;
+import model.map.Location;
 import model.units.IUnit;
-import model.units.NullUnit;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+
+import static model.units.NullUnit.NULL_UNIT;
 
 /**
  * This class represents a player of the game.
@@ -26,12 +27,8 @@ import java.util.List;
 public class Tactician {
 
   private PropertyChangeSupport
-      endTurnEvent = new PropertyChangeSupport(this),
-      heroDiesEvent = new PropertyChangeSupport(this),
-      selectUnitEvent = new PropertyChangeSupport(this),
-      selectItemEvent = new PropertyChangeSupport(this);
+      heroDiesEvent = new PropertyChangeSupport(this);
 
-  private IUnitFactory unitFactory;
   private IEquipableItemFactory itemFactory;
   private final String name;
   private List<IUnit> units = new ArrayList<>();
@@ -46,45 +43,23 @@ public class Tactician {
    */
   public Tactician(String name) {
     this.name = name;
-    selectedUnit = new NullUnit();
+    selectedUnit = NULL_UNIT;
     selectedItem = new NullItem(selectedUnit);
   }
 
   /**
-   * Sets a new unit factory for this tactician.
+   * Adds an unit to the units list.
    *
-   * @param anUnitFactory
-   *      the unit factory to be setted.
+   * @param unit
+   *      the unit to be added.
    */
-  public void unitFactory(IUnitFactory anUnitFactory) {
-    unitFactory = anUnitFactory;
+  public void addUnit(IUnit unit) {
+    units.add(unit);
+    unit.setOwner(this);
   }
 
   /**
-   * Adds a unit to the units list. This unit is created by the current factory and
-   * then is selected.
-   */
-  public void addDefaultUnit() {
-    units.add(unitFactory.createUnit());
-    selectUnit(units.get(units.size()-1));
-  }
-
-  /**
-   * Adds a custom unit to the units list. This unit is created by the current factory
-   * and then is selected.
-   *
-   * @param maxHitPoints
-   *    the maximum hit points that the unit will have.
-   * @param movement
-   *    the amount of cells this unit can move in every turn.
-   */
-  public void addCustomUnit(int maxHitPoints, int movement) {
-    units.add(unitFactory.createFullCustomUnit(maxHitPoints, movement));
-    selectUnit(units.get(units.size()-1));
-  }
-
-  /**
-   * Removes a unit from the units list.
+   * Removes an unit from the units list.
    *
    * @param index
    *      the index of the unit in the units list.
@@ -97,6 +72,17 @@ public class Tactician {
    * Removes all the units of the tactician.
    */
   public void removeAllUnits() {units = new ArrayList<>(); }
+
+  /**
+   * @return true if all units from the unit list are in
+   *      a valid position.
+   */
+  public boolean allUnitsAllocated() {
+    for (IUnit unit : units) {
+      if (!unit.isOnValidLocation()) return false;
+    }
+    return true;
+  }
 
   /**
    * @return the name of this tactician.
@@ -124,7 +110,6 @@ public class Tactician {
    *      the unit to be selected by the player
    */
   public void selectUnit(IUnit unit) {
-    selectUnitEvent.firePropertyChange(new PropertyChangeEvent(this, "New unit selected", getSelectedUnit(), unit));
     selectedUnit = unit;
   }
 
@@ -135,7 +120,29 @@ public class Tactician {
    */
   public void selectItem(int index) {
     selectedItem = selectedUnit.getItem(index).itemOrThis(selectedItem);
-    selectItemEvent.firePropertyChange(new PropertyChangeEvent(this, "New item selected", null, index));
+  }
+
+  /**
+   * Sets a new location for the selected unit.
+   *
+   * @param location
+   *      the location for the unit
+   */
+  public void setSelectedUnitLocation(Location location) {
+    selectedUnit.setLocation(location);
+  }
+
+  /**
+   * Moves the selected unit to another location.
+   * <p>
+   * If the other location is out of this unit's movement range,
+   * the unit doesn't move.
+   *
+   * @param targetLocation
+   *      the new location where the unit will move on
+   */
+  public void moveSelectedUnit(final Location targetLocation) {
+    getSelectedUnit().moveTo(targetLocation);
   }
 
   // Listeners
@@ -143,24 +150,8 @@ public class Tactician {
   public void addListener(GameControllerListeners listener) {
     listener.subscribeTo(this);
   }
-  public void addEndTurnListener(PropertyChangeListener listener) {
-    endTurnEvent.addPropertyChangeListener(listener);
-  }
   public void addHeroDiesListener(PropertyChangeListener listener) {
     heroDiesEvent.addPropertyChangeListener(listener);
-  }
-  public void addSelectUnitListener(PropertyChangeListener listener) {
-    selectUnitEvent.addPropertyChangeListener(listener);
-  }
-  public void addSelectItemListener(PropertyChangeListener listener) {
-    selectItemEvent.addPropertyChangeListener(listener);
-  }
-
-  /**
-   * Ends the turn of this tactician.
-   */
-  public void endTurn() {
-    endTurnEvent.firePropertyChange(new PropertyChangeEvent(this, "Ended turn", null, null));
   }
 
   /**
@@ -169,6 +160,7 @@ public class Tactician {
   public void notifyHeroDefeated() {
     heroDiesEvent.firePropertyChange(new PropertyChangeEvent(this, "Hero died", null, getName()));
   }
+
 
   @Override
   public boolean equals(Object object) {

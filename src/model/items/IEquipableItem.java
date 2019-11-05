@@ -110,7 +110,7 @@ public interface IEquipableItem {
   void motivateCounterAttack(IUnit unit);
 
   /**
-   * @return true if the item is a null item. Returns false if not.
+   * @return true if the item is a null item, false otherwise.
    */
   boolean isNull();
 

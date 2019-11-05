@@ -1,13 +1,16 @@
 package model.factories;
 
-import model.factories.itemFactories.*;
-import model.factories.unitFactories.*;
+import model.factories.itemFactory.IEquipableItemFactory;
+import model.factories.unitFactory.IUnitFactory;
+import model.map.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.factories.unitFactories.*;
+import static model.factories.itemFactories.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class FactoryTest {
@@ -28,26 +31,26 @@ public class FactoryTest {
    * Sets up the distinct unit factories and adds them to the unit factories list.
    */
   public void setUnitFactories() {
-    unitFactories.add(new AlpacaFactory());
-    unitFactories.add(new ArcherFactory());
-    unitFactories.add(new ClericFactory());
-    unitFactories.add(new FighterFactory());
-    unitFactories.add(new HeroFactory());
-    unitFactories.add(new SorcererFactory());
-    unitFactories.add(new SwordMasterFactory());
+    unitFactories.add(ALPACA_FACTORY);
+    unitFactories.add(ARCHER_FACTORY);
+    unitFactories.add(CLERIC_FACTORY);
+    unitFactories.add(FIGHTER_FACTORY);
+    unitFactories.add(HERO_FACTORY);
+    unitFactories.add(SORCERER_FACTORY);
+    unitFactories.add(SWORD_MASTER_FACTORY);
   }
 
   /**
    * Sets up the distinct item factories and adds them to the item factories list.
    */
   public void setItemFactories() {
-    itemFactories.add(new AxeFactory());
-    itemFactories.add(new BowFactory());
-    itemFactories.add(new DarkBookFactory());
-    itemFactories.add(new LightBookFactory());
-    itemFactories.add(new SoulBookFactory());
-    itemFactories.add(new SpearFactory());
-    itemFactories.add(new SwordFactory());
+    itemFactories.add(AXE_FACTORY);
+    itemFactories.add(BOW_FACTORY);
+    itemFactories.add(DARK_BOOK_FACTORY);
+    itemFactories.add(LIGHT_BOOK_FACTORY);
+    itemFactories.add(SOUL_BOOK_FACTORY);
+    itemFactories.add(SPEAR_FACTORY);
+    itemFactories.add(SWORD_FACTORY);
   }
 
   /**

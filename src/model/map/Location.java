@@ -3,7 +3,8 @@ package model.map;
 import java.util.HashSet;
 import java.util.Set;
 import model.units.IUnit;
-import model.units.NullUnit;
+
+import static model.units.NullUnit.NULL_UNIT;
 
 /**
  * This class represents a <i>location</i> in the game's map.
@@ -40,7 +41,7 @@ public class Location {
     this.row = row;
     this.column = column;
     id = "(" + row + ", " + column + ")";
-    unit = new NullUnit(this);
+    unit = NULL_UNIT;
   }
 
   /**
@@ -180,4 +181,8 @@ public class Location {
     return column;
   }
 
+  /**
+   * @return true if the location is valid, false otherwise.
+   */
+  public boolean isValidLocation() { return true; }
 }

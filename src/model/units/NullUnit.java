@@ -1,5 +1,6 @@
 package model.units;
 
+import model.Tactician;
 import model.items.IEquipableItem;
 import model.items.NullItem;
 import model.map.InvalidLocation;
@@ -18,20 +19,13 @@ import model.map.Location;
  */
 public class NullUnit extends AbstractUnit {
 
+  public static final NullUnit NULL_UNIT = new NullUnit();
+
   /**
    * Creates a new Null Unit
    */
   public NullUnit() {
     super(1, 0, new InvalidLocation(), 0);
-  }
-
-  /**
-   * Creates a new Null unit in the location.
-   * @param location
-   *      the location where will be the Null Unit.
-   */
-  public NullUnit(Location location) {
-    super(1, 0, location, 0);
   }
 
   @Override
@@ -51,10 +45,10 @@ public class NullUnit extends AbstractUnit {
   public void setHitPoints(int hitPoints) {}
 
   @Override
-  public void setLocation(final Location location) {}
+  public void setLocation(Location location) {}
 
   @Override
-  public void moveTo(final Location targetLocation) {}
+  public void moveTo(Location targetLocation) {}
 
   @Override
   public void equipItem(IEquipableItem item) {}
@@ -79,10 +73,9 @@ public class NullUnit extends AbstractUnit {
 
   @Override
   public boolean equals(Object obj) {
-    NullUnit unit;
-    if (obj instanceof NullUnit) unit = (NullUnit) obj;
-    else return false;
-    return unit.getLocation() instanceof InvalidLocation ||
-           this.getLocation() == unit.getLocation();
+    return (obj instanceof NullUnit && (NullUnit) obj == this);
   }
+
+  @Override
+  public void beSelectedBy(Tactician tactician) {tactician.selectUnit(this);}
 }

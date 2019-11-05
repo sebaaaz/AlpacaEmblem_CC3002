@@ -1,7 +1,7 @@
 package model.units;
 
+import static model.units.NullUnit.NULL_UNIT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
@@ -52,7 +52,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     setTargetAlpaca();
     setTargetAlpaca2();
     setWeapons();
-    nullUnit = new NullUnit();
+    nullUnit = NULL_UNIT;
   }
 
   /**
@@ -444,8 +444,8 @@ public abstract class AbstractTestUnit implements ITestUnit {
     nullItem.equipTo(testUnit);
     assertTrue(testUnit.getEquippedItem().isNull());
 
-    IUnit nullUnit1 = new NullUnit();
-    IUnit nullUnit2 = new NullUnit();
+    IUnit nullUnit1 = NULL_UNIT;
+    IUnit nullUnit2 = NULL_UNIT;
     assertEquals(nullUnit1, nullUnit2);
   }
 }

@@ -1,6 +1,7 @@
 package model.items;
 
 import model.units.IUnit;
+import model.units.NullUnit;
 
 /**
  * This class represents a Null Item.
@@ -17,6 +18,9 @@ public class NullItem extends AbstractItem {
 
   /**
    * Creates a new Null Item
+   *
+   * @param owner
+   *      the owner of this item
    */
   public NullItem(IUnit owner) {
     super("Null Item", 0, 1, 1);

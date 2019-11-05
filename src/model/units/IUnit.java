@@ -1,6 +1,8 @@
 package model.units;
 
 import java.util.List;
+
+import model.Tactician;
 import model.items.IEquipableItem;
 import model.map.Location;
 
@@ -93,7 +95,8 @@ public interface IUnit {
   /**
    * Moves this unit to another location.
    * <p>
-   * If the other location is out of this unit's movement range, the unit doesn't move.
+   * If the other location is out of this unit's movement range,
+   * the unit doesn't move.
    *
    * @param targetLocation
    *      the new location where the unit will move on
@@ -226,7 +229,34 @@ public interface IUnit {
   void startCombat(IUnit unit);
 
   /**
-   * @return true if the unit is a null item. Returns false if not.
+   * @return true if the unit is a null item, false otherwise.
    */
   boolean isNull();
+
+  /**
+   * @return true if the unit is on a valid location.
+   */
+  boolean isOnValidLocation();
+
+  /**
+   * @param owner
+   *      Sets a new owner for this unit
+   */
+  void setOwner(Tactician owner);
+
+  /**
+   * @return the tactician that has currently equipped
+   */
+  Tactician getOwner();
+
+  /**
+   * Lets the tactician parameter set a NULL_UNIT as selected unit.
+   * <p>
+   * Then lets the owner tactician of this unit set this unit
+   * as selected unit.
+   *
+   * @param tactician
+   *    the tactician that will have a <i>NULL_UNIT</i> as selected unit.
+   */
+  void beSelectedBy(Tactician tactician);
 }

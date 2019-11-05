@@ -1,21 +1,23 @@
 package controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 import model.Tactician;
-import model.factories.unitFactories.FighterFactory;
-import model.factories.unitFactories.HeroFactory;
-import model.factories.unitFactories.IUnitFactory;
+import model.items.IEquipableItem;
 import model.map.Field;
+import model.map.Location;
+
+import model.units.IUnit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static model.factories.itemFactories.AXE_FACTORY;
+import static model.factories.itemFactories.SWORD_FACTORY;
+import static model.factories.unitFactories.ALPACA_FACTORY;
+import static model.factories.unitFactories.FIGHTER_FACTORY;
+import static model.units.NullUnit.NULL_UNIT;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
@@ -26,18 +28,17 @@ class GameControllerTest {
   private GameController controller;
   private long testSeed;
   private List<String> testTacticians;
-  private Tactician testPlayer;
-  private IUnitFactory fighterFactory = new FighterFactory();
-  private IUnitFactory heroFactory = new HeroFactory();
+  private Tactician tacticianTest;
 
   /**
    * Sets up the controller and tacticians to be tested. Always it sets up other attributes.
    */
   @BeforeEach
   void setUp() {
-    testSeed = 42;
-    controller = new GameController(4, 7);
+    testSeed = new Random().nextLong();
+    controller = new GameController(4, 15);
     testTacticians = List.of("Player 0", "Player 1", "Player 2", "Player 3");
+    tacticianTest = new Tactician("TestTactician");
   }
 
   /**
@@ -54,20 +55,42 @@ class GameControllerTest {
 
   @Test
   void getGameMap() {
-    controller.createMap();
+    controller.generateNewMap();
     Field gameMap = controller.getGameMap();
-    assertEquals(7, gameMap.getSize());
-    assertTrue(controller.getGameMap().isConnected());
-    Random testRandom = new Random(testSeed);
-    // Para testear funcionalidades que dependen de valores aleatorios se hacen 2 cosas:
-    //  - Comprobar las invariantes de las estructuras que se crean (en este caso que el mapa tenga
-    //    las dimensiones definidas y que sea conexo.
-    //  - Setear una semilla para el generador de números aleatorios. Hacer esto hace que la
-    //    secuencia de números generada sea siempre la misma, así pueden predecir los
-    //    resultados que van a obtener.
-    //    Hay 2 formas de hacer esto en Java, le pueden pasar el seed al constructor de Random, o
-    //    usar el método setSeed de Random.
-    //  ESTO ÚLTIMO NO ESTÁ IMPLEMENTADO EN EL MAPA, ASÍ QUE DEBEN AGREGARLO (!)
+    assertEquals(15, gameMap.getSize());
+
+    // checking all cells are inside bounds
+    for (Location location1 : gameMap.getMap().values()) {
+      assertTrue(
+          (location1.getRow() >= 0) &&
+              (location1.getColumn() >= 0) &&
+              (location1.getRow() < gameMap.getSize()) &&
+              (location1.getColumn() < gameMap.getSize()));
+    }
+
+    assertTrue(gameMap.isConnected()); // we need the controller generates connected maps
+    // the map is connected, so checking all cells have at least 1 neighbour
+    gameMap.getMap().values().forEach(location -> {
+        assertTrue(location.getNeighbours().size() >= 1);
+      });
+
+    // generating a copy of the map
+    Field newMap = new Field();
+    newMap.setSeed(gameMap.getSeed());
+    for (int i = 0; i < gameMap.getSize(); i++) {
+      Location[] row = new Location[gameMap.getSize()];
+      for (int j = 0; j < gameMap.getSize(); j++) {
+        row[j] = (new Location(i, j));
+      }
+      newMap.addCells(false, row);
+    }
+
+    // checking they are equals
+    for (Location copyLocation : newMap.getMap().values()) {
+      Location originalLocation = gameMap.getCell(copyLocation.getRow(), copyLocation.getColumn());
+      assertEquals(originalLocation, copyLocation); // just position check
+      assertEquals(originalLocation.getNeighbours().size(), copyLocation.getNeighbours().size()); // checking neighbours
+    }
   }
 
   /**
@@ -75,7 +98,7 @@ class GameControllerTest {
    */
   @Test
   void getTurnOwner() {
-    controller.setSeed(testSeed); // Player 3 Player 1 Player 0 Player 2
+    controller.setSeed(42); // Player 3 Player 1 Player 0 Player 2
     controller.initEndlessGame();
     assertEquals("Player 3", controller.getTurnOwner().getName());
     assertEquals(0, controller.getTurnNumber());
@@ -142,7 +165,7 @@ class GameControllerTest {
    */
   @Test
   void endTurn() {
-    controller.setSeed(testSeed);
+    controller.setSeed(42);
     controller.initGame(1); // Player 3 Player 1 Player 0 Player 2
     Tactician firstPlayer = controller.getTurnOwner();
     Tactician secondPlayer = new Tactician("Player 1");
@@ -190,9 +213,7 @@ class GameControllerTest {
     assertNull(controller.getWinners());
     controller.removeTactician("Player 0");
     controller.removeTactician("Player 2");
-    IntStream.range(0, 2).forEach(i -> {
-      controller.endTurn();
-    });
+    IntStream.range(0, 2).forEach(i -> controller.endTurn());
     List<String> winners = controller.getWinners();
     assertEquals(2, winners.size());
     assertTrue(List.of("Player 1", "Player 3").containsAll(winners));
@@ -210,22 +231,90 @@ class GameControllerTest {
    */
   @Test
   void getSelectedUnit() {
-    controller.getTurnOwner().unitFactory(fighterFactory);
-    controller.getTurnOwner().addDefaultUnit(); // this selects the last unit created
+    assertEquals(NULL_UNIT, controller.getSelectedUnit());
+    assertEquals(controller.getTurnOwner().getSelectedUnit(), controller.getSelectedUnit());
+
+    IUnit unitTest1 = ALPACA_FACTORY.createUnit();
+    controller.getTurnOwner().addUnit(unitTest1);
+
+    controller.selectUnitWithInvalidPosition();
+    assertEquals(unitTest1, controller.getSelectedUnit());
     assertEquals(controller.getSelectedUnit(), controller.getTurnOwner().getSelectedUnit());
+
+    controller.setSelectedUnitLocation(controller.getGameMap().getCell(3,1));
+    controller.selectUnit(NULL_UNIT);
+    assertEquals(NULL_UNIT, controller.getSelectedUnit());
+    assertEquals(controller.getSelectedUnit(), controller.getTurnOwner().getSelectedUnit());
+
+    controller.selectUnitIn(3, 1);
+    assertEquals(unitTest1, controller.getSelectedUnit());
+    assertEquals(controller.getSelectedUnit(), controller.getTurnOwner().getSelectedUnit());
+
+    controller.selectUnit(unitTest1);
+    assertEquals(unitTest1, controller.getSelectedUnit());
+    assertEquals(controller.getSelectedUnit(), controller.getTurnOwner().getSelectedUnit());
+
+    IUnit unitTest2 = FIGHTER_FACTORY.createUnit();
+    tacticianTest.addUnit(unitTest2);
+    controller.selectUnit(unitTest2); // it is not the unit of turn owner tactician
+    assertEquals(NULL_UNIT, controller.getSelectedUnit());
   }
 
   @Test
   void selectUnitIn() {
+    IUnit unitTest1 = ALPACA_FACTORY.createUnit();
+    IUnit unitTest2 = FIGHTER_FACTORY.createUnit();
+    unitTest1.setLocation(controller.getGameMap().getCell(4,2));
+    unitTest2.setLocation(controller.getGameMap().getCell(1,1));
+    assertEquals(NULL_UNIT, controller.getTurnOwner().getSelectedUnit());
+    assertEquals(controller.getTurnOwner().getSelectedUnit(), controller.getSelectedUnit());
 
+    controller.selectUnitIn(4,2); // the unit is not assigned to a tactician
+    assertEquals(NULL_UNIT, controller.getSelectedUnit());
+    assertEquals(controller.getTurnOwner().getSelectedUnit(), controller.getSelectedUnit());
+
+    controller.getTurnOwner().addUnit(unitTest1);
+    controller.selectUnitIn(4,2);
+    assertEquals(unitTest1, controller.getSelectedUnit());
+    assertEquals(controller.getTurnOwner().getSelectedUnit(), controller.getSelectedUnit());
+
+    controller.getTurnOwner().addUnit(unitTest2);
+    controller.selectUnitIn(1,1);
+    assertEquals(unitTest2, controller.getSelectedUnit());
+    assertEquals(controller.getTurnOwner().getSelectedUnit(), controller.getSelectedUnit());
+
+    controller.selectUnitIn(0,0); // there is not an unit here
+    assertEquals(NULL_UNIT, controller.getSelectedUnit());
+    assertEquals(controller.getTurnOwner().getSelectedUnit(), controller.getSelectedUnit());
   }
 
   @Test
   void getItems() {
+    assertEquals(NULL_UNIT, controller.getSelectedUnit());
+    assertEquals(0, controller.getItems().size());
+    IUnit unitTest1 = FIGHTER_FACTORY.createUnit();
+    controller.getTurnOwner().addUnit(unitTest1);
+    controller.selectUnitWithInvalidPosition();
+    assertEquals(unitTest1, controller.getSelectedUnit());
+    assertEquals(0, controller.getItems().size());
+    unitTest1.addItem(AXE_FACTORY.createItem());
+    unitTest1.addItem(SWORD_FACTORY.createItem());
+    assertEquals(2, controller.getItems().size());
   }
 
   @Test
   void equipItem() {
+    assertEquals(NULL_UNIT, controller.getSelectedUnit());
+    IUnit unitTest1 = FIGHTER_FACTORY.createUnit();
+    IEquipableItem itemTest1 = AXE_FACTORY.createItem();
+    unitTest1.addItem(itemTest1);
+    controller.getTurnOwner().addUnit(unitTest1);
+    controller.selectUnitWithInvalidPosition();
+    assertTrue(controller.getSelectedUnit().getEquippedItem().isNull());
+    controller.equipItem(1);
+    assertTrue(controller.getSelectedUnit().getEquippedItem().isNull());
+    controller.equipItem(0);
+    assertEquals(itemTest1, controller.getSelectedUnit().getEquippedItem());
   }
 
   @Test

@@ -16,8 +16,17 @@ import java.lang.Math;
 public class Field {
 
   private Map<String, Location> map = new HashMap<>();
-  private Random random = new Random();
   private StringBuilder builder = new StringBuilder();
+  private Random random = new Random();
+  private long seed;
+  private int size = 0;
+
+  /**
+   * Creates the map/field for a game
+   */
+  public Field() {
+    setSeed(random.nextLong());
+  }
 
   /**
    * Sets the seed to be used as param of random events.
@@ -26,9 +35,15 @@ public class Field {
    *      the value of the seed
    */
   public void setSeed(long seed) {
+    this.seed = seed;
     random = new Random();
-    random.setSeed(seed);
+    random.setSeed(this.seed);
   }
+
+  /**
+   * @return the seed used for random events
+   */
+  public long getSeed() { return seed; }
 
   /**
    * Add cells to the map.
@@ -41,6 +56,7 @@ public class Field {
   public void addCells(final boolean connectAll, final Location... cells) {
     for (Location cell : cells) {
       addCell(cell);
+      size++;
       Location[] adjacentCells = getAdjacentCells(cell);
       for (Location adjacentCell : adjacentCells) {
         if (connectAll || random.nextDouble() > 1.0 / 3 || cell.getNeighbours().size() < 1) {
@@ -154,9 +170,31 @@ public class Field {
   }
 
   /**
+   * It is assumed the map has (size x size) locations. So the calculus
+   * of the square root of the amount of cells is always an integer.
+   *
    * @return the size of the side of the map
    */
   public int getSize() {
-    return (int) Math.pow(map.size(), 0.5);
+    return (int) Math.pow(size, 0.5);
   }
+
+  /**
+   * Prints the map on console. With x-coordinate to right and y-coordinate to up.
+   * <p>
+   * 1 if the cell has an unit. 0 otherwise.
+   */
+  public void printMap() {
+    for (int x = getSize() - 1; x >= 0; x--) {
+      for (int y = 0; y < getSize(); y++) {
+        if (getCell(y, x).getUnit().isNull()) {
+          System.out.print("0 ");
+        } else {
+          System.out.print("1 ");
+        }
+      }
+      System.out.println();
+    }
+  }
+
 }

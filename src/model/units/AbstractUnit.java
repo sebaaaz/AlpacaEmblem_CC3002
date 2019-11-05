@@ -1,13 +1,15 @@
 package model.units;
 
 import static java.lang.Math.min;
+import static model.units.NullUnit.NULL_UNIT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import model.Tactician;
 import model.items.IEquipableItem;
 import model.items.NullItem;
-import model.map.InvalidLocation;
 import model.map.Location;
 
 /**
@@ -29,6 +31,7 @@ public abstract class AbstractUnit implements IUnit {
   private int hitPoints;
   private final int movement;
   private Location location;
+  private Tactician owner;
 
   /**
    * Creates a new Unit.
@@ -44,14 +47,14 @@ public abstract class AbstractUnit implements IUnit {
     this.maxHitPoints = maxHitPoints;
     this.hitPoints = this.maxHitPoints;
     this.movement = movement;
+
+    location.setUnit(this);
     this.location = location;
+
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
     this.maxItems = maxItems;
     this.equippedItem = new NullItem(this);
   }
-
-  @Override
-  public boolean isNull() { return false; }
 
   @Override
   public int getMaxHitPoints() {
@@ -177,7 +180,7 @@ public abstract class AbstractUnit implements IUnit {
   @Override
   public void removeItem(IEquipableItem item) {
     this.unequipItem();
-    item.setOwner(new NullUnit());
+    item.setOwner(NULL_UNIT);
     items.remove(item);
   }
 
@@ -198,5 +201,29 @@ public abstract class AbstractUnit implements IUnit {
   public void startCombat(IUnit unit) {
     useItemAgainst(unit);
     getEquippedItem().motivateCounterAttack(unit);
+  }
+
+  @Override
+  public boolean isOnValidLocation() {
+    return getLocation().isValidLocation();
+  }
+
+  @Override
+  public boolean isNull() { return false; }
+
+  @Override
+  public void setOwner(Tactician owner) {
+    this.owner = owner;
+  }
+
+  @Override
+  public Tactician getOwner() {
+    return owner;
+  }
+
+  @Override
+  public void beSelectedBy(Tactician tactician) {
+    tactician.selectUnit(NULL_UNIT);
+    if (owner != null) owner.selectUnit(this);
   }
 }

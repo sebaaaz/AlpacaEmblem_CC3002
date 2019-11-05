@@ -1,6 +1,6 @@
 package model;
 
-import model.factories.unitFactories.*;
+import model.factories.unitFactory.IUnitFactory;
 import model.items.IEquipableItem;
 import model.items.Sword;
 import model.map.Location;
@@ -9,6 +9,7 @@ import model.units.SwordMaster;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static model.factories.unitFactories.SWORD_MASTER_FACTORY;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -35,7 +36,7 @@ public class TacticianTest {
     expectedName = "Test Player";
     unitTest = new SwordMaster(50, 2, new Location(0,0));
     itemTest = new Sword("Test Sword", 10, 1, 1);
-    unitFactoryTest = new SwordMasterFactory();
+    unitFactoryTest = SWORD_MASTER_FACTORY;
     unitTest.addItem(itemTest);
     unitTest.equipItem(itemTest);
   }
@@ -61,22 +62,6 @@ public class TacticianTest {
     assertEquals(itemTest, tacticianTest.getSelectedItem());
     tacticianTest.selectItem(1);
     assertEquals(itemTest, tacticianTest.getSelectedItem());
-  }
-
-  @Test
-  public void unitsTest() {
-    assertEquals(0, tacticianTest.getUnits().size());
-    tacticianTest.unitFactory(unitFactoryTest);
-    tacticianTest.addDefaultUnit();
-    tacticianTest.addDefaultUnit();
-    tacticianTest.addCustomUnit(50, 2);
-    assertEquals(3, tacticianTest.getUnits().size());
-    tacticianTest.removeUnit(2);
-    assertEquals(2, tacticianTest.getUnits().size());
-    tacticianTest.removeUnit(2);
-    assertEquals(2, tacticianTest.getUnits().size());
-    tacticianTest.removeAllUnits();
-    assertEquals(0, tacticianTest.getUnits().size());
   }
 
   @Test

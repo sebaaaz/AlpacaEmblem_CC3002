@@ -7,6 +7,7 @@ import static java.util.Collections.shuffle;
 
 import controller.Listeners.*;
 import model.Tactician;
+import model.factories.unitFactory.IUnitFactory;
 import model.items.IEquipableItem;
 import model.map.Field;
 import model.map.Location;
@@ -24,11 +25,14 @@ import model.units.IUnit;
 public class GameController {
 
   private Random random = new Random();
+  private long seed;
+
   private List<Tactician> players;
   private List<Tactician> originalPlayers = new ArrayList<>();
-  private Field map;
 
+  private Field map;
   private int mapSize;
+
   private int currentRound;
   private int currentTurn;
   private int maxRounds;
@@ -36,7 +40,9 @@ public class GameController {
   private Tactician turnOwner;
   private IUnit selectedUnit;
   private IEquipableItem selectedItem;
+  private Location selectedLocation;
 
+  private IUnitFactory unitFactory;
   private List<GameControllerListeners> listeners = new ArrayList<>();
 
   /**
@@ -49,6 +55,9 @@ public class GameController {
    */
   public GameController(int numberOfPlayers, int mapSize) {
     setListeners();
+    setSeed(random.nextLong());
+    this.mapSize = mapSize;
+    generateNewMap();
 
     for (int i = 0; i < numberOfPlayers; i++)
     {
@@ -59,7 +68,6 @@ public class GameController {
 
     players = new ArrayList<>(originalPlayers);
     turnOwner = players.get(0);
-    this.mapSize = mapSize;
     selectedUnit = turnOwner.getSelectedUnit();
     selectedItem = turnOwner.getSelectedItem();
   }
@@ -68,10 +76,7 @@ public class GameController {
    * Sets up the listeners of the game controller.
    */
   private void setListeners() {
-    listeners.add(new LEndTurn(this));
     listeners.add(new LHeroDies(this));
-    listeners.add(new LSelectItem(this));
-    listeners.add(new LSelectUnit(this));
   }
 
   /**
@@ -97,6 +102,11 @@ public class GameController {
   public Field getGameMap() {
     return map;
   }
+
+  /**
+   * @return the size of the map
+   */
+  public int getMapSize() { return mapSize; }
 
   /**
    * @return the tactician that's currently playing
@@ -132,7 +142,7 @@ public class GameController {
   }
 
   /**
-   * Print the names of the players/tacticians of the game
+   * Prints the names of the players/tacticians of the game
    */
   public void printNames() {
     StringBuilder names = new StringBuilder();
@@ -151,9 +161,15 @@ public class GameController {
    *      the value of the seed
    */
   public void setSeed(long seed) {
+    this.seed = seed;
     random = new Random();
-    random.setSeed(seed);
+    random.setSeed(this.seed);
   }
+
+  /**
+   * @return the seed used for random events
+   */
+  public long getSeed() { return seed; }
 
   /**
    * Sets the seed to the map.
@@ -238,15 +254,18 @@ public class GameController {
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-    return turnOwner.getSelectedUnit();
+    return selectedUnit;
   }
 
   /**
+   * Sets the selected unit in this controller and in the turn owner.
+   *
    * @param unit
    *      the unit to be selected
    */
-  public void setSelectedUnit(IUnit unit) {
-    selectedUnit = unit;
+  public void selectUnit(IUnit unit) {
+    unit.beSelectedBy(turnOwner);
+    this.selectedUnit = turnOwner.getSelectedUnit();
   }
 
   /**
@@ -258,8 +277,8 @@ public class GameController {
    *     vertical position of the unit
    */
   public void selectUnitIn(int x, int y) {
-    selectedUnit = map.getCell(y, x).getUnit();
-    getTurnOwner().selectUnit(selectedUnit);
+    IUnit unit = map.getCell(x, y).getUnit();
+    selectUnit(unit);
   }
 
   /**
@@ -314,6 +333,30 @@ public class GameController {
   }
 
   /**
+   * Sets a new location for the selected unit.
+   *
+   * @param location
+   *      the location for the unit
+   */
+  public void setSelectedUnitLocation(Location location) {
+    turnOwner.setSelectedUnitLocation(location);
+  }
+
+  /**
+   * Selects the first unit created that is not in a valid location.
+   * If all units are in valid locations, does not select.
+   */
+  public void selectUnitWithInvalidPosition() {
+    for (int i = turnOwner.getUnits().size() - 1; i >= 0; i--) {
+      IUnit unit = turnOwner.getUnits().get(i);
+      if (!unit.isOnValidLocation()) {
+        selectUnit(unit);
+        return;
+      }
+    }
+  }
+
+  /**
    * Shuffles the list of tacticians in order to get new turns for a round.
    */
   public void shufflePlayers(){
@@ -328,19 +371,52 @@ public class GameController {
   /**
    * Determines if the game ended, seeing the current round.
    *
-   * @return true if the game ended. Returns false if not.
+   * @return true if the game ended, false otherwise.
    */
   public boolean endedGame(){
     return getRoundNumber() >= getMaxRounds() && getMaxRounds() != -1;
   }
 
 
-  public void createMap(){
+  public void generateNewMap(){
     map = new Field();
-    for (int i = 0; i < mapSize; i++) {
-      for (int j = 0; j < mapSize; j++) {
-        map.addCells(false, new Location(i, j));
+    for (int i = 0; i < getMapSize(); i++) {
+      Location[] row = new Location[getMapSize()];
+      for (int j = 0; j < getMapSize(); j++) {
+        row[j] = (new Location(i, j));
       }
+      map.addCells(false, row);
     }
+  }
+
+  /**
+   * Sets a new unit factory.
+   *
+   * @param anUnitFactory
+   *      the unit factory to be setted.
+   */
+  public void unitFactory(IUnitFactory anUnitFactory) {
+    unitFactory = anUnitFactory;
+  }
+
+  /**
+   * Adds a unit to the units list of the
+   * turn owner. This unit is created by the current factory.
+   */
+  public void createDefaultUnit() {
+    turnOwner.addUnit(unitFactory.createUnit());
+  }
+
+  /**
+   * Adds a custom unit to the units list of the
+   * turn owner. This unit is created by the current factory.
+   *
+   * @param maxHitPoints
+   *      the maximum hit points that the unit will have.
+   * @param movement
+   *      the amount of cells this unit can move in every turn.
+   */
+  public void createCustomUnit(int maxHitPoints, int movement) {
+    turnOwner.addUnit(unitFactory.createFullCustomUnit(maxHitPoints, movement));
   }
 }

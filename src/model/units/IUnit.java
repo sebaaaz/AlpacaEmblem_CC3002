@@ -168,19 +168,19 @@ public interface IUnit {
   void equipSoulBook(IEquipableItem item);
 
   /**
-   * Gives the item to the unit. The item will no longer be in the
+   * Gives the item to the targetUnit. The item will no longer be in the
    * item list and therefore will no longer be equipped.
    * <p>
    * This method only works if both units are in neighbour locations,
-   * the giver unit has the item and the receiver unit has slots
+   * the giver unit has the item and the receiver targetUnit has slots
    * available in its item list.
    *
    * @param item
    *      the item to be given
-   * @param unit
-   *      the unit that will receive the item
+   * @param targetUnit
+   *      the targetUnit that will receive the item
    */
-  void giveItemTo(IEquipableItem item, IUnit unit);
+  void giveItemTo(IEquipableItem item, IUnit targetUnit);
 
   /**
    * Unequips current equipped item
@@ -259,4 +259,9 @@ public interface IUnit {
    *    the tactician that will have a <i>NULL_UNIT</i> as selected unit.
    */
   void beSelectedBy(Tactician tactician);
+
+  /**
+   *  Triggers an event when this unit is defeated. (Its hitPoints are equal to 0).
+   */
+  void toBeDefeated();
 }

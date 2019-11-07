@@ -54,7 +54,7 @@ public class NullUnit extends AbstractUnit {
   public void equipItem(IEquipableItem item) {}
 
   @Override
-  public void giveItemTo(IEquipableItem item, IUnit unit) {}
+  public void giveItemTo(IEquipableItem item, IUnit targetUnit) {}
 
   @Override
   public void addItem(IEquipableItem item) {}

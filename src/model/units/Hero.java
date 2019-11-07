@@ -34,4 +34,9 @@ public class Hero extends AbstractUnit {
     this.setEquippedItem(item);
     item.setOwner(this);
   }
+
+  @Override
+  public void toBeDefeated() {
+    getOwner().notifyHeroDefeated();
+  }
 }

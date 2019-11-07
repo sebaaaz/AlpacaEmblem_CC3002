@@ -26,6 +26,7 @@ public class GameController {
 
   private Random random = new Random();
   private long seed;
+  private long mapSeed;
 
   private List<Tactician> players;
   private List<Tactician> originalPlayers = new ArrayList<>();
@@ -38,9 +39,6 @@ public class GameController {
   private int maxRounds;
 
   private Tactician turnOwner;
-  private IUnit selectedUnit;
-  private IEquipableItem selectedItem;
-  private Location selectedLocation;
 
   private IUnitFactory unitFactory;
   private List<GameControllerListeners> listeners = new ArrayList<>();
@@ -56,6 +54,7 @@ public class GameController {
   public GameController(int numberOfPlayers, int mapSize) {
     setListeners();
     setSeed(random.nextLong());
+    mapSeed = random.nextLong();
     this.mapSize = mapSize;
     generateNewMap();
 
@@ -68,8 +67,6 @@ public class GameController {
 
     players = new ArrayList<>(originalPlayers);
     turnOwner = players.get(0);
-    selectedUnit = turnOwner.getSelectedUnit();
-    selectedItem = turnOwner.getSelectedItem();
   }
 
   /**
@@ -147,9 +144,9 @@ public class GameController {
   public void printNames() {
     StringBuilder names = new StringBuilder();
     names.setLength(0);
-    players.forEach(player -> {
+    for (Tactician player : players) {
       names.append(player.getName()).append(" ");
-    });
+    }
 
     System.out.println(names);
   }
@@ -178,7 +175,8 @@ public class GameController {
    *      the value of the seed
    */
   public void setMapSeed(long seed) {
-    map.setSeed(seed);
+    this.mapSeed = seed;
+    map.setSeed(this.mapSeed);
   }
 
   /**
@@ -254,18 +252,24 @@ public class GameController {
    * @return the current player's selected unit
    */
   public IUnit getSelectedUnit() {
-    return selectedUnit;
+    return getTurnOwner().getSelectedUnit();
   }
 
   /**
-   * Sets the selected unit in this controller and in the turn owner.
+   * @return the current player's selected item
+   */
+  public IEquipableItem getSelectedItem() {
+    return getTurnOwner().getSelectedItem();
+  }
+
+  /**
+   * Selects a unit.
    *
    * @param unit
    *      the unit to be selected
    */
   public void selectUnit(IUnit unit) {
     unit.beSelectedBy(turnOwner);
-    this.selectedUnit = turnOwner.getSelectedUnit();
   }
 
   /**
@@ -307,7 +311,7 @@ public class GameController {
    *     vertical position of the target
    */
   public void useItemOn(int x, int y) {
-
+    getSelectedUnit().useItemAgainst(getGameMap().getCell(x, y).getUnit());
   }
 
   /**
@@ -317,7 +321,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void selectItem(int index) {
-    selectedItem = selectedUnit.getItem(index).itemOrThis(selectedItem);
+    getTurnOwner().selectItem(index);
   }
 
   /**
@@ -329,7 +333,9 @@ public class GameController {
    *     vertical position of the target
    */
   public void giveItemTo(int x, int y) {
-
+    IUnit targetUnit = getGameMap().getCell(x,y).getUnit();
+    getSelectedItem().getOwner().giveItemTo(getSelectedItem(), targetUnit);
+    selectUnit(getSelectedItem().getOwner());
   }
 
   /**
@@ -377,9 +383,12 @@ public class GameController {
     return getRoundNumber() >= getMaxRounds() && getMaxRounds() != -1;
   }
 
-
+  /**
+   * Generates a new map for this controller.
+   */
   public void generateNewMap(){
     map = new Field();
+    setMapSeed(mapSeed);
     for (int i = 0; i < getMapSize(); i++) {
       Location[] row = new Location[getMapSize()];
       for (int j = 0; j < getMapSize(); j++) {
@@ -387,6 +396,16 @@ public class GameController {
       }
       map.addCells(false, row);
     }
+  }
+
+  /**
+   * Adds an unit to the units list of the turn owner.
+   *
+   * @param unit
+   *      the unit to be added
+   */
+  public void addUnit(IUnit unit) {
+    getTurnOwner().addUnit(unit);
   }
 
   /**
@@ -404,7 +423,7 @@ public class GameController {
    * turn owner. This unit is created by the current factory.
    */
   public void createDefaultUnit() {
-    turnOwner.addUnit(unitFactory.createUnit());
+    addUnit(unitFactory.createUnit());
   }
 
   /**
@@ -417,6 +436,6 @@ public class GameController {
    *      the amount of cells this unit can move in every turn.
    */
   public void createCustomUnit(int maxHitPoints, int movement) {
-    turnOwner.addUnit(unitFactory.createFullCustomUnit(maxHitPoints, movement));
+    addUnit(unitFactory.createFullCustomUnit(maxHitPoints, movement));
   }
 }

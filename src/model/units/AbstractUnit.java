@@ -102,7 +102,10 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void setHitPoints(int hitPoints) { this.hitPoints = hitPoints; }
+  public void setHitPoints(int hitPoints) {
+    this.hitPoints = hitPoints;
+    if (getHitPoints() <= 0) toBeDefeated();
+  }
 
   @Override
   public void setLocation(final Location location) {
@@ -149,18 +152,19 @@ public abstract class AbstractUnit implements IUnit {
   public void equipSoulBook(IEquipableItem item) {}
 
   @Override
-  public void giveItemTo(IEquipableItem item, IUnit unit) {
+  public void giveItemTo(IEquipableItem item, IUnit targetUnit) {
     if (!item.isNull()
-        && !unit.isNull()
+        && !targetUnit.isNull()
         && this.items.contains(item)
-        && unit.getItems().size() < unit.getMaxItems()
-        && this.location.distanceTo(unit.getLocation()) == 1) {
+        && targetUnit.getItems().size() < targetUnit.getMaxItems()
+        && this.location.distanceTo(targetUnit.getLocation()) == 1
+        && this.getOwner() == targetUnit.getOwner()) {
       if (item == equippedItem) {
         unequipItem();
       }
       this.removeItem(item);
-      unit.addItem(item);
-      item.setOwner(unit);
+      targetUnit.addItem(item);
+      item.setOwner(targetUnit);
     }
   }
 
@@ -226,4 +230,7 @@ public abstract class AbstractUnit implements IUnit {
     tactician.selectUnit(NULL_UNIT);
     if (owner != null) owner.selectUnit(this);
   }
+
+  @Override
+  public void toBeDefeated() {}
 }

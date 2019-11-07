@@ -158,7 +158,7 @@ public class Tactician {
    * Notifies to the listener of this event that a hero of this tactician died.
    */
   public void notifyHeroDefeated() {
-    heroDiesEvent.firePropertyChange(new PropertyChangeEvent(this, "Hero died", null, getName()));
+    heroDiesEvent.firePropertyChange(new PropertyChangeEvent(this, "Hero of " + getName() + " died.", null, getName()));
   }
 
 

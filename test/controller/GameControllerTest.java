@@ -409,7 +409,8 @@ class GameControllerTest {
 
   @Test
   void heroDefeatedTest() {
-    controller.setSeed(42); // Player 3 Player 1 Player 0 Player 2
+    Tactician player0 = controller.getTacticians().get(0);
+    Tactician player1 = controller.getTacticians().get(1);
     controller.setMapSeed(42);
     controller.generateNewMap(); // the cells of the units will be connected
     IUnit hero0 = HERO_FACTORY.createFullCustomUnit(100, 10);
@@ -421,9 +422,54 @@ class GameControllerTest {
     controller.addUnit(hero0);
     controller.selectUnit(hero0);
     controller.equipItem(0);
+    player1.addUnit(hero1);
 
     assertEquals(4, controller.getTacticians().size());
+    assertTrue(controller.getTacticians().contains(player1));
     controller.useItemOn(2,3);
     assertEquals(3, controller.getTacticians().size());
+    assertFalse(controller.getTacticians().contains(player1));
+  }
+
+  @Test
+  void tacticianDefeatedTest() {
+    Tactician player0 = controller.getTacticians().get(0);
+    controller.addUnit(ARCHER_FACTORY.createUnit());
+    controller.addUnit(FIGHTER_FACTORY.createUnit());
+    controller.addUnit(ALPACA_FACTORY.createUnit());
+    controller.selectUnitWithInvalidPosition();
+    controller.setSelectedUnitLocation(controller.getGameMap().getCell(2,2));
+    controller.selectUnitWithInvalidPosition();
+    controller.setSelectedUnitLocation(controller.getGameMap().getCell(2,1));
+    controller.selectUnitWithInvalidPosition();
+    controller.setSelectedUnitLocation(controller.getGameMap().getCell(2,0));
+    assertTrue(player0.allUnitsAllocated());
+
+    assertTrue(controller.getTacticians().contains(player0));
+    assertEquals(4, controller.getTacticians().size());
+    assertEquals(3, player0.getUnits().size());
+    controller.removeTactician("Player 0");
+    assertFalse(controller.getTacticians().contains(player0));
+    assertEquals(3, controller.getTacticians().size());
+    assertEquals(0, player0.getUnits().size());
+  }
+
+  @Test
+  void getWinnersDrawTest() {
+    controller.setSeed(42);
+    controller.initGame(1);
+    assertNull(controller.getWinners());
+    IntStream.range(0, 4).forEach(i -> controller.endTurn());
+
+    assertTrue(controller.endedGame());
+    assertEquals(4, Objects.requireNonNull(controller.getWinners()).size());
+    controller.getTactician("Player 0").addUnit(HERO_FACTORY.createUnit());
+    assertEquals(1, controller.getWinners().size());
+    assertTrue(controller.getWinners().contains(controller.getTactician("Player 0").getName()));
+    controller.getTactician("Player 1").addUnit(FIGHTER_FACTORY.createUnit());
+    assertEquals(2, controller.getWinners().size());
+    controller.getTactician("Player 1").addUnit(HERO_FACTORY.createUnit());
+    assertEquals(1, controller.getWinners().size());
+    assertTrue(controller.getWinners().contains(controller.getTactician("Player 1").getName()));
   }
 }

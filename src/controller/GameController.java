@@ -94,6 +94,21 @@ public class GameController {
   }
 
   /**
+   * @param tacticianName
+   *      the name of a tactician
+   *
+   * @return
+   *      the tactician that has <i>tacticianName</i> as name.
+   */
+  public Tactician getTactician(String tacticianName) {
+    for (int i = 0; i < getTacticians().size(); i++) {
+      Tactician tactician = getTacticians().get(i);
+      if (tactician.getName().equals(tacticianName)) return tactician;
+    }
+    return null;
+  }
+
+  /**
    * @return the map of the current game
    */
   public Field getGameMap() {
@@ -206,6 +221,7 @@ public class GameController {
       if (getTurnOwner() == players.get(index)) {
         endTurn();
       }
+      players.get(index).defeatAllUnits();
       players.remove(index);
       currentTurn = players.indexOf(getTurnOwner());
     }
@@ -236,8 +252,17 @@ public class GameController {
    * @return the winner of this game, if the match ends in a draw returns a list of all the winners
    */
   public List<String> getWinners() {
+    int maxNumberOfUnits = 0;
     List<String> names = new ArrayList<>();
-    players.forEach(player -> names.add(player.getName()));
+    for (Tactician player : players) {
+      int numberOfUnits = player.getUnits().size();
+      if (numberOfUnits < maxNumberOfUnits) continue;
+      if (numberOfUnits > maxNumberOfUnits) {
+        names = new ArrayList<>();
+        maxNumberOfUnits = numberOfUnits;
+      }
+      names.add(player.getName());
+    }
     if (names.size() == 1) {
       return names;
     }

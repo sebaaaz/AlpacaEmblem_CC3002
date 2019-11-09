@@ -61,17 +61,23 @@ public class Tactician {
   /**
    * Removes an unit from the units list.
    *
-   * @param index
-   *      the index of the unit in the units list.
+   * @param unit
+   *      the unit in the units list.
    */
-  public void removeUnit(int index) {
-    if ( index >= 0 && index < getUnits().size() ) units.remove(index);
+  public void removeUnit(IUnit unit) {
+    getUnits().remove(unit);
   }
 
   /**
-   * Removes all the units of the tactician.
+   * Removes all the units of the tactician, setting them as defeated.
+   * <p>
+   * This removes all units of the unit list.
    */
-  public void removeAllUnits() {units = new ArrayList<>(); }
+  public void defeatAllUnits() {
+    while (getUnits().size() > 0) {
+      getUnits().get(0).toBeDefeated();
+    }
+  }
 
   /**
    * @return true if all units from the unit list are in

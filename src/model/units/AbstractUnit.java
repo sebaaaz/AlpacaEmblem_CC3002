@@ -10,6 +10,7 @@ import java.util.List;
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.items.NullItem;
+import model.map.InvalidLocation;
 import model.map.Location;
 
 /**
@@ -232,5 +233,8 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void toBeDefeated() {}
+  public void toBeDefeated() {
+    this.setLocation(new InvalidLocation());
+    if (getOwner() != null) getOwner().removeUnit(this);
+  }
 }

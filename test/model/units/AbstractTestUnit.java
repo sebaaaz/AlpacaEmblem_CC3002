@@ -338,10 +338,10 @@ public abstract class AbstractTestUnit implements ITestUnit {
   @Test
   public void bigAttackTest() {
     IUnit unit = getTestUnit();
-    mortalBow.useAgainst(unit);
-    assertEquals(unit.getHitPoints(), 0);
-    godStaff.useAgainst(unit);
-    assertEquals(unit.getHitPoints(), 50);
+    unit.setHitPoints(1);
+    assertEquals(1, unit.getHitPoints());
+    godStaff.useAgainst(unit); // 10000 of power
+    assertEquals(50, unit.getHitPoints()); // max hp
   }
 
   @Override
@@ -357,13 +357,14 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertEquals(20, unit.getHitPoints());
     getLightBook().useAgainst(unit);
     assertEquals(10, unit.getHitPoints());
-    getSoulBook().useAgainst(unit);
-    assertEquals(0, unit.getHitPoints());
     godStaff.useAgainst(unit);
+    assertEquals(50, unit.getHitPoints());
     getSpear().useAgainst(unit);
     assertEquals(40, unit.getHitPoints());
     getSword().useAgainst(unit);
     assertEquals(30, unit.getHitPoints());
+    getSoulBook().useAgainst(unit);
+    assertEquals(20, unit.getHitPoints());
   }
 
   @Override
@@ -447,5 +448,18 @@ public abstract class AbstractTestUnit implements ITestUnit {
     IUnit nullUnit1 = NULL_UNIT;
     IUnit nullUnit2 = NULL_UNIT;
     assertEquals(nullUnit1, nullUnit2);
+  }
+
+  @Test
+  @Override
+  public void deathTest() {
+    IUnit unit = getTestUnit();
+    assertEquals(50, unit.getHitPoints());
+    assertEquals(0, unit.getLocation().getColumn());
+    assertEquals(0, unit.getLocation().getRow());
+    mortalBow.useAgainst(unit);
+    assertEquals(0, unit.getHitPoints());
+    assertEquals(-1, unit.getLocation().getRow());
+    assertEquals(-1, unit.getLocation().getColumn());
   }
 }

@@ -1,6 +1,7 @@
 package model.units;
 
 import model.items.IEquipableItem;
+import model.map.InvalidLocation;
 import model.map.Location;
 
 /**
@@ -37,6 +38,11 @@ public class Hero extends AbstractUnit {
 
   @Override
   public void toBeDefeated() {
+    this.setLocation(new InvalidLocation());
+    if (getOwner() != null) {
+    getOwner().removeUnit(this);
     getOwner().notifyHeroDefeated();
+    }
   }
+
 }

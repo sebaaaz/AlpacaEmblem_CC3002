@@ -9,6 +9,7 @@ import model.units.IUnit;
  * base damage and is strong or weak against other type of items.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public interface IEquipableItem {

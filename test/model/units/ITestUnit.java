@@ -170,8 +170,8 @@ public interface ITestUnit {
   void receiveAttacksTest();
 
   /**
-   * Checks if the limits of the current life of a unit is setted
-   * to 0 for the minimum and 50 for its maximum (which is 50 for test units)
+   * Checks if the limit of the current life of a unit is setted
+   * 50 for its maximum (which is 50 for test units).
    */
   @Test
   void bigAttackTest();
@@ -194,4 +194,10 @@ public interface ITestUnit {
    */
   @Test
   void nullTest();
+
+  /**
+   * Tests the death of an unit.
+   */
+  @Test
+  void deathTest();
 }

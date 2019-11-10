@@ -340,7 +340,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     IUnit unit = getTestUnit();
     unit.setHitPoints(1);
     assertEquals(1, unit.getHitPoints());
-    godStaff.useAgainst(unit); // 10000 of power
+    godStaff.sendItemTypeAttack(unit); // 10000 of power
     assertEquals(50, unit.getHitPoints()); // max hp
   }
 
@@ -349,21 +349,21 @@ public abstract class AbstractTestUnit implements ITestUnit {
   public void receiveAttackWithoutEquippedItem() {
     IUnit unit = getTestUnit();
     assertTrue(unit.getEquippedItem().isNull());
-    getAxe().useAgainst(unit);
+    getAxe().sendItemTypeAttack(unit);
     assertEquals(40, unit.getHitPoints());
-    getBow().useAgainst(unit);
+    getBow().sendItemTypeAttack(unit);
     assertEquals(30, unit.getHitPoints());
-    getDarkBook().useAgainst(unit);
+    getDarkBook().sendItemTypeAttack(unit);
     assertEquals(20, unit.getHitPoints());
-    getLightBook().useAgainst(unit);
+    getLightBook().sendItemTypeAttack(unit);
     assertEquals(10, unit.getHitPoints());
-    godStaff.useAgainst(unit);
+    godStaff.sendItemTypeAttack(unit);
     assertEquals(50, unit.getHitPoints());
-    getSpear().useAgainst(unit);
+    getSpear().sendItemTypeAttack(unit);
     assertEquals(40, unit.getHitPoints());
-    getSword().useAgainst(unit);
+    getSword().sendItemTypeAttack(unit);
     assertEquals(30, unit.getHitPoints());
-    getSoulBook().useAgainst(unit);
+    getSoulBook().sendItemTypeAttack(unit);
     assertEquals(20, unit.getHitPoints());
   }
 
@@ -373,9 +373,9 @@ public abstract class AbstractTestUnit implements ITestUnit {
     Hero hero = new Hero(50, 2, field.getCell(0, 0));
     SwordMaster swordMaster = new SwordMaster(50, 2, field.getCell(0, 1));
     Cleric cleric = new Cleric(50, 2, field.getCell(1, 0));
-    assertEquals(hero.getHitPoints(), 50);
-    assertEquals(swordMaster.getHitPoints(), 50);
-    assertEquals(cleric.getHitPoints(), 50);
+    assertEquals(50, hero.getHitPoints());
+    assertEquals(50, swordMaster.getHitPoints());
+    assertEquals(50, cleric.getHitPoints());
 
     hero.addItem(getSpear());
     hero.equipSpear(getSpear());
@@ -384,17 +384,17 @@ public abstract class AbstractTestUnit implements ITestUnit {
     cleric.addItem(getStaff());
     cleric.equipStaff(getStaff());
 
-    hero.startCombat(swordMaster);
-    assertEquals(swordMaster.getHitPoints(), 35);
-    assertEquals(hero.getHitPoints(), 50);
+    hero.attack(swordMaster);
+    assertEquals(35, swordMaster.getHitPoints());
+    assertEquals(50, hero.getHitPoints());
 
-    swordMaster.startCombat(cleric);
-    assertEquals(cleric.getHitPoints(), 40);
-    assertEquals(swordMaster.getHitPoints(), 35);
+    swordMaster.attack(cleric);
+    assertEquals(35, swordMaster.getHitPoints());
+    assertEquals(40, cleric.getHitPoints());
 
-    cleric.startCombat(swordMaster);
-    assertEquals(swordMaster.getHitPoints(), 45);
-    assertEquals(cleric.getHitPoints(), 40);
+    cleric.attack(swordMaster);
+    assertEquals(45, swordMaster.getHitPoints());
+    assertEquals(40, cleric.getHitPoints());
   }
 
   @Override
@@ -426,20 +426,23 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertEquals(-1, nullUnit.getLocation().getRow());
     assertEquals(-1, nullUnit.getLocation().getColumn());
 
-    testUnit.startCombat(nullUnit);
+    testUnit.attack(nullUnit);
     assertEquals(1, nullUnit.getHitPoints());
 
     assertEquals(50, testUnit.getHitPoints());
-    nullUnit.startCombat(getTestUnit());
+    nullUnit.attack(getTestUnit());
     assertEquals(50, testUnit.getHitPoints());
 
     // Null Item
     getTestUnit().unequipItem();
-    getTestUnit().startCombat(testUnit);
+    getTestUnit().attack(testUnit);
     assertEquals(50, testUnit.getHitPoints());
 
-    testUnit.startCombat(getTestUnit());
-    assertEquals(50, getTestUnit().getHitPoints());
+    assertEquals(sword, testUnit.getEquippedItem());
+    assertTrue(getTestUnit().getEquippedItem().isNull());
+
+    testUnit.attack(getTestUnit());
+    assertEquals(40, getTestUnit().getHitPoints());
     assertEquals(50, testUnit.getHitPoints());
 
     nullItem.equipTo(testUnit);
@@ -457,7 +460,7 @@ public abstract class AbstractTestUnit implements ITestUnit {
     assertEquals(50, unit.getHitPoints());
     assertEquals(0, unit.getLocation().getColumn());
     assertEquals(0, unit.getLocation().getRow());
-    mortalBow.useAgainst(unit);
+    mortalBow.sendItemTypeAttack(unit);
     assertEquals(0, unit.getHitPoints());
     assertEquals(-1, unit.getLocation().getRow());
     assertEquals(-1, unit.getLocation().getColumn());

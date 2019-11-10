@@ -1,6 +1,7 @@
 package model.units;
 
 import model.items.IEquipableItem;
+import model.items.IMagicWeapon;
 import model.map.Location;
 
 /**
@@ -31,20 +32,7 @@ public class Sorcerer extends AbstractUnit {
   }
 
   @Override
-  public void equipLightBook(IEquipableItem item) {
-    this.setEquippedItem(item);
-    item.setOwner(this);
-  }
-
-  @Override
-  public void equipDarkBook(IEquipableItem item) {
-    this.setEquippedItem(item);
-    item.setOwner(this);
-  }
-
-  @Override
-  public void equipSoulBook(IEquipableItem item) {
-    this.setEquippedItem(item);
-    item.setOwner(this);
+  public void equipMagicBook(IMagicWeapon weapon) {
+    weapon.beEquippedByOwner();
   }
 }

@@ -53,16 +53,16 @@ public class ArcherTest extends AbstractTestUnit {
   public void receiveAttacksTest() {
     IUnit unit = archer;
     assertEquals(unit.getHitPoints(), 50);
-    getBow().useAgainst(unit);
+    getBow().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 40);
-    getStaff().useAgainst(unit);
+    getStaff().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 50);
 
-    getDarkBook().useAgainst(unit);
+    getDarkBook().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 40);
     unit.addItem(getBow());
     unit.equipBow(getBow());
-    getDarkBook().useAgainst(unit);
+    getDarkBook().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 25);
   }
 }

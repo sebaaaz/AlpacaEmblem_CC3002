@@ -25,12 +25,17 @@ public class Staff extends AbstractNonWeapon {
   }
 
   @Override
-  public void equipTo(IUnit unit) {
-    unit.equipStaff(this);
+  public void sendSpecificEffect(IEquipableItem item) {
+    item.receiveStaffHealing(this);
   }
 
   @Override
-  public void useAgainst(IUnit unit) {
-    unit.getEquippedItem().receiveStaffHealing(this);
+  public void receiveMagicalAttack(IMagicWeapon weapon) {
+    receiveWeaknessAttack(weapon.getPower());
+  }
+
+  @Override
+  public void equipTo(IUnit unit) {
+    unit.equipStaff(this);
   }
 }

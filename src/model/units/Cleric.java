@@ -32,6 +32,5 @@ public class Cleric extends AbstractUnit {
   @Override
   public void equipStaff(final IEquipableItem item) {
     this.setEquippedItem(item);
-    item.setOwner(this);
   }
 }

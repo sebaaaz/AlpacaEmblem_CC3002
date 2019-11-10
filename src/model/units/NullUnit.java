@@ -2,6 +2,7 @@ package model.units;
 
 import model.Tactician;
 import model.items.IEquipableItem;
+import model.items.IWeaponItem;
 import model.items.NullItem;
 import model.map.InvalidLocation;
 import model.map.Location;
@@ -66,10 +67,7 @@ public class NullUnit extends AbstractUnit {
   public void useItemAgainst(IUnit unit) {}
 
   @Override
-  public void counterAttack(IUnit unit) {}
-
-  @Override
-  public void startCombat(IUnit unit) {}
+  public void attack(IUnit unit) {}
 
   @Override
   public boolean equals(Object obj) {

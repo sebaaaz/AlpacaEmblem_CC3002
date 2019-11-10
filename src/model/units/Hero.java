@@ -33,7 +33,6 @@ public class Hero extends AbstractUnit {
   @Override
   public void equipSpear(final IEquipableItem item) {
     this.setEquippedItem(item);
-    item.setOwner(this);
   }
 
   @Override

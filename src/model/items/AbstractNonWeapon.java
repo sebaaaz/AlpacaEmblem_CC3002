@@ -8,7 +8,7 @@ import model.units.IUnit;
  * @author Sebastián Zapata Ascencio
  * @since 2.0
  */
-public abstract class AbstractNonWeapon extends AbstractItem {
+public abstract class AbstractNonWeapon extends AbstractItem implements INonWeaponItem {
 
   /**
    * Constructor for a default non weapon.
@@ -16,7 +16,7 @@ public abstract class AbstractNonWeapon extends AbstractItem {
    * @param name
    *     the name of the item
    * @param power
-   *     the power of the item (this could be the amount of damage or healing the item does)
+   *     the power of the item
    * @param minRange
    *     the minimum range of the item
    * @param maxRange
@@ -27,22 +27,17 @@ public abstract class AbstractNonWeapon extends AbstractItem {
   }
 
   @Override
-  public void receiveMagicalAttack(IEquipableItem item) {
-    receiveWeaknessAttack(item);
+  public void initUseOn(IUnit unit) {
+    this.sendSpecificEffect(unit.getEquippedItem());
   }
 
   @Override
-  public void sendAttack(IEquipableItem item) {
-    // empty because Staff item does not attack
+  public void sendItemTypeAttack(IUnit unit) {
+    sendSpecificEffect(unit.getEquippedItem());
   }
 
   @Override
-  public void counterAttackTo(IUnit unit) {
-    // empty because Staff item does not counter attack
-  }
-
-  @Override
-  public void motivateCounterAttack(IUnit unit) {
-    // empty because Staff item does not allow other items counter attack it
+  public void beAttacked(IEquipableItem item) {
+    // this item does not trigger any event
   }
 }

@@ -29,18 +29,15 @@ public class SoulBook extends AbstractMagicWeapon {
   }
 
   @Override
-  public void equipTo(IUnit unit) { unit.equipSoulBook(this); }
+  public void sendSpecificEffect(IEquipableItem item) { item.receiveSoulBookAttack(this); }
 
   @Override
-  public void sendAttack(IEquipableItem item) { item.receiveSoulBookAttack(this); }
-
-  @Override
-  public void receiveDarkBookAttack(IEquipableItem item) {
-    receiveWeaknessAttack(item);
+  public void receiveDarkBookAttack(IMagicWeapon weapon) {
+    receiveWeaknessAttack(weapon.getPower());
   }
 
   @Override
-  public void receiveLightBookAttack(IEquipableItem item) {
-    receiveResistantAttack(item);
+  public void receiveLightBookAttack(IMagicWeapon weapon) {
+    receiveResistantAttack(weapon.getPower());
   }
 }

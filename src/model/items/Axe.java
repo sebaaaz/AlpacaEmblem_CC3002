@@ -10,7 +10,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Axe extends AbstractPhysicalWeapon {
+public class Axe extends AbstractPhysicWeapon {
 
   /**
    * Creates a new Axe item
@@ -29,18 +29,20 @@ public class Axe extends AbstractPhysicalWeapon {
   }
 
   @Override
+  public void sendSpecificEffect(IEquipableItem item) {
+    item.receiveAxeAttack(this);
+  }
+
+  @Override
+  public void receiveSwordAttack(IPhysicWeapon weapon) {
+    receiveWeaknessAttack(weapon.getPower());
+  }
+
+  @Override
+  public void receiveSpearAttack(IPhysicWeapon weapon) {
+    receiveResistantAttack(weapon.getPower());
+  }
+
+  @Override
   public void equipTo(IUnit unit) { unit.equipAxe(this); }
-
-  @Override
-  public void sendAttack(IEquipableItem item) { item.receiveAxeAttack(this); }
-
-  @Override
-  public void receiveSwordAttack(IEquipableItem item) {
-    receiveWeaknessAttack(item);
-  }
-
-  @Override
-  public void receiveSpearAttack(IEquipableItem item) {
-    receiveResistantAttack(item);
-  }
 }

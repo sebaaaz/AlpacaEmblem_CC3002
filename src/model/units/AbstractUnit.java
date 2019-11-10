@@ -9,6 +9,7 @@ import java.util.List;
 
 import model.Tactician;
 import model.items.IEquipableItem;
+import model.items.IMagicWeapon;
 import model.items.NullItem;
 import model.map.InvalidLocation;
 import model.map.Location;
@@ -103,6 +104,11 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
+  public void equipItem(IEquipableItem item) {
+    if (this.items.contains(item)) item.equipTo(this);
+  }
+
+  @Override
   public void setHitPoints(int hitPoints) {
     this.hitPoints = hitPoints;
     if (getHitPoints() <= 0) toBeDefeated();
@@ -123,34 +129,17 @@ public abstract class AbstractUnit implements IUnit {
   }
 
   @Override
-  public void equipItem(IEquipableItem item) {
-    if (this.items.contains(item))
-      item.equipTo(this);
-  }
-
-  @Override
   public void equipAxe(IEquipableItem item) {}
-
   @Override
   public void equipBow(IEquipableItem item) {}
-
   @Override
   public void equipSpear(IEquipableItem item) {}
-
   @Override
   public void equipStaff(IEquipableItem item) {}
-
   @Override
   public void equipSword(IEquipableItem item) {}
-
   @Override
-  public void equipLightBook(IEquipableItem item) {}
-
-  @Override
-  public void equipDarkBook(IEquipableItem item) {}
-
-  @Override
-  public void equipSoulBook(IEquipableItem item) {}
+  public void equipMagicBook(IMagicWeapon item) {}
 
   @Override
   public void giveItemTo(IEquipableItem item, IUnit targetUnit) {
@@ -193,19 +182,13 @@ public abstract class AbstractUnit implements IUnit {
   public void useItemAgainst(IUnit unit) {
     if (getLocation().distanceTo(unit.getLocation()) <= getEquippedItem().getMaxRange()
     &&  getLocation().distanceTo(unit.getLocation()) >= getEquippedItem().getMinRange()) {
-      getEquippedItem().useAgainst(unit);
+      getEquippedItem().sendItemTypeAttack(unit );
     }
   }
 
   @Override
-  public void counterAttack(IUnit unit) {
-    getEquippedItem().counterAttackTo(unit);
-  }
-
-  @Override
-  public void startCombat(IUnit unit) {
-    useItemAgainst(unit);
-    getEquippedItem().motivateCounterAttack(unit);
+  public void attack(IUnit unit) {
+    getEquippedItem().initUseOn(unit);
   }
 
   @Override

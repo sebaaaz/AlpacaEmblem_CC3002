@@ -76,6 +76,9 @@ public abstract class AbstractItem implements IEquipableItem {
   public void setMaxRange(int maxRange) { this.maxRange = maxRange; }
 
   @Override
+  public void beEquippedByOwner() { owner.setEquippedItem(this); }
+
+  @Override
   public boolean isNull() { return false; }
 
   @Override
@@ -84,53 +87,44 @@ public abstract class AbstractItem implements IEquipableItem {
   }
 
   @Override
-  public void receiveHealing(IEquipableItem item) {
-    owner.setHitPoints( Math.min(owner.getHitPoints() + item.getPower(), owner.getMaxHitPoints()) );
+  public void receiveHealing(int power) {
+    owner.setHitPoints( Math.min(owner.getHitPoints() + power, owner.getMaxHitPoints()) );
   }
 
   @Override
-  public void receiveNormalAttack(IEquipableItem item) {
-    owner.setHitPoints( Math.max(owner.getHitPoints() - item.getPower(), 0) );
+  public void receiveNormalAttack(int power) {
+    owner.setHitPoints( Math.max(owner.getHitPoints() - power, 0) );
   }
 
   @Override
-  public void receiveWeaknessAttack(IEquipableItem item) {
-    int damage = (int) (item.getPower()*1.5);
+  public void receiveWeaknessAttack(int power) {
+    int damage = Math.max(0, (int) (power*1.5));
     owner.setHitPoints( Math.max(owner.getHitPoints() - damage, 0) );
   }
 
-  public void receiveResistantAttack(IEquipableItem item) {
-    int damage = Math.max(item.getPower() - 20, 0);
+  public void receiveResistantAttack(int power) {
+    int damage = Math.max(0, power - 20);
     owner.setHitPoints( Math.max(owner.getHitPoints() - damage, 0) );
   }
 
   @Override
-  public void receiveMagicalAttack(IEquipableItem item) { item.sendAttack(this); }
-
+  public void receiveAxeAttack(IPhysicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receivePhysicalAttack(IEquipableItem item) { item.sendAttack(this); }
-
+  public void receiveBowAttack(IPhysicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveAxeAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
+  public void receiveDarkBookAttack(IMagicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveBowAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
+  public void receiveLightBookAttack(IMagicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveDarkBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
+  public void receiveSoulBookAttack(IMagicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveLightBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
+  public void receiveSpearAttack(IPhysicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveSoulBookAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
+  public void receiveSwordAttack(IPhysicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveSpearAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
+  public void receiveMagicalAttack(IMagicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveSwordAttack(IEquipableItem item) { receiveNormalAttack(item); }
-
+  public void receivePhysicalAttack(IPhysicWeapon weapon) { receiveNormalAttack(weapon.getPower()); }
   @Override
-  public void receiveStaffHealing(IEquipableItem item) { receiveHealing(item); }
+  public void receiveStaffHealing(INonWeaponItem item) { receiveHealing(item.getPower()); }
 }

@@ -45,16 +45,16 @@ public class ClericTest extends AbstractTestUnit {
   public void receiveAttacksTest() {
     IUnit unit = cleric;
     assertEquals(50, unit.getHitPoints());
-    getDarkBook().useAgainst(unit);
+    getDarkBook().sendItemTypeAttack(unit);
     assertEquals(40, unit.getHitPoints());
-    getStaff().useAgainst(unit);
+    getStaff().sendItemTypeAttack(unit);
     assertEquals(50, unit.getHitPoints());
 
-    getDarkBook().useAgainst(unit);
+    getDarkBook().sendItemTypeAttack(unit);
     assertEquals(40, unit.getHitPoints());
     unit.addItem(getStaff());
     unit.equipStaff(getStaff());
-    getDarkBook().useAgainst(unit);
+    getDarkBook().sendItemTypeAttack(unit);
     assertEquals(25, unit.getHitPoints());
   }
 }

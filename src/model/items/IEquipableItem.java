@@ -78,37 +78,9 @@ public interface IEquipableItem {
   void equipTo(IUnit unit);
 
   /**
-   * Uses this item against an unit
-   *
-   * @param unit
-   *      the unit that will receive the effect of this item
+   * Sets this item as equipped by the owner.
    */
-  void useAgainst(IUnit unit);
-
-  /**
-   * Sends the specific attack of this item
-   *
-   * @param item
-   *      the item that will receive the specific attack
-   */
-  void sendAttack(IEquipableItem item);
-
-  /**
-   * Sends an attack in the context of counter attack
-   *
-   * @param unit
-   *      the unit that will receive the attack
-   */
-  void counterAttackTo(IUnit unit);
-
-  /**
-   * Decides if the enemy unit can counter attack. It depends
-   * on the item who use this method.
-   *
-   * @param unit
-   *      the unit that will be allowed to counter attack
-   */
-  void motivateCounterAttack(IUnit unit);
+  void beEquippedByOwner();
 
   /**
    * @return true if the item is a null item, false otherwise.
@@ -118,66 +90,66 @@ public interface IEquipableItem {
   /**
    * Receives damage from a magic item attack
    *
-   * @param item
-   *      the item that does the damage
+   * @param weapon
+   *      the weapon that does the damage
    */
-  void receiveMagicalAttack(IEquipableItem item);
+  void receiveMagicalAttack(IMagicWeapon weapon);
 
   /**
    * Receives damage from a physical item attack
    *
-   * @param item
-   *      the item that does the damage
+   * @param weapon
+   *      the weapon that does the damage
    */
-  void receivePhysicalAttack(IEquipableItem item);
+  void receivePhysicalAttack(IPhysicWeapon weapon);
 
   /**
    * Receives damage from an axe attack
    *
-   * @param item
+   * @param weapon
    *      the item that does the damage
    */
-  void receiveAxeAttack(IEquipableItem item);
+  void receiveAxeAttack(IPhysicWeapon weapon);
 
   /**
    * Receives damage from a bow attack
    *
-   * @param item
+   * @param weapon
    *      the item that does the damage
    */
-  void receiveBowAttack(IEquipableItem item);
+  void receiveBowAttack(IPhysicWeapon weapon);
 
   /**
    * Receives damage from a dark book attack
    *
-   * @param item
+   * @param weapon
    *      the item that does the damage
    */
-  void receiveDarkBookAttack(IEquipableItem item);
+  void receiveDarkBookAttack(IMagicWeapon weapon);
 
   /**
    * Receives damage from a light book attack
    *
-   * @param item
+   * @param weapon
    *      the item that does the damage
    */
-  void receiveLightBookAttack(IEquipableItem item);
+  void receiveLightBookAttack(IMagicWeapon weapon);
 
   /**
    * Receives damage from a soul book attack
    *
-   * @param item
+   * @param weapon
    *      the item that does the damage
    */
-  void receiveSoulBookAttack(IEquipableItem item);
+  void receiveSoulBookAttack(IMagicWeapon weapon);
 
   /**
    * Receives damage from a spear attack
    *
-   * @param item
+   * @param weapon
    *      the item that does the damage
    */
-  void receiveSpearAttack(IEquipableItem item);
+  void receiveSpearAttack(IPhysicWeapon weapon);
 
   /**
    * Receives healing from a staff attack
@@ -185,47 +157,88 @@ public interface IEquipableItem {
    * @param item
    *      the item that does the healing
    */
-  void receiveStaffHealing(IEquipableItem item);
+  void receiveStaffHealing(INonWeaponItem item);
 
   /**
    * Receives damage from an sword attack
    *
-   * @param item
+   * @param weapon
    *      the item that does the damage
    */
-  void receiveSwordAttack(IEquipableItem item);
+  void receiveSwordAttack(IPhysicWeapon weapon);
 
   /**
-   * Receives positive healing from an attack with the item
+   * The owner of this item receives positive healing.
+   * <p>
+   * The owner will sum the power, to its <i>hitPoints</i>.
    *
-   * @param item
-   *      Item which heals this unit
+   * @param power
+   *      the power of the heal
    */
-  void receiveHealing(IEquipableItem item);
+  void receiveHealing(int power);
 
   /**
-   * Receives negative damage from an attack with the item
+   * The owner of this item receives negative damage from an attack.
+   * <p>
+   * The owner will discount the power, to its <i>hitPoints</i>.
    *
-   * @param item
+   * @param power
+   *      the power of the damage
+   */
+  void receiveNormalAttack(int power);
+
+   /**
+   * The owner of this item receives negative damage from an attack.
+   * <p>
+   * The owner will discount the integer part of the (power*1.5), to its <i>hitPoints</i>.
+   *
+   * @param power
+   *      the power of the damage
+   */
+  void receiveWeaknessAttack(int power);
+
+  /**
+   * The owner of this item receives negative damage from an attack.
+   * <p>
+   * The owner will discount the (power - 20), to its <i>hitPoints</i>.
+   *
+   * @param power
    *      Item which attacks this unit
    */
-  void receiveNormalAttack(IEquipableItem item);
+  void receiveResistantAttack(int power);
 
   /**
-   * Receives negative increased damage from an attack with the item
+   * Gets the initiative and does the first contact, sending the effect of this
+   * weapon to the unit.
    *
-   * @param item
-   *      Item which attacks this unit
+   * @param unit
+   *      the unit to be affected by this item
    */
-  void receiveWeaknessAttack(IEquipableItem item);
+  void initUseOn(IUnit unit);
 
   /**
-   * Receives negative reduced damage from an attack with the item
+   * Triggers an event in response to an attack received.
    *
    * @param item
-   *      Item which attacks this unit
+   *      the unit that attacked this item
    */
-  void receiveResistantAttack(IEquipableItem item);
+  void beAttacked(IEquipableItem item);
+
+  /**
+   * Sends the type weapon/non-weapon of this item to an unit.
+   *
+   * @param unit
+   *      the unit that will receive the attack type of this item.
+   */
+  void sendItemTypeAttack(IUnit unit);
+
+  /**
+   * Sends the specific effect of this item to an unit.
+   *
+   * @param item
+   *      the item that will receive the specific effect of this item.
+   */
+  void sendSpecificEffect(IEquipableItem item);
 
   /**
    * Decides if return this item (only non Null items will do it) or the passed item.

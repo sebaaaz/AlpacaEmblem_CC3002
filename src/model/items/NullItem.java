@@ -1,7 +1,6 @@
 package model.items;
 
 import model.units.IUnit;
-import model.units.NullUnit;
 
 /**
  * This class represents a Null Item.
@@ -34,29 +33,21 @@ public class NullItem extends AbstractItem {
   }
 
   @Override
-  public void useAgainst(IUnit unit) {
-    // empty because Null item can't be used
-  }
-
-  @Override
-  public void sendAttack(IEquipableItem item) {
-    // empty because Null item can't attack
-  }
-
-  @Override
-  public void counterAttackTo(IUnit unit) {
-    // empty because Null item does not counter attack
-  }
-
-  @Override
-  public void motivateCounterAttack(IUnit unit) {
-    // empty because Null item does not allow other items counter attack it
-  }
-
-  @Override
   public boolean isNull() {
     return true;
   }
+
+  @Override
+  public void initUseOn(IUnit unit) {}
+
+  @Override
+  public void beAttacked(IEquipableItem item) {}
+
+  @Override
+  public void sendItemTypeAttack(IUnit unit) {}
+
+  @Override
+  public void sendSpecificEffect(IEquipableItem item) {}
 
   @Override
   public IEquipableItem itemOrThis(IEquipableItem item) {

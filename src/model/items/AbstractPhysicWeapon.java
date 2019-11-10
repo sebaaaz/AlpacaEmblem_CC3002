@@ -8,7 +8,7 @@ import model.units.IUnit;
  * @author Sebastián Zapata Ascencio
  * @since 2.0
  */
-public abstract class AbstractPhysicalWeapon extends AbstractWeapon {
+public abstract class AbstractPhysicWeapon extends AbstractWeapon implements IPhysicWeapon {
 
   /**
    * Constructor for a default physical weapon.
@@ -22,15 +22,22 @@ public abstract class AbstractPhysicalWeapon extends AbstractWeapon {
    * @param maxRange
    *     the maximum range of the item
    */
-  public AbstractPhysicalWeapon(String name, int power, int minRange, int maxRange) {
+  public AbstractPhysicWeapon(String name, int power, int minRange, int maxRange) {
     super(name, power, minRange, maxRange);
   }
 
   @Override
-  public void receiveMagicalAttack(IEquipableItem item) {
-    receiveWeaknessAttack(item);
+  public void sendEffectAttackTo(IEquipableItem item) {
+    item.receivePhysicalAttack(this);
   }
 
   @Override
-  public void useAgainst(IUnit unit) { unit.getEquippedItem().receivePhysicalAttack(this); }
+  public void receivePhysicalAttack(IPhysicWeapon weapon) {
+    weapon.sendSpecificEffect(this);
+  }
+
+  @Override
+  public void receiveMagicalAttack(IMagicWeapon weapon) {
+    receiveWeaknessAttack(weapon.getPower());
+  }
 }

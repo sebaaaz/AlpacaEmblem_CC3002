@@ -162,7 +162,6 @@ public class GameController {
     for (Tactician player : players) {
       names.append(player.getName()).append(" ");
     }
-
     System.out.println(names);
   }
 

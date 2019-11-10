@@ -33,6 +33,5 @@ public class SwordMaster extends AbstractUnit {
   @Override
   public void equipSword(final IEquipableItem item) {
     this.setEquippedItem(item);
-    item.setOwner(this);
   }
 }

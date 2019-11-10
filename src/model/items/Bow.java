@@ -10,7 +10,7 @@ import model.units.IUnit;
  * @author Ignacio Slater Muñoz
  * @since 1.0
  */
-public class Bow extends AbstractPhysicalWeapon {
+public class Bow extends AbstractPhysicWeapon {
 
   /**
    * Creates a new bow.
@@ -34,10 +34,12 @@ public class Bow extends AbstractPhysicalWeapon {
   }
 
   @Override
-  public void equipTo(IUnit unit) {
-    unit.equipBow(this);
+  public void sendSpecificEffect(IEquipableItem item) {
+    item.receiveBowAttack(this);
   }
 
   @Override
-  public void sendAttack(IEquipableItem item) { item.receiveBowAttack(this); }
+  public void equipTo(IUnit unit) {
+    unit.equipBow(this);
+  }
 }

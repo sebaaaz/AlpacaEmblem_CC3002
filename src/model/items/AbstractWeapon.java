@@ -8,7 +8,7 @@ import model.units.IUnit;
  * @author Sebastián Zapata Ascencio
  * @since 2.0
  */
-public abstract class AbstractWeapon extends AbstractItem {
+public abstract class AbstractWeapon extends AbstractItem implements IWeaponItem {
 
   /**
    * Constructor for a default weapon.
@@ -16,7 +16,7 @@ public abstract class AbstractWeapon extends AbstractItem {
    * @param name
    *     the name of the item
    * @param power
-   *     the power of the item (this could be the amount of damage or healing the item does)
+   *     the power of the item
    * @param minRange
    *     the minimum range of the item
    * @param maxRange
@@ -27,9 +27,18 @@ public abstract class AbstractWeapon extends AbstractItem {
   }
 
   @Override
-  public void counterAttackTo(IUnit unit) { getOwner().useItemAgainst(unit); }
+  public void initUseOn(IUnit unit) {
+    this.sendSpecificEffect(unit.getEquippedItem());
+    unit.getEquippedItem().beAttacked(this);
+  }
 
   @Override
-  public void motivateCounterAttack(IUnit unit) { unit.counterAttack(getOwner()); }
+  public void sendItemTypeAttack(IUnit unit) {
+    sendEffectAttackTo(unit.getEquippedItem());
+  }
 
+  @Override
+  public void beAttacked(IEquipableItem item) {
+    this.sendSpecificEffect(item);
+  }
 }

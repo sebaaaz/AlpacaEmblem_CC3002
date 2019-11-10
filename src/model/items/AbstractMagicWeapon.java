@@ -8,7 +8,7 @@ import model.units.IUnit;
  * @author Sebastián Zapata Ascencio
  * @since 2.0
  */
-public abstract class AbstractMagicWeapon extends AbstractWeapon {
+public abstract class AbstractMagicWeapon extends AbstractWeapon implements IMagicWeapon {
 
   /**
    * Constructor for a default item without any special behaviour.
@@ -27,10 +27,22 @@ public abstract class AbstractMagicWeapon extends AbstractWeapon {
   }
 
   @Override
-  public void receivePhysicalAttack(IEquipableItem item) {
-    receiveWeaknessAttack(item);
+  public void sendEffectAttackTo(IEquipableItem item) {
+    item.receiveMagicalAttack(this);
   }
 
   @Override
-  public void useAgainst(IUnit unit) { unit.getEquippedItem().receiveMagicalAttack(this); }
+  public void receiveMagicalAttack(IMagicWeapon weapon) {
+    weapon.sendSpecificEffect(this);
+  }
+
+  @Override
+  public void receivePhysicalAttack(IPhysicWeapon weapon) {
+    receiveWeaknessAttack(weapon.getPower());
+  }
+
+  @Override
+  public void equipTo(IUnit unit) {
+    unit.equipMagicBook(this);
+  }
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import model.Tactician;
 import model.items.IEquipableItem;
+import model.items.IMagicWeapon;
+import model.items.IWeaponItem;
 import model.map.Location;
 
 /**
@@ -144,28 +146,12 @@ public interface IUnit {
   void equipSword(IEquipableItem item);
 
   /**
-   * Equips a Light Book item.
+   * Equips a Magic Book item.
    *
    * @param item
    *      the item to be equipped
    */
-  void equipLightBook(IEquipableItem item);
-
-  /**
-   * Equips a Dark Book item.
-   *
-   * @param item
-   *      the item to be equipped
-   */
-  void equipDarkBook(IEquipableItem item);
-
-  /**
-   * Equips a Soul Book item.
-   *
-   * @param item
-   *      the item to be equipped
-   */
-  void equipSoulBook(IEquipableItem item);
+  void equipMagicBook(IMagicWeapon item);
 
   /**
    * Gives the item to the targetUnit. The item will no longer be in the
@@ -212,21 +198,12 @@ public interface IUnit {
   void useItemAgainst(IUnit unit);
 
   /**
-   * If someone attacked this unit, this method allows to do
-   * a counter attack to the same unit who attacked first.
+   * Inits an attack against the other unit
    *
    * @param unit
    *      the unit to be attacked
    */
-  void counterAttack(IUnit unit);
-
-  /**
-   * Starts a combat against the other unit
-   *
-   * @param unit
-   *      the unit to be combated
-   */
-  void startCombat(IUnit unit);
+  void attack(IUnit unit);
 
   /**
    * @return true if the unit is a null item, false otherwise.

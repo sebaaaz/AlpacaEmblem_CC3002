@@ -47,28 +47,28 @@ public class SwordMasterTest extends AbstractTestUnit {
     unit.equipSword(getSword());
     assertEquals(unit.getHitPoints(), 50);
 
-    getBow().useAgainst(unit);
+    getBow().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 40);
-    getStaff().useAgainst(unit);
+    getStaff().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 50);
 
-    getDarkBook().useAgainst(unit);
+    getDarkBook().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 35);
 
-    getLightBook().useAgainst(unit);
+    getLightBook().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 20);
 
-    godStaff.useAgainst(unit);
+    godStaff.sendItemTypeAttack(unit);
 
-    getSoulBook().useAgainst(unit);
+    getSoulBook().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 35);
 
-    godStaff.useAgainst(unit);
+    godStaff.sendItemTypeAttack(unit);
 
-    getAxe().useAgainst(unit);
+    getAxe().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 50);
 
-    getSpear().useAgainst(unit);
+    getSpear().sendItemTypeAttack(unit);
     assertEquals(unit.getHitPoints(), 35);
   }
 }

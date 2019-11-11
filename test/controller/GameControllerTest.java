@@ -47,8 +47,8 @@ class GameControllerTest {
   void getTacticians() {
     List<Tactician> tacticians = controller.getTacticians();
     assertEquals(4, tacticians.size());
-    for (int i = 0; i < tacticians.size(); i++) {
-      assertEquals("Player " + i, tacticians.get(i).getName());
+    for (int i = 3; i < tacticians.size(); i++) {
+      assertEquals("Player " + i, controller.getTactician("Player " + i).getName());
     }
   }
 
@@ -297,9 +297,13 @@ class GameControllerTest {
     controller.selectUnitWithInvalidPosition();
     assertEquals(unitTest1, controller.getSelectedUnit());
     assertEquals(0, controller.getItems().size());
-    unitTest1.addItem(AXE_FACTORY.createItem());
-    unitTest1.addItem(SWORD_FACTORY.createItem());
-    assertEquals(2, controller.getItems().size());
+    controller.itemFactory(AXE_FACTORY);
+    controller.createDefaultItem();
+    controller.itemFactory(SWORD_FACTORY);
+    controller.createCustomPowerItem("Super Sword", 100);
+    controller.itemFactory(DARK_BOOK_FACTORY);
+    controller.createCustomItem("Legendary Dark Book", 666, 1, 100);
+    assertEquals(3, controller.getItems().size());
   }
 
   /**
@@ -468,7 +472,9 @@ class GameControllerTest {
    */
   @Test
   void tacticianDefeatedTest() {
-    Tactician player0 = controller.getTacticians().get(0);
+    controller.setSeed(42); // Player 3 Player 1 Player 0 Player 2
+    controller.initGame(1);
+    Tactician player3 = controller.getTacticians().get(0);
     controller.addUnit(ARCHER_FACTORY.createUnit());
     controller.addUnit(FIGHTER_FACTORY.createUnit());
     controller.addUnit(ALPACA_FACTORY.createUnit());
@@ -478,15 +484,15 @@ class GameControllerTest {
     controller.setSelectedUnitLocation(controller.getGameMap().getCell(2,1));
     controller.selectUnitWithInvalidPosition();
     controller.setSelectedUnitLocation(controller.getGameMap().getCell(2,0));
-    assertTrue(player0.allUnitsAllocated());
+    assertTrue(player3.allUnitsAllocated());
 
-    assertTrue(controller.getTacticians().contains(player0));
+    assertTrue(controller.getTacticians().contains(player3));
     assertEquals(4, controller.getTacticians().size());
-    assertEquals(3, player0.getUnits().size());
-    controller.removeTactician("Player 0");
-    assertFalse(controller.getTacticians().contains(player0));
+    assertEquals(3, player3.getUnits().size());
+    controller.removeTactician("Player 3");
+    assertFalse(controller.getTacticians().contains(player3));
     assertEquals(3, controller.getTacticians().size());
-    assertEquals(0, player0.getUnits().size());
+    assertEquals(0, player3.getUnits().size());
   }
 
   /**
@@ -509,7 +515,7 @@ class GameControllerTest {
     controller.createDefaultUnit();
     assertEquals(2, controller.getWinners().size());
     controller.unitFactory(FIGHTER_FACTORY);
-    controller.createDefaultUnit();
+    controller.createCustomUnit(777, 1);
     assertEquals(1, controller.getWinners().size());
     assertTrue(controller.getWinners().contains(controller.getTactician("Player 1").getName()));
   }

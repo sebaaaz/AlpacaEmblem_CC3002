@@ -7,6 +7,7 @@ import static java.util.Collections.shuffle;
 
 import controller.Listeners.*;
 import model.Tactician;
+import model.factories.itemFactory.IEquipableItemFactory;
 import model.factories.unitFactory.IUnitFactory;
 import model.items.IEquipableItem;
 import model.map.Field;
@@ -41,6 +42,7 @@ public class GameController {
   private Tactician turnOwner;
 
   private IUnitFactory unitFactory;
+  private IEquipableItemFactory itemFactory;
   private List<GameControllerListeners> listeners = new ArrayList<>();
 
   /**
@@ -66,6 +68,7 @@ public class GameController {
     }
 
     players = new ArrayList<>(originalPlayers);
+    shufflePlayersWithoutRestrictions();
     turnOwner = players.get(0);
   }
 
@@ -389,6 +392,8 @@ public class GameController {
 
   /**
    * Shuffles the list of tacticians in order to get new turns for a round.
+   * <p>
+   * The last Tactician must not be the first of the next order.
    */
   public void shufflePlayers(){
     Tactician lastTactician = players.get(getNumberOfPlayers() - 1);
@@ -397,6 +402,13 @@ public class GameController {
     shuffle(players, random);
     players.add(newPositionLastTactician, lastTactician);
     turnOwner = players.get(currentTurn);
+  }
+
+  /**
+   * Shuffles the list of tacticians without restrictions.
+   */
+  public void shufflePlayersWithoutRestrictions() {
+    shuffle(players, random);
   }
 
   /**
@@ -434,6 +446,48 @@ public class GameController {
    */
   public void addUnit(IUnit unit) {
     getTurnOwner().addUnit(unit);
+  }
+
+  /**
+   * Sets a new item factory.
+   *
+   * @param anItemFactory
+   *      the item factory to be setted.
+   */
+  public void itemFactory(IEquipableItemFactory anItemFactory) { itemFactory = anItemFactory; }
+
+  /**
+   * Adds a item to the selected unit. This item is created by the current factory.
+   */
+  public void createDefaultItem() { getSelectedUnit().addItem(itemFactory.createItem());}
+
+  /**
+   * Adds a custom item to the selected unit. This item is created by the current factory.
+   *
+   * @param name
+   *     the name that identifies the sword
+   * @param power
+   *     the base damage of the sword
+   * @param minRange
+   *     the minimum range of the sword
+   * @param maxRange
+   *     the maximum range of the sword
+   */
+  public void createCustomItem(String name, int power, int minRange, int maxRange) {
+    getSelectedUnit().addItem(itemFactory.createFullCustomItem(name, power, minRange, maxRange));
+  }
+
+  /**
+   * Adds a default item with custom name and power, to the selected unit.
+   * This item is created by the current factory.
+   *
+   * @param name
+   *     the name that identifies the sword
+   * @param power
+   *     the base damage of the sword
+   */
+  public void createCustomPowerItem(String name, int power) {
+    getSelectedUnit().addItem(itemFactory.createCustomPowerItem(name, power));
   }
 
   /**

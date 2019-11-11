@@ -29,7 +29,6 @@ public class Tactician {
   private PropertyChangeSupport
       heroDiesEvent = new PropertyChangeSupport(this);
 
-  private IEquipableItemFactory itemFactory;
   private final String name;
   private List<IUnit> units = new ArrayList<>();
   private IUnit selectedUnit;

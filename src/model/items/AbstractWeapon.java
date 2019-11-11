@@ -39,7 +39,7 @@ public abstract class AbstractWeapon extends AbstractItem implements IWeaponItem
 
   @Override
   public void beAttacked(IEquipableItem item) {
-    counterAttackTo(item);
+    if (item.getOwner().getHitPoints() > 0) counterAttackTo(item);
   }
 
   @Override

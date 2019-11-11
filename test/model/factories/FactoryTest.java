@@ -54,6 +54,7 @@ public class FactoryTest {
     itemFactories.add(DARK_BOOK_FACTORY);
     itemFactories.add(LIGHT_BOOK_FACTORY);
     itemFactories.add(SOUL_BOOK_FACTORY);
+    itemFactories.add(STAFF_FACTORY);
     itemFactories.add(SPEAR_FACTORY);
     itemFactories.add(SWORD_FACTORY);
   }

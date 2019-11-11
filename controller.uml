@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>controller</OriginalElement>
+  <nodes>
+    <node x="427.0" y="0.0">controller.Listeners.GameControllerListeners</node>
+    <node x="0.0" y="0.0">controller.GameController</node>
+    <node x="367.0" y="102.0">controller.Listeners.LHeroDies</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="controller.Listeners.LHeroDies" target="controller.Listeners.GameControllerListeners">
+      <point x="0.0" y="-50.5" />
+      <point x="0.0" y="26.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="86.0" y="474.9999999999999" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>Production</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

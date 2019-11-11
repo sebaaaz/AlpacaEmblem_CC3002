@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>model.factories</OriginalElement>
+  <nodes>
+    <node x="997.0" y="451.0">model.factories.unitFactory.SorcererFactory</node>
+    <node x="1613.0" y="451.0">model.factories.unitFactory.ArcherFactory</node>
+    <node x="2562.0" y="315.0">model.factories.unitFactories</node>
+    <node x="689.0" y="451.0">model.factories.unitFactory.HeroFactory</node>
+    <node x="0.0" y="170.0">model.factories.itemFactory.BowFactory</node>
+    <node x="1596.0" y="0.0">model.factories.itemFactory.IEquipableItemFactory</node>
+    <node x="0.0" y="315.0">model.factories.itemFactories</node>
+    <node x="2229.0" y="451.0">model.factories.unitFactory.SwordMasterFactory</node>
+    <node x="912.0" y="170.0">model.factories.itemFactory.DarkBookFactory</node>
+    <node x="2280.0" y="170.0">model.factories.itemFactory.LightBookFactory</node>
+    <node x="1305.0" y="315.0">model.factories.unitFactory.IUnitFactory</node>
+    <node x="1368.0" y="170.0">model.factories.itemFactory.SwordFactory</node>
+    <node x="456.0" y="170.0">model.factories.itemFactory.AxeFactory</node>
+    <node x="2736.0" y="170.0">model.factories.itemFactory.SpearFactory</node>
+    <node x="3192.0" y="170.0">model.factories.itemFactory.StaffFactory</node>
+    <node x="1824.0" y="170.0">model.factories.itemFactory.SoulBookFactory</node>
+    <node x="1305.0" y="451.0">model.factories.unitFactory.AlpacaFactory</node>
+    <node x="1921.0" y="451.0">model.factories.unitFactory.FighterFactory</node>
+    <node x="381.0" y="451.0">model.factories.unitFactory.ClericFactory</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.factories.itemFactory.BowFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="218.0" y="120.0" />
+      <point x="1623.25" y="120.0" />
+      <point x="-190.75" y="50.0" />
+    </edge>
+    <edge source="model.factories.unitFactory.SwordMasterFactory" target="model.factories.unitFactory.IUnitFactory">
+      <point x="0.0" y="-38.0" />
+      <point x="2373.0" y="411.0" />
+      <point x="1572.4285714285716" y="411.0" />
+      <point x="123.42857142857156" y="38.0" />
+    </edge>
+    <edge source="model.factories.itemFactory.SpearFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="2954.0" y="130.0" />
+      <point x="1950.25" y="130.0" />
+      <point x="136.25" y="50.0" />
+    </edge>
+    <edge source="model.factories.itemFactory.AxeFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="674.0" y="130.0" />
+      <point x="1677.75" y="130.0" />
+      <point x="-136.25" y="50.0" />
+    </edge>
+    <edge source="model.factories.itemFactory.SoulBookFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="2042.0" y="150.0" />
+      <point x="1841.25" y="150.0" />
+      <point x="27.25" y="50.0" />
+    </edge>
+    <edge source="model.factories.itemFactory.StaffFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="3410.0" y="120.0" />
+      <point x="2004.75" y="120.0" />
+      <point x="190.75" y="50.0" />
+    </edge>
+    <edge source="model.factories.itemFactory.SwordFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="1586.0" y="150.0" />
+      <point x="1786.75" y="150.0" />
+      <point x="-27.25" y="50.0" />
+    </edge>
+    <edge source="model.factories.unitFactory.ArcherFactory" target="model.factories.unitFactory.IUnitFactory">
+      <point x="0.0" y="-38.0" />
+      <point x="1757.0" y="431.0" />
+      <point x="1490.142857142857" y="431.0" />
+      <point x="41.14285714285711" y="38.0" />
+    </edge>
+    <edge source="model.factories.itemFactory.LightBookFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="2498.0" y="140.0" />
+      <point x="1895.75" y="140.0" />
+      <point x="81.75" y="50.0" />
+    </edge>
+    <edge source="model.factories.itemFactory.DarkBookFactory" target="model.factories.itemFactory.IEquipableItemFactory">
+      <point x="0.0" y="-50.0" />
+      <point x="1130.0" y="140.0" />
+      <point x="1732.25" y="140.0" />
+      <point x="-81.75" y="50.0" />
+    </edge>
+    <edge source="model.factories.unitFactory.FighterFactory" target="model.factories.unitFactory.IUnitFactory">
+      <point x="0.0" y="-38.0" />
+      <point x="2065.0" y="421.0" />
+      <point x="1531.2857142857142" y="421.0" />
+      <point x="82.28571428571422" y="38.0" />
+    </edge>
+    <edge source="model.factories.unitFactory.HeroFactory" target="model.factories.unitFactory.IUnitFactory">
+      <point x="0.0" y="-38.0" />
+      <point x="833.0" y="421.0" />
+      <point x="1366.7142857142858" y="421.0" />
+      <point x="-82.28571428571422" y="38.0" />
+    </edge>
+    <edge source="model.factories.unitFactory.AlpacaFactory" target="model.factories.unitFactory.IUnitFactory">
+      <point x="0.0" y="-38.0" />
+      <point x="0.0" y="38.0" />
+    </edge>
+    <edge source="model.factories.unitFactory.ClericFactory" target="model.factories.unitFactory.IUnitFactory">
+      <point x="0.0" y="-38.0" />
+      <point x="525.0" y="411.0" />
+      <point x="1325.5714285714284" y="411.0" />
+      <point x="-123.42857142857156" y="38.0" />
+    </edge>
+    <edge source="model.factories.unitFactory.SorcererFactory" target="model.factories.unitFactory.IUnitFactory">
+      <point x="0.0" y="-38.0" />
+      <point x="1141.0" y="431.0" />
+      <point x="1407.857142857143" y="431.0" />
+      <point x="-41.14285714285711" y="38.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="2013.0" y="190.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>Production</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -15,5 +15,6 @@ public class itemFactories {
   public static final LightBookFactory LIGHT_BOOK_FACTORY = new LightBookFactory();
   public static final SoulBookFactory SOUL_BOOK_FACTORY = new SoulBookFactory();
   public static final SpearFactory SPEAR_FACTORY = new SpearFactory();
+  public static final StaffFactory STAFF_FACTORY = new StaffFactory();
   public static final SwordFactory SWORD_FACTORY = new SwordFactory();
 }

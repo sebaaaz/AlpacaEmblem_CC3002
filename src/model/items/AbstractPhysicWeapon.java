@@ -26,7 +26,7 @@ public abstract class AbstractPhysicWeapon extends AbstractWeapon implements IPh
 
   @Override
   public void sendEffectAttackTo(IEquipableItem item) {
-    item.receivePhysicalAttack(this);
+    sendPhysicAttack(item);
   }
 
   @Override
@@ -37,5 +37,10 @@ public abstract class AbstractPhysicWeapon extends AbstractWeapon implements IPh
   @Override
   public void receiveMagicalAttack(IMagicWeapon weapon) {
     receiveWeaknessAttack(weapon.getPower());
+  }
+
+  @Override
+  public void sendPhysicAttack(IEquipableItem item) {
+    item.receivePhysicalAttack(this);
   }
 }

@@ -28,7 +28,7 @@ public abstract class AbstractMagicWeapon extends AbstractWeapon implements IMag
 
   @Override
   public void sendEffectAttackTo(IEquipableItem item) {
-    item.receiveMagicalAttack(this);
+    sendMagicAttack(item);
   }
 
   @Override
@@ -44,5 +44,10 @@ public abstract class AbstractMagicWeapon extends AbstractWeapon implements IMag
   @Override
   public void equipTo(IUnit unit) {
     unit.equipMagicBook(this);
+  }
+
+  @Override
+  public void sendMagicAttack(IEquipableItem item) {
+    item.receiveMagicalAttack(this);
   }
 }

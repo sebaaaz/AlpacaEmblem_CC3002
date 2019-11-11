@@ -34,11 +34,21 @@ public abstract class AbstractWeapon extends AbstractItem implements IWeaponItem
 
   @Override
   public void sendItemTypeAttack(IUnit unit) {
-    sendEffectAttackTo(unit.getEquippedItem());
+    attackTo(unit.getEquippedItem());
   }
 
   @Override
   public void beAttacked(IEquipableItem item) {
+    counterAttackTo(item);
+  }
+
+  @Override
+  public void attackTo(IEquipableItem item) {
+    sendEffectAttackTo(item);
+  }
+
+  @Override
+  public void counterAttackTo(IEquipableItem item) {
     this.sendSpecificEffect(item);
   }
 }

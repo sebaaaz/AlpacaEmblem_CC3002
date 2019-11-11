@@ -3,95 +3,161 @@
   <ID>JAVA</ID>
   <OriginalElement>model.items</OriginalElement>
   <nodes>
-    <node x="1338.0" y="644.0">model.items.Spear</node>
-    <node x="688.0" y="596.0">model.items.SoulBook</node>
-    <node x="1780.0" y="644.0">model.items.Sword</node>
-    <node x="1032.0" y="620.0">model.items.Staff</node>
-    <node x="263.0" y="355.5">model.items.IMagicBook</node>
-    <node x="1163.75" y="319.0">model.items.AbstractItem</node>
-    <node x="2001.0" y="644.0">model.items.Bow</node>
-    <node x="1559.0" y="644.0">model.items.Axe</node>
-    <node x="344.0" y="596.0">model.items.DarkBook</node>
-    <node x="0.0" y="596.0">model.items.LightBook</node>
-    <node x="1163.75" y="0.0">model.items.IEquipableItem</node>
+    <node x="443.9473684210525" y="1418.5">model.items.IPhysicWeapon</node>
+    <node x="1244.1688596491226" y="1370.5">model.items.AbstractWeapon</node>
+    <node x="1393.0" y="1815.0">model.items.SoulBook</node>
+    <node x="2768.2949561403507" y="992.5">model.items.INonWeaponItem</node>
+    <node x="1937.544956140351" y="1418.5">model.items.IMagicWeapon</node>
+    <node x="0.0" y="1803.0">model.items.Sword</node>
+    <node x="1051.0" y="1827.0">model.items.Bow</node>
+    <node x="557.4473684210525" y="1617.0">model.items.AbstractPhysicWeapon</node>
+    <node x="699.0" y="1803.0">model.items.Axe</node>
+    <node x="2635.5449561403507" y="1394.5">model.items.AbstractNonWeapon</node>
+    <node x="2146.0" y="1815.0">model.items.DarkBook</node>
+    <node x="1771.0" y="1815.0">model.items.LightBook</node>
+    <node x="2270.544956140351" y="1334.0">model.items.NullItem</node>
+    <node x="347.0" y="1803.0">model.items.Spear</node>
+    <node x="2602.5449561403507" y="1629.0">model.items.Staff</node>
+    <node x="1142.3125" y="955.5">model.items.IWeaponItem</node>
+    <node x="2245.5" y="727.0">model.items.AbstractItem</node>
+    <node x="1817.7390350877192" y="1605.0">model.items.AbstractMagicWeapon</node>
+    <node x="1655.5000000000005" y="603.3333333333331">model.items.IEquipableItem</node>
   </nodes>
   <notes />
   <edges>
-    <edge source="model.items.DarkBook" target="model.items.AbstractItem">
-      <point x="81.0" y="-98.0" />
-      <point x="587.0" y="556.0" />
-      <point x="1217.375" y="556.0" />
-      <point x="-89.375" y="98.5" />
-    </edge>
-    <edge source="model.items.Spear" target="model.items.AbstractItem">
+    <edge source="model.items.IWeaponItem" target="model.items.IEquipableItem">
       <point x="0.0" y="-50.0" />
-      <point x="1438.5" y="576.0" />
-      <point x="1324.625" y="576.0" />
-      <point x="17.875" y="98.5" />
+      <point x="1449.8125" y="1016.0" />
+      <point x="1745.166666666667" y="1018.0" />
+      <point x="-119.33333333333348" y="338.5" />
     </edge>
-    <edge source="model.items.DarkBook" target="model.items.IMagicBook">
-      <point x="-81.0" y="-98.0" />
-      <point x="0.0" y="62.0" />
+    <edge source="model.items.AbstractPhysicWeapon" target="model.items.IPhysicWeapon">
+      <point x="-85.75" y="-62.0" />
+      <point x="643.1973684210525" y="1580.0" />
+      <point x="601.4473684210525" y="1580.0" />
+      <point x="0.0" y="26.0" />
     </edge>
-    <edge source="model.items.Bow" target="model.items.AbstractItem">
+    <edge source="model.items.IMagicWeapon" target="model.items.IWeaponItem">
+      <point x="0.0" y="-26.0" />
+      <point x="2094.0449561403507" y="1304.0" />
+      <point x="1418.1458333333333" y="1304.0" />
+      <point x="110.33333333333326" y="50.0" />
+    </edge>
+    <edge source="model.items.Spear" target="model.items.AbstractPhysicWeapon">
+      <point x="0.0" y="-62.0" />
+      <point x="513.0" y="1783.0" />
+      <point x="686.0723684210525" y="1783.0" />
+      <point x="-42.875" y="62.0" />
+    </edge>
+    <edge source="model.items.INonWeaponItem" target="model.items.IEquipableItem">
+      <point x="0.0" y="-13.0" />
+      <point x="2840.2949561403507" y="702.0" />
+      <point x="1947.833333333334" y="702.0" />
+      <point x="119.33333333333348" y="338.5" />
+    </edge>
+    <edge source="model.items.Axe" target="model.items.AbstractPhysicWeapon">
+      <point x="0.0" y="-62.0" />
+      <point x="865.0" y="1783.0" />
+      <point x="771.8223684210525" y="1783.0" />
+      <point x="42.875" y="62.0" />
+    </edge>
+    <edge source="model.items.Sword" target="model.items.AbstractPhysicWeapon">
+      <point x="0.0" y="-62.0" />
+      <point x="163.5" y="1773.0" />
+      <point x="600.3223684210525" y="1773.0" />
+      <point x="-128.625" y="62.0" />
+    </edge>
+    <edge source="model.items.Bow" target="model.items.AbstractPhysicWeapon">
+      <point x="-2.2737367544323206E-13" y="-38.0" />
+      <point x="1211.9999999999998" y="1773.0" />
+      <point x="857.5723684210525" y="1773.0" />
+      <point x="128.625" y="62.0" />
+    </edge>
+    <edge source="model.items.AbstractWeapon" target="model.items.AbstractItem">
+      <point x="77.5" y="-74.0" />
+      <point x="1476.6688596491226" y="1314.0" />
+      <point x="2305.1666666666665" y="1314.0" />
+      <point x="-119.33333333333348" y="278.5" />
+    </edge>
+    <edge source="model.items.NullItem" target="model.items.AbstractItem">
+      <point x="0.0" y="-110.5" />
+      <point x="2443.044956140351" y="1314.0" />
+      <point x="2424.5" y="1314.0" />
+      <point x="0.0" y="278.5" />
+    </edge>
+    <edge source="model.items.LightBook" target="model.items.AbstractMagicWeapon">
       <point x="0.0" y="-50.0" />
-      <point x="2101.5" y="546.0" />
-      <point x="1431.875" y="546.0" />
-      <point x="125.125" y="98.5" />
+      <point x="1948.5" y="1783.0" />
+      <point x="1989.2390350877192" y="1783.0" />
+      <point x="0.0" y="74.0" />
     </edge>
-    <edge source="model.items.LightBook" target="model.items.AbstractItem">
-      <point x="81.0" y="-98.0" />
-      <point x="243.0" y="546.0" />
-      <point x="1181.625" y="546.0" />
-      <point x="-125.125" y="98.5" />
+    <edge source="model.items.AbstractWeapon" target="model.items.IWeaponItem">
+      <point x="-77.5" y="-74.0" />
+      <point x="1321.6688596491226" y="1314.0" />
+      <point x="1307.8125" y="1314.0" />
+      <point x="0.0" y="50.0" />
     </edge>
-    <edge source="model.items.Staff" target="model.items.AbstractItem">
-      <point x="0.0" y="-74.0" />
-      <point x="1175.0" y="576.0" />
-      <point x="1288.875" y="576.0" />
-      <point x="-17.875" y="98.5" />
-    </edge>
-    <edge source="model.items.SoulBook" target="model.items.IMagicBook">
-      <point x="-81.0" y="-98.0" />
-      <point x="769.0" y="536.0" />
-      <point x="533.0" y="536.0" />
-      <point x="108.0" y="62.0" />
-    </edge>
-    <edge source="model.items.Axe" target="model.items.AbstractItem">
+    <edge source="model.items.SoulBook" target="model.items.AbstractMagicWeapon">
       <point x="0.0" y="-50.0" />
-      <point x="1659.5" y="566.0" />
-      <point x="1360.375" y="566.0" />
-      <point x="53.625" y="98.5" />
+      <point x="1572.0" y="1783.0" />
+      <point x="1874.905701754386" y="1783.0" />
+      <point x="-114.33333333333331" y="74.0" />
     </edge>
-    <edge source="model.items.Sword" target="model.items.AbstractItem">
+    <edge source="model.items.AbstractMagicWeapon" target="model.items.IMagicWeapon">
+      <point x="85.75" y="-74.0" />
+      <point x="2074.989035087719" y="1580.0" />
+      <point x="2094.0449561403507" y="1580.0" />
+      <point x="0.0" y="26.0" />
+    </edge>
+    <edge source="model.items.AbstractNonWeapon" target="model.items.INonWeaponItem">
+      <point x="68.25" y="-50.0" />
+      <point x="0.0" y="13.0" />
+    </edge>
+    <edge source="model.items.AbstractMagicWeapon" target="model.items.AbstractWeapon">
+      <point x="-85.75" y="-74.0" />
+      <point x="1903.4890350877192" y="1580.0" />
+      <point x="1476.6688596491226" y="1580.0" />
+      <point x="77.5" y="74.0" />
+    </edge>
+    <edge source="model.items.Staff" target="model.items.AbstractNonWeapon">
       <point x="0.0" y="-50.0" />
-      <point x="1880.5" y="556.0" />
-      <point x="1396.125" y="556.0" />
-      <point x="89.375" y="98.5" />
+      <point x="0.0" y="50.0" />
     </edge>
-    <edge source="model.items.SoulBook" target="model.items.AbstractItem">
-      <point x="81.0" y="-98.0" />
-      <point x="931.0" y="566.0" />
-      <point x="1253.125" y="566.0" />
-      <point x="-53.625" y="98.5" />
+    <edge source="model.items.AbstractNonWeapon" target="model.items.AbstractItem">
+      <point x="-68.25" y="-50.0" />
+      <point x="2703.7949561403507" y="1314.0" />
+      <point x="2543.8333333333335" y="1314.0" />
+      <point x="119.33333333333348" y="278.5" />
+    </edge>
+    <edge source="model.items.AbstractPhysicWeapon" target="model.items.AbstractWeapon">
+      <point x="85.75" y="-62.0" />
+      <point x="814.6973684210525" y="1580.0" />
+      <point x="1321.6688596491226" y="1580.0" />
+      <point x="-77.5" y="74.0" />
     </edge>
     <edge source="model.items.AbstractItem" target="model.items.IEquipableItem">
-      <point x="0.0" y="-98.5" />
-      <point x="0.0" y="134.5" />
+      <point x="0.0" y="-278.5" />
+      <point x="0.0" y="338.5" />
     </edge>
-    <edge source="model.items.LightBook" target="model.items.IMagicBook">
-      <point x="-81.0" y="-98.0" />
-      <point x="81.0" y="536.0" />
-      <point x="317.0" y="536.0" />
-      <point x="-108.0" y="62.0" />
+    <edge source="model.items.IPhysicWeapon" target="model.items.IWeaponItem">
+      <point x="0.0" y="-26.0" />
+      <point x="601.4473684210525" y="1314.0" />
+      <point x="1197.4791666666665" y="1314.0" />
+      <point x="-110.33333333333337" y="50.0" />
+    </edge>
+    <edge source="model.items.DarkBook" target="model.items.AbstractMagicWeapon">
+      <point x="0.0" y="-50.0" />
+      <point x="2325.0" y="1783.0" />
+      <point x="2103.5723684210525" y="1783.0" />
+      <point x="114.33333333333326" y="74.0" />
     </edge>
   </edges>
-  <settings layout="Hierarchic Group" zoom="0.6088607594936709" x="923.2242339832869" y="364.6281337047354" />
+  <settings layout="Hierarchic Group" zoom="0.30000000000000016" x="1715.6666666666656" y="1436.9999999999995" />
   <SelectedNodes />
   <Categories>
-    <Category>Fields</Category>
-    <Category>Methods</Category>
     <Category>Properties</Category>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
   </Categories>
   <SCOPE>Production</SCOPE>
   <VISIBILITY>private</VISIBILITY>

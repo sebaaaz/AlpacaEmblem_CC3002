@@ -12,4 +12,12 @@ package model.items;
  */
 public interface IMagicWeapon
 extends IWeaponItem {
+
+  /**
+   * Sends a magic attack to an item.
+   *
+   * @param item
+   *      the item to be attacked with a magic attack.
+   */
+  void sendMagicAttack(IEquipableItem item);
 }

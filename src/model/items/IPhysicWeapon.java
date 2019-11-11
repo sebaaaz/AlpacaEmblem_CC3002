@@ -12,4 +12,13 @@ package model.items;
  */
 public interface IPhysicWeapon
 extends IWeaponItem {
+
+  /**
+   * Sends a physic attack to an item.
+   *
+   * @param item
+   *      the item to be attacked with a physic attack.
+   */
+  void sendPhysicAttack(IEquipableItem item);
+
 }

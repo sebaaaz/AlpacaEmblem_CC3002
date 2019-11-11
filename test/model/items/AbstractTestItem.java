@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
  * Defines some common methods for all the items tests
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public abstract class AbstractTestItem {
@@ -55,6 +56,9 @@ public abstract class AbstractTestItem {
     assertTrue(getWrongTestItem().getMaxRange() >= getWrongTestItem().getMinRange());
   }
 
+  /**
+   * @return an item with wrong values setted.
+   */
   public abstract IEquipableItem getWrongTestItem();
 
   /**

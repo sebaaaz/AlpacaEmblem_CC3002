@@ -8,6 +8,7 @@ import model.units.IUnit;
  * Axes are strong against spears but weak against swords.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Axe extends AbstractPhysicWeapon {

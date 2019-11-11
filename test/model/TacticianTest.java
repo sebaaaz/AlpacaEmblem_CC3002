@@ -3,12 +3,15 @@ package model;
 import model.factories.unitFactory.IUnitFactory;
 import model.items.IEquipableItem;
 import model.items.Sword;
+import model.map.InvalidLocation;
 import model.map.Location;
+import model.units.Hero;
 import model.units.IUnit;
 import model.units.SwordMaster;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static model.factories.itemFactories.*;
 import static model.factories.unitFactories.SWORD_MASTER_FACTORY;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,11 +44,17 @@ public class TacticianTest {
     unitTest.equipItem(itemTest);
   }
 
+  /**
+   * Tests the getter of the name of a Tactician.
+   */
   @Test
   public void getNameTest() {
     assertEquals(expectedName, tacticianTest.getName());
   }
 
+  /**
+   * Tests the selection of units and items by a tactician.
+   */
   @Test
   public void selectTest() {
     tacticianTest.selectItem(0);
@@ -64,8 +73,33 @@ public class TacticianTest {
     assertEquals(itemTest, tacticianTest.getSelectedItem());
   }
 
+  /**
+   * Tests the equality between Tacticians.
+   */
   @Test
   public void equalsTest() {
     assertEquals(tacticianTest, otherTactician);
+    Tactician notEqualTactician = new Tactician("False Tactician");
+    assertNotEquals(notEqualTactician, tacticianTest);
+    assertNotEquals(notEqualTactician, otherTactician);
+  }
+
+  /**
+   * Tests the getters of selected units and items.
+   */
+  @Test
+  public void gettersSUnitSItemTest() {
+    IUnit hero = new Hero(60, 5, new InvalidLocation());
+    hero.setHitPoints(50);
+    hero.addItem(SPEAR_FACTORY.createItem());
+    hero.addItem(DARK_BOOK_FACTORY.createItem());
+    tacticianTest.addUnit(hero);
+    tacticianTest.selectUnit(hero);
+
+    assertEquals(50, tacticianTest.getHitPointsSU());
+    assertEquals(60, tacticianTest.getMaxHitPointsSU());
+    assertEquals("Hero", tacticianTest.getNameSU());
+    assertEquals(5, tacticianTest.getMovementSU());
+    assertEquals(" Common Spear, Common Dark Book", tacticianTest.getItemsSU());
   }
 }

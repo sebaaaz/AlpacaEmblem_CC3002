@@ -2,6 +2,12 @@ package model.factories;
 
 import model.factories.itemFactory.*;
 
+/**
+ * This class contains item factories that can be used.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class itemFactories {
   public static final AxeFactory AXE_FACTORY = new AxeFactory();
   public static final BowFactory BOW_FACTORY = new BowFactory();

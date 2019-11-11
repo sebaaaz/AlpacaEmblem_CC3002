@@ -3,6 +3,14 @@ package model.factories.itemFactory;
 import model.items.Bow;
 import model.items.IEquipableItem;
 
+/**
+ * This class represents a <i>Bow Factory</i> type factory.
+ * <p>
+ * They only return <i>Bow</i> items.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class BowFactory implements IEquipableItemFactory {
 
   @Override

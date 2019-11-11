@@ -3,6 +3,14 @@ package model.factories.itemFactory;
 import model.items.Axe;
 import model.items.IEquipableItem;
 
+/**
+ * This class represents an <i>Axe Factory</i> type factory.
+ * <p>
+ * They only return <i>Axe</i> items.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class AxeFactory implements IEquipableItemFactory {
 
   @Override

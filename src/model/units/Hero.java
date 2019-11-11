@@ -10,6 +10,7 @@ import model.map.Location;
  * This unit <b>can only use spear weapons</b>.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Hero extends AbstractUnit {
@@ -28,6 +29,7 @@ public class Hero extends AbstractUnit {
    */
   public Hero(final int maxHitPoints, final int movement, final Location location, IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
+    setName("Hero");
   }
 
   @Override

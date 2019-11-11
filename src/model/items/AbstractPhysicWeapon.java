@@ -1,7 +1,5 @@
 package model.items;
 
-import model.units.IUnit;
-
 /**
  * Abstract class that defines some common information and behaviour between all physical weapons.
  *

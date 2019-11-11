@@ -11,12 +11,16 @@ import org.junit.jupiter.api.Test;
  * Test set for the field component of the game model.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 class FieldTest {
 
   private Field map;
 
+  /**
+   * Sets up the field to be tested.
+   */
   @BeforeEach
   void setUp() {
     map = new Field();
@@ -71,6 +75,9 @@ class FieldTest {
     }
   }
 
+  /**
+   * Test the connection of the cells of the field.
+   */
   @Test
   public void testConnectedness() {
     for (int i = 0; i < 50; i++) {
@@ -97,6 +104,9 @@ class FieldTest {
     assertEquals(4, location00.distanceTo(map.getCell(2, 2)));
   }
 
+  /**
+   * Tests if the removing of the connections between cells is successful.
+   */
   @Test
   public void testRemoveConnection() {
     Location

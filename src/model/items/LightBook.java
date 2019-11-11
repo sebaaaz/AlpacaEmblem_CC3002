@@ -1,7 +1,5 @@
 package model.items;
 
-import model.units.IUnit;
-
 /**
  * This class represents a Light Book.
  * <p>

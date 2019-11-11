@@ -3,6 +3,14 @@ package model.factories.itemFactory;
 import model.items.IEquipableItem;
 import model.items.Spear;
 
+/**
+ * This class represents a <i>Spear Factory</i> type factory.
+ * <p>
+ * They only return <i>Spear</i> items.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class SpearFactory implements IEquipableItemFactory {
 
   @Override

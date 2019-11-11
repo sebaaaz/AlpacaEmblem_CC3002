@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 class LocationTest {
@@ -20,6 +21,9 @@ class LocationTest {
       locationB0,
       locationA1;
 
+  /**
+   * Sets up some locations to be tested.
+   */
   @BeforeEach
   void setUp() {
     locationA0 = new Location(0, 0);
@@ -36,6 +40,9 @@ class LocationTest {
     assertEquals("(1, 0)", locationB0.toString());
   }
 
+  /**
+   * Tests the equality between Locations.
+   */
   @Test
   void testEquals() {
     Location sameLocation = new Location(0, 0);

@@ -11,6 +11,7 @@ import java.lang.Math;
  * Since all cells of the map should be reachable, the graph must be connected.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Field {
@@ -92,6 +93,11 @@ public class Field {
 
   /**
    * Creates a connection between 2 cells
+   *
+   * @param cell1
+   *      one of the two cells for the connection
+   * @param cell2
+   *      one of the two cells for the connection
    */
   private void addConnection(Location cell1, Location cell2) {
     cell1.addNeighbour(cell2);
@@ -124,6 +130,9 @@ public class Field {
     return builder.toString();
   }
 
+  /**
+   * @return a copy of this map. This copy can't modify the original map.
+   */
   public Map<String, Location> getMap() {
     return Map.copyOf(map);
   }
@@ -155,6 +164,11 @@ public class Field {
 
   /**
    * Removes a connection from two locations of the field
+   *
+   * @param cell1
+   *      one of the two cells for removing the connection
+   * @param cell2
+   *      one of the two cells for removing the connection
    */
   public void removeConnection(final Location cell1, final Location cell2) {
     if (cell1.getNeighbours().size() > 1 && cell2.getNeighbours().size() > 1) {
@@ -164,6 +178,13 @@ public class Field {
 
   /**
    * Checks if two cells of the map are connected
+   *
+   * @param cell1
+   *      one of the two cells for checking the connection
+   * @param cell2
+   *      one of the two cells for checking the connection
+   *
+   * @return true if both of the cells are connected. False otherwise.
    */
   public boolean checkConnection(final Location cell1, final Location cell2) {
     return cell1.isNeighbour(cell2);
@@ -179,22 +200,22 @@ public class Field {
     return (int) Math.pow(size, 0.5);
   }
 
-  /**
-   * Prints the map on console. With x-coordinate to right and y-coordinate to up.
-   * <p>
-   * 1 if the cell has an unit. 0 otherwise.
-   */
-  public void printMap() {
-    for (int x = getSize() - 1; x >= 0; x--) {
-      for (int y = 0; y < getSize(); y++) {
-        if (getCell(y, x).getUnit().isNull()) {
-          System.out.print("0 ");
-        } else {
-          System.out.print("1 ");
-        }
-      }
-      System.out.println();
-    }
-  }
+//  /**
+//   * Prints the map on console. With x-coordinate to right and y-coordinate to up.
+//   * <p>
+//   * 1 if the cell has an unit. 0 otherwise.
+//   */
+//  public void printMap() {
+//    for (int x = getSize() - 1; x >= 0; x--) {
+//      for (int y = 0; y < getSize(); y++) {
+//        if (getCell(y, x).getUnit().isNull()) {
+//          System.out.print("0 ");
+//        } else {
+//          System.out.print("1 ");
+//        }
+//      }
+//      System.out.println();
+//    }
+//  }
 
 }

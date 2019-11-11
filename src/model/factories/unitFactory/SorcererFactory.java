@@ -4,6 +4,14 @@ import model.map.InvalidLocation;
 import model.units.IUnit;
 import model.units.Sorcerer;
 
+/**
+ * This class represents a <i>Sorcerer factory</i> type factory.
+ * <p>
+ * They only return <i>Sorcerer</i> units.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class SorcererFactory implements IUnitFactory {
 
   @Override

@@ -9,6 +9,7 @@ import model.map.Location;
  * A <i>Fighter</i> is a unit that can only use axe type weapons.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Fighter extends AbstractUnit {
@@ -28,6 +29,7 @@ public class Fighter extends AbstractUnit {
   public Fighter(final int maxHitPoints, final int movement, final Location location,
       IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
+    setName("Fighter");
   }
 
   @Override

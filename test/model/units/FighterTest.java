@@ -6,6 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
  */
 public class FighterTest extends AbstractTestUnit {
 

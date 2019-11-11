@@ -2,7 +2,6 @@ package model.units;
 
 import model.Tactician;
 import model.items.IEquipableItem;
-import model.items.IWeaponItem;
 import model.items.NullItem;
 import model.map.InvalidLocation;
 import model.map.Location;

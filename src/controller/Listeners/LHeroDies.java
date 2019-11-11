@@ -6,9 +6,24 @@ import model.Tactician;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+/**
+ * This class represents a listener of the "Hero of Tactician died" event.
+ * <p>
+ * The <i>GameController</i> uses this listener for handling that event.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class LHeroDies implements PropertyChangeListener, GameControllerListeners {
 
   private GameController controller;
+
+  /**
+   * Creates a new LHeroDies listener.
+   *
+   * @param controller
+   *      the controller that has this listener.
+   */
   public LHeroDies(GameController controller) {
     this.controller = controller;
   }

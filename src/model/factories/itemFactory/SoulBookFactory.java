@@ -3,6 +3,14 @@ package model.factories.itemFactory;
 import model.items.IEquipableItem;
 import model.items.SoulBook;
 
+/**
+ * This class represents a <i>SoulBook Factory</i> type factory.
+ * <p>
+ * They only return <i>SoulBook</i> items.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class SoulBookFactory implements IEquipableItemFactory {
 
   @Override

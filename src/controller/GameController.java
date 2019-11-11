@@ -56,7 +56,7 @@ public class GameController {
     setSeed(random.nextLong());
     mapSeed = random.nextLong();
     this.mapSize = mapSize;
-    generateNewMap();
+    generateNewMap(false);
 
     for (int i = 0; i < numberOfPlayers; i++)
     {
@@ -153,17 +153,17 @@ public class GameController {
     return players.size();
   }
 
-  /**
-   * Prints the names of the players/tacticians of the game
-   */
-  public void printNames() {
-    StringBuilder names = new StringBuilder();
-    names.setLength(0);
-    for (Tactician player : players) {
-      names.append(player.getName()).append(" ");
-    }
-    System.out.println(names);
-  }
+//  /**
+//   * Prints the names of the players/tacticians of the game
+//   */
+//  public void printNames() {
+//    StringBuilder names = new StringBuilder();
+//    names.setLength(0);
+//    for (Tactician player : players) {
+//      names.append(player.getName()).append(" ");
+//    }
+//    System.out.println(names);
+//  }
 
   /**
    * Sets the seed to be used as param of random events.
@@ -201,6 +201,7 @@ public class GameController {
     if (currentTurn == 0) {
       currentRound++;
       shufflePlayers();
+      for (Tactician tactician : getTacticians()) tactician.allowMovementAllUnits();
     }
     turnOwner = players.get(currentTurn);
   }
@@ -323,7 +324,7 @@ public class GameController {
    *     the location of the item in the inventory.
    */
   public void equipItem(int index) {
-    getSelectedUnit().equipItem(getSelectedUnit().getItem(index));
+    getTurnOwner().equipItemToSelectedUnit(getSelectedUnit().getItem(index));
   }
 
   /**
@@ -409,8 +410,11 @@ public class GameController {
 
   /**
    * Generates a new map for this controller.
+   *
+   * @param connectAll
+   *      a flag that indicates if all the cells should be connected to it's neighbours
    */
-  public void generateNewMap(){
+  public void generateNewMap(boolean connectAll){
     map = new Field();
     setMapSeed(mapSeed);
     for (int i = 0; i < getMapSize(); i++) {
@@ -418,7 +422,7 @@ public class GameController {
       for (int j = 0; j < getMapSize(); j++) {
         row[j] = (new Location(i, j));
       }
-      map.addCells(false, row);
+      map.addCells(connectAll, row);
     }
   }
 
@@ -461,5 +465,17 @@ public class GameController {
    */
   public void createCustomUnit(int maxHitPoints, int movement) {
     addUnit(unitFactory.createFullCustomUnit(maxHitPoints, movement));
+  }
+
+  /**
+   * Tries to move the selected unit of the turn owner to another location.
+   *
+   * @param x
+   *     horizontal position of the unit
+   * @param y
+   *     vertical position of the unit
+   */
+  public void moveSelectedUnit(int x, int y) {
+    turnOwner.moveSelectedUnit(getGameMap().getCell(x, y));
   }
 }

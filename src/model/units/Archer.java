@@ -9,6 +9,7 @@ import model.map.Location;
  * This kind of unit <b>can only use bows</b>.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Archer extends AbstractUnit {
@@ -28,6 +29,7 @@ public class Archer extends AbstractUnit {
   public Archer(int maxHitPoints, int movement, Location location,
       IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
+    setName("Archer");
   }
 
   @Override

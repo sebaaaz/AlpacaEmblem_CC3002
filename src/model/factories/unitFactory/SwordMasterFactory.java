@@ -4,6 +4,14 @@ import model.map.InvalidLocation;
 import model.units.IUnit;
 import model.units.SwordMaster;
 
+/**
+ * This class represents a <i>SwordMaster factory</i> type factory.
+ * <p>
+ * They only return <i>SwordMaster</i> units.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class SwordMasterFactory implements IUnitFactory {
 
   @Override

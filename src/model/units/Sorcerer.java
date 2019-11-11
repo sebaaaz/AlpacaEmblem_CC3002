@@ -29,6 +29,7 @@ public class Sorcerer extends AbstractUnit {
    */
   public Sorcerer(int maxHitPoints, int movement, Location location, IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
+    setName("Sorcerer");
   }
 
   @Override

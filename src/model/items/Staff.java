@@ -8,6 +8,7 @@ import model.units.IUnit;
  * A staff is an item that can heal other units but cannot counter any attack
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Staff extends AbstractNonWeapon {

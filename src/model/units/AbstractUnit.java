@@ -22,6 +22,7 @@ import model.map.Location;
  * units.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public abstract class AbstractUnit implements IUnit {
@@ -31,9 +32,11 @@ public abstract class AbstractUnit implements IUnit {
   private final int maxItems;
   private final int maxHitPoints;
   private int hitPoints;
-  private final int movement;
+  private final int originalMovement;
+  private int movement;
   private Location location;
   private Tactician owner;
+  private String name;
 
   /**
    * Creates a new Unit.
@@ -48,7 +51,8 @@ public abstract class AbstractUnit implements IUnit {
                          final Location location, final int maxItems, final IEquipableItem... items) {
     this.maxHitPoints = maxHitPoints;
     this.hitPoints = this.maxHitPoints;
-    this.movement = movement;
+    this.originalMovement = movement;
+    this.movement = originalMovement;
 
     location.setUnit(this);
     this.location = location;
@@ -56,6 +60,19 @@ public abstract class AbstractUnit implements IUnit {
     this.items.addAll(Arrays.asList(items).subList(0, min(maxItems, items.length)));
     this.maxItems = maxItems;
     this.equippedItem = new NullItem(this);
+  }
+
+  @Override
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public int getOriginalMovement() {
+    return originalMovement;
   }
 
   @Override
@@ -98,6 +115,8 @@ public abstract class AbstractUnit implements IUnit {
     return movement;
   }
 
+
+
   @Override
   public void setEquippedItem(IEquipableItem item) {
     this.equippedItem = item;
@@ -122,9 +141,11 @@ public abstract class AbstractUnit implements IUnit {
 
   @Override
   public void moveTo(final Location targetLocation) {
-    if (getLocation().distanceTo(targetLocation) <= getMovement() &&
-        targetLocation.getUnit().isNull()) {
+    if (   getLocation().distanceTo(targetLocation) <= getMovement()
+        && targetLocation.getUnit().isNull()
+        && targetLocation != getLocation() ) {
       setLocation(targetLocation);
+      denyMovement();
     }
   }
 
@@ -219,5 +240,15 @@ public abstract class AbstractUnit implements IUnit {
   public void toBeDefeated() {
     this.setLocation(new InvalidLocation());
     if (getOwner() != null) getOwner().removeUnit(this);
+  }
+
+  @Override
+  public void denyMovement() {
+    movement = 0;
+  }
+
+  @Override
+  public void allowMovement() {
+    movement = originalMovement;
   }
 }

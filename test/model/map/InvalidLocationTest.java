@@ -1,11 +1,7 @@
 package model.map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +15,10 @@ class InvalidLocationTest {
       invalidLocation1;
   private Location
       location1;
-  
+
+  /**
+   * Sets up some invalid locations for testing.
+   */
   @BeforeEach
   void setUp() {
     invalidLocation0 = new InvalidLocation();
@@ -27,6 +26,9 @@ class InvalidLocationTest {
     location1 = new Location(0,0);
   }
 
+  /**
+   * Tests the invalid locations do not have neighbours.
+   */
   @Test
   void testNeighbourhood() {
     invalidLocation0.addNeighbour(invalidLocation1);

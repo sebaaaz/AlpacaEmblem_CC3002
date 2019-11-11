@@ -4,6 +4,7 @@ package model.map;
  * This class represents an empty or invalid location on the game's map.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class InvalidLocation extends Location {

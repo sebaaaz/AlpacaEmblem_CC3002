@@ -3,6 +3,14 @@ package model.factories.itemFactory;
 import model.items.DarkBook;
 import model.items.IEquipableItem;
 
+/**
+ * This class represents a <i>DarkBook Factory</i> type factory.
+ * <p>
+ * They only return <i>DarkBook</i> items.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class DarkBookFactory implements IEquipableItemFactory{
 
   @Override

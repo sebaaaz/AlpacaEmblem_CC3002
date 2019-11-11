@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
  * Test set for the Hero unit.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class HeroTest extends AbstractTestUnit {

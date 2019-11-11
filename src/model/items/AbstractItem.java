@@ -1,4 +1,4 @@
-package model.items;
+  package model.items;
 
 import model.units.IUnit;
 
@@ -6,6 +6,7 @@ import model.units.IUnit;
  * Abstract class that defines some common information and behaviour between all items.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public abstract class AbstractItem implements IEquipableItem {

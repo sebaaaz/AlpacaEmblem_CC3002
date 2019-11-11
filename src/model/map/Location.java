@@ -19,6 +19,7 @@ import static model.units.NullUnit.NULL_UNIT;
  * neighbours will be always 1.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Location {

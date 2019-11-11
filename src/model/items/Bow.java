@@ -8,6 +8,7 @@ import model.units.IUnit;
  * Bows have a range not less than two.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Bow extends AbstractPhysicWeapon {

@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
  * Interface that defines the common behaviour of all the test for the units classes
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public interface ITestUnit {
@@ -19,11 +20,17 @@ public interface ITestUnit {
   void setField();
 
   /**
-   * Set up the main unit that's going to be tested in the test set
+   * Sets up the main unit that's going to be tested in the test set
    */
   void setTestUnit();
 
+  /**
+   * Sets up a targetAlpaca for interaction with other objects.
+   */
   void setTargetAlpaca();
+  /**
+   * Sets up a second targetAlpaca for interaction with other objects.
+   */
   void setTargetAlpaca2();
 
   /**
@@ -61,6 +68,9 @@ public interface ITestUnit {
    */
   Axe getAxe();
 
+  /**
+   * Tests the equipment of a <i>sword</i> item.
+   */
   @Test
   void equipSwordTest();
 
@@ -69,6 +79,9 @@ public interface ITestUnit {
    */
   Sword getSword();
 
+  /**
+   * Tests the equipment of a <i>spear</i> item.
+   */
   @Test
   void equipSpearTest();
 
@@ -77,6 +90,9 @@ public interface ITestUnit {
    */
   Spear getSpear();
 
+  /**
+   * Tests the equipment of a <i>Staff</i> item.
+   */
   @Test
   void equipStaffTest();
 
@@ -85,6 +101,9 @@ public interface ITestUnit {
    */
   Staff getStaff();
 
+  /**
+   * Tests the equipment of a <i>Bow</i> item.
+   */
   @Test
   void equipBowTest();
 
@@ -93,6 +112,9 @@ public interface ITestUnit {
    */
   Bow getBow();
 
+  /**
+   * Tests the equipment of a <i>DarkBook</i> item.
+   */
   @Test
   void equipDarkBookTest();
 
@@ -101,6 +123,9 @@ public interface ITestUnit {
    */
   DarkBook getDarkBook();
 
+  /**
+   * Tests the equipment of a <i>LightBook</i> item.
+   */
   @Test
   void equipLightBookTest();
 
@@ -109,6 +134,9 @@ public interface ITestUnit {
    */
   LightBook getLightBook();
 
+  /**
+   * Tests the equipment of a <i>SoulBook</i> item.
+   */
   @Test
   void equipSoulBookTest();
 
@@ -153,6 +181,11 @@ public interface ITestUnit {
 
   /**
    * Checks if the alpaca received all objects.
+   *
+   * @param giverUnit
+   *      the unit that will give some item to the alpaca.
+   * @param item
+   *      the item to be given.
    */
   void alpacaReceivesItemTest(IUnit giverUnit, IEquipableItem item);
 

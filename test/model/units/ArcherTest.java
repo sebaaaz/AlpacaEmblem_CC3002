@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Test set for the Archer unit.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class ArcherTest extends AbstractTestUnit {

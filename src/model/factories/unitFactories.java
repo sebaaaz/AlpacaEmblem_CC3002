@@ -2,6 +2,12 @@ package model.factories;
 
 import model.factories.unitFactory.*;
 
+/**
+ * This class contains unit factories that can be used.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class unitFactories {
   public static final AlpacaFactory ALPACA_FACTORY = new AlpacaFactory();
   public static final ArcherFactory ARCHER_FACTORY = new ArcherFactory();

@@ -1,7 +1,5 @@
 package model.items;
 
-import model.units.IUnit;
-
 /**
  * This interface represents the <i>weapons</i> that the units of the game can use.
  * <p>

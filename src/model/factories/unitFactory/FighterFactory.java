@@ -4,6 +4,14 @@ import model.map.InvalidLocation;
 import model.units.Fighter;
 import model.units.IUnit;
 
+/**
+ * This class represents a <i>Fighter factory</i> type factory.
+ * <p>
+ * They only return <i>Fighter</i> units.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class FighterFactory implements IUnitFactory {
 
   @Override

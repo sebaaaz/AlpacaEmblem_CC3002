@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public abstract class AbstractTestUnit implements ITestUnit {

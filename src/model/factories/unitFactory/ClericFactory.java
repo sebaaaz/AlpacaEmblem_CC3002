@@ -4,6 +4,14 @@ import model.map.InvalidLocation;
 import model.units.Cleric;
 import model.units.IUnit;
 
+/**
+ * This class represents a <i>Cleric factory</i> type factory.
+ * <p>
+ * They only return <i>Cleric</i> units.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class ClericFactory implements IUnitFactory {
 
   @Override

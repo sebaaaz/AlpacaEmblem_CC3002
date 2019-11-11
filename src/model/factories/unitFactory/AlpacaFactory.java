@@ -4,7 +4,14 @@ import model.map.InvalidLocation;
 import model.units.Alpaca;
 import model.units.IUnit;
 
-
+/**
+ * This class represents an <i>Alpaca factory</i> type factory.
+ * <p>
+ * They only return <i>Alpaca</i> units.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class AlpacaFactory implements IUnitFactory {
 
   @Override

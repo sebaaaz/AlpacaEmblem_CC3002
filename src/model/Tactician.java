@@ -91,6 +91,15 @@ public class Tactician {
   }
 
   /**
+   * Allows the movement of all the units.
+   */
+  public void allowMovementAllUnits() {
+    for (IUnit unit : units) {
+      unit.allowMovement();
+    }
+  }
+
+  /**
    * @return the name of this tactician.
    */
   public String getName() { return name; }
@@ -139,7 +148,7 @@ public class Tactician {
   }
 
   /**
-   * Moves the selected unit to another location.
+   * Moves the selected unit to another location on the game map.
    * <p>
    * If the other location is out of this unit's movement range,
    * the unit doesn't move.
@@ -151,11 +160,101 @@ public class Tactician {
     getSelectedUnit().moveTo(targetLocation);
   }
 
+  /**
+   * Equips the item to the selected unit.
+   *
+   * @param item
+   *      the item to be equipped to the selected unit.
+   */
+  public void equipItemToSelectedUnit(IEquipableItem item) {
+    getSelectedUnit().equipItem(item);
+  }
+
+//  /**
+//   * @return the stats of the selected unit.
+//   */
+//  public String seeSelectedUnitStats() {
+//    StringBuilder stats = new StringBuilder();
+//    stats.setLength(0);
+//    stats.append(getNameSU()).append("\n");
+//    stats.append("Hit Points: ").append(getHitPointsSU()).append("\n");
+//    stats.append("Max Hit Points: ").append(getMaxHitPointsSU()).append("\n");
+//    stats.append("Movement: ").append(getMovementSU()).append("\n");
+//    stats.append("Items: ");
+//    for (IEquipableItem item : selectedUnit.getItems()) {
+//      stats.append(item.getName()).append(", ");
+//    }
+//    if (selectedUnit.getItems().size() > 0) stats.deleteCharAt(stats.lastIndexOf(","));
+//    return stats.toString();
+//  }
+
+  // IUnit getters
+  /**
+   * @return hit points of the selected unit.
+   */
+  public int getHitPointsSU() { return getSelectedUnit().getHitPoints(); }
+  /**
+   * @return max hit points of the selected unit.
+   */
+  public int getMaxHitPointsSU() { return getSelectedUnit().getMaxHitPoints(); }
+  /**
+   * @return the movement of the selected unit.
+   */
+  public int getMovementSU() { return getSelectedUnit().getMovement(); }
+  /**
+   * @return the name of the type of the selected unit.
+   */
+  public String getNameSU() { return getSelectedUnit().getName(); }
+  /**
+   * @return the items of the selected unit.
+   */
+  public String getItemsSU() {
+    StringBuilder items = new StringBuilder();
+    items.setLength(0);
+    for (IEquipableItem item : selectedUnit.getItems()) {
+      items.append(" ").append(item.getName()).append(",");
+    }
+    if (selectedUnit.getItems().size() > 0) items.deleteCharAt(items.lastIndexOf(","));
+    return items.toString();
+  }
+
+  // IEquipableItem getters
+
+  /**
+   * @return the name of the selected item.
+   */
+  public String getNameSI() { return getSelectedItem().getName(); }
+  /**
+   * @return the power of the selected item.
+   */
+  public int getPowerSI() { return getSelectedItem().getPower(); }
+  /**
+   * @return the minRange of the selected item.
+   */
+  public int getMinRangeSI() { return getSelectedItem().getMinRange(); }
+  /**
+   * @return the maxRange of the selected item.
+   */
+  public int getMaxRangeSI() { return getSelectedItem().getMaxRange(); }
+
   // Listeners
 
+  /**
+   * Adds a listener to the listeners of this tactician for handling some events.
+   *
+   * @param listener
+   *      the listener to be added to this tactician
+   */
   public void addListener(GameControllerListeners listener) {
     listener.subscribeTo(this);
   }
+
+  /**
+   * Adds a <i>HeroDiesListener</i> to the listeners of this tactician.
+   *
+   * @param listener
+   *      the <i>HeroDiesListener</i> to be added.
+   */
   public void addHeroDiesListener(PropertyChangeListener listener) {
     heroDiesEvent.addPropertyChangeListener(listener);
   }

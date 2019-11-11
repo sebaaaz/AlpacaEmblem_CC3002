@@ -5,7 +5,6 @@ import java.util.List;
 import model.Tactician;
 import model.items.IEquipableItem;
 import model.items.IMagicWeapon;
-import model.items.IWeaponItem;
 import model.map.Location;
 
 /**
@@ -15,6 +14,7 @@ import model.map.Location;
  * except some special ones can carry at most 3 weapons.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public interface IUnit {
@@ -93,6 +93,24 @@ public interface IUnit {
    * @return the number of cells this unit can move
    */
   int getMovement();
+
+  /**
+   * @return the original number of cells this unit can move
+   */
+  int getOriginalMovement();
+
+  /**
+   * Sets the name of the type of this unit
+   *
+   * @param name
+   *      the name that this unit will have
+   */
+  void setName(String name);
+
+  /**
+   * @return the name of the type of this unit
+   */
+  String getName();
 
   /**
    * Moves this unit to another location.
@@ -241,4 +259,14 @@ public interface IUnit {
    *  Triggers an event when this unit is defeated. (Its hitPoints are equal to 0).
    */
   void toBeDefeated();
+
+  /**
+   * Denies the movement of this unit
+   */
+  void denyMovement();
+
+  /**
+   * Allows the movement of this unit
+   */
+  void allowMovement();
 }

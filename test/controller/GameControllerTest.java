@@ -19,7 +19,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Ignacio Slater Muñoz
- * @since v2.0
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
  */
 class GameControllerTest {
 
@@ -51,9 +52,14 @@ class GameControllerTest {
     }
   }
 
+  /**
+   * Tests different scenarios where the game map may fails.
+   * <p>
+   * Checks invariants and random events associated to the game map.
+   */
   @Test
   void getGameMap() {
-    controller.generateNewMap();
+    controller.generateNewMap(false);
     Field gameMap = controller.getGameMap();
     assertEquals(5, gameMap.getSize());
 
@@ -253,6 +259,9 @@ class GameControllerTest {
     assertEquals(NULL_UNIT, controller.getSelectedUnit());
   }
 
+  /**
+   * Test for the selectUnitIn method.
+   */
   @Test
   void selectUnitIn() {
     IUnit unitTest1 = ALPACA_FACTORY.createUnit();
@@ -276,6 +285,9 @@ class GameControllerTest {
     assertEquals(NULL_UNIT, controller.getSelectedUnit());
   }
 
+  /**
+   * Test for the getItems method.
+   */
   @Test
   void getItems() {
     assertEquals(NULL_UNIT, controller.getSelectedUnit());
@@ -290,6 +302,9 @@ class GameControllerTest {
     assertEquals(2, controller.getItems().size());
   }
 
+  /**
+   * Test for the equipItem method.
+   */
   @Test
   void equipItem() {
     assertEquals(NULL_UNIT, controller.getSelectedUnit());
@@ -305,6 +320,9 @@ class GameControllerTest {
     assertEquals(itemTest1, controller.getSelectedUnit().getEquippedItem());
   }
 
+  /**
+   * Test for the useItemOn method.
+   */
   @Test
   void useItemOn() {
     IUnit unitTest1 = FIGHTER_FACTORY.createUnit();
@@ -330,6 +348,9 @@ class GameControllerTest {
     assertEquals(30, unitTest2.getHitPoints());
   }
 
+  /**
+   * Test for the selectItem method.
+   */
   @Test
   void selectItem() {
     IUnit unitTest1 = FIGHTER_FACTORY.createUnit();
@@ -350,10 +371,13 @@ class GameControllerTest {
     assertEquals(itemTest2, controller.getSelectedItem());
   }
 
+  /**
+   * Test for the giveItemTo method.
+   */
   @Test
   void giveItemTo() {
     controller.setMapSeed(42);
-    controller.generateNewMap(); // the cells of the units will be connected
+    controller.generateNewMap(false); // the cells of the units will be connected
     IUnit giverUnitTest = FIGHTER_FACTORY.createUnit();
     IUnit allyUnitTest = ARCHER_FACTORY.createUnit();
     IUnit nonAllyUnitTest = FIGHTER_FACTORY.createUnit();
@@ -397,6 +421,9 @@ class GameControllerTest {
     assertTrue(giverUnitTest.getItems().contains(itemTest2));
   }
 
+  /**
+   * Tests the re-ordering of the players is correct.
+   */
   @Test
   void shufflePlayersTest() {
     List<Tactician> tacticians = controller.getTacticians();
@@ -407,12 +434,16 @@ class GameControllerTest {
     assertNotEquals(lastTactician, controller.getTacticians().get(0).getName());
   }
 
+  /**
+   * Tests the players are removed when its <i>Hero</i> dies. And tests
+   * some other relationed events.
+   */
   @Test
   void heroDefeatedTest() {
     Tactician player0 = controller.getTacticians().get(0);
     Tactician player1 = controller.getTacticians().get(1);
     controller.setMapSeed(42);
-    controller.generateNewMap(); // the cells of the units will be connected
+    controller.generateNewMap(false); // the cells of the units will be connected
     IUnit hero0 = HERO_FACTORY.createFullCustomUnit(100, 10);
     IUnit hero1 = HERO_FACTORY.createFullCustomUnit(1, 10);
     IEquipableItem spear0 = SPEAR_FACTORY.createItem();
@@ -431,6 +462,10 @@ class GameControllerTest {
     assertFalse(controller.getTacticians().contains(player1));
   }
 
+  /**
+   * Tests the players are removed successfully when they are defeated. The units
+   * of a <i>tactician</i> must be removed of the game map.
+   */
   @Test
   void tacticianDefeatedTest() {
     Tactician player0 = controller.getTacticians().get(0);
@@ -454,22 +489,90 @@ class GameControllerTest {
     assertEquals(0, player0.getUnits().size());
   }
 
+  /**
+   * Tests the case when there is a draw and the controller gets the winners.
+   */
   @Test
   void getWinnersDrawTest() {
-    controller.setSeed(42);
+    controller.setSeed(42); // Player 0 Player 1 Player 3 Player 2
     controller.initGame(1);
     assertNull(controller.getWinners());
     IntStream.range(0, 4).forEach(i -> controller.endTurn());
 
     assertTrue(controller.endedGame());
     assertEquals(4, Objects.requireNonNull(controller.getWinners()).size());
-    controller.getTactician("Player 0").addUnit(HERO_FACTORY.createUnit());
+    controller.unitFactory(HERO_FACTORY);
+    controller.createDefaultUnit();
     assertEquals(1, controller.getWinners().size());
     assertTrue(controller.getWinners().contains(controller.getTactician("Player 0").getName()));
-    controller.getTactician("Player 1").addUnit(FIGHTER_FACTORY.createUnit());
+    controller.endTurn();
+    controller.createDefaultUnit();
     assertEquals(2, controller.getWinners().size());
-    controller.getTactician("Player 1").addUnit(HERO_FACTORY.createUnit());
+    controller.unitFactory(FIGHTER_FACTORY);
+    controller.createDefaultUnit();
     assertEquals(1, controller.getWinners().size());
     assertTrue(controller.getWinners().contains(controller.getTactician("Player 1").getName()));
   }
+
+  /**
+   * Tests the units can move just one time per turn.
+   */
+  @Test
+  void oneMovementUnitTest() {
+    controller.generateNewMap(true); // the cells of the units will be connected
+
+    Tactician player0 = controller.getTacticians().get(0);
+    Tactician player1 = controller.getTacticians().get(1);
+    IUnit unitTest1 = ALPACA_FACTORY.createUnit();
+    IUnit unitTest2 = HERO_FACTORY.createUnit();
+    IUnit unitTest3 = ARCHER_FACTORY.createUnit();
+    unitTest1.setLocation(controller.getGameMap().getCell(1,0));
+    unitTest2.setLocation(controller.getGameMap().getCell(2,0));
+    unitTest3.setLocation(controller.getGameMap().getCell(3,0));
+    player0.addUnit(unitTest1);
+    player0.addUnit(unitTest2);
+    player1.addUnit(unitTest3);
+
+    assertEquals(player0, controller.getTurnOwner());
+    assertNotEquals(0, unitTest1.getMovement());
+    assertNotEquals(0, unitTest2.getMovement());
+    assertNotEquals(0, unitTest3.getMovement());
+
+    assertEquals(controller.getGameMap().getCell(1,0), unitTest1.getLocation());
+    assertNotEquals(0, unitTest1.getMovement());
+    controller.selectUnit(unitTest1);
+    controller.moveSelectedUnit(1,1);
+    assertEquals(controller.getGameMap().getCell(1,1), unitTest1.getLocation());
+    assertEquals(0, unitTest1.getMovement());
+    assertNotEquals(0, unitTest2.getMovement());
+
+    controller.selectUnit(unitTest2);
+    controller.moveSelectedUnit(1,1); // this is impossible
+    assertEquals(controller.getGameMap().getCell(2,0), unitTest2.getLocation());
+    assertNotEquals(0, unitTest2.getMovement());
+    controller.moveSelectedUnit(2,1);
+    assertEquals(controller.getGameMap().getCell(2,1), unitTest2.getLocation());
+    assertEquals(0, unitTest2.getMovement());
+
+    controller.endTurn();
+    controller.selectUnit(unitTest3);
+    controller.moveSelectedUnit(3,1);
+
+    controller.getTacticians().forEach(tactician -> {
+      tactician.getUnits().forEach(unit -> {
+        assertEquals(0, unit.getMovement());
+      });
+    });
+
+    IntStream.range(0, 3).forEach(i -> controller.endTurn());
+
+    assertEquals(0, controller.getTurnNumber());
+    controller.getTacticians().forEach(tactician -> {
+      tactician.getUnits().forEach(unit -> {
+        assertNotEquals(0, unit.getMovement());
+      });
+    });
+
+  }
+
 }

@@ -2,7 +2,6 @@ package model.factories;
 
 import model.factories.itemFactory.IEquipableItemFactory;
 import model.factories.unitFactory.IUnitFactory;
-import model.map.Location;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +12,12 @@ import static model.factories.unitFactories.*;
 import static model.factories.itemFactories.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+/**
+ * Test set for the factories of the game model.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
+ */
 public class FactoryTest {
 
   private List<IUnitFactory> unitFactories = new ArrayList<>();

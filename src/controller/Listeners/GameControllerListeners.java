@@ -5,6 +5,9 @@ import model.Tactician;
 /**
  * This interface represents the <i>listeners</i> that the controller
  * has for handling Tactician events.
+ *
+ * @author Sebastián Zapata Ascencio
+ * @since 2.0
  */
 
 public interface GameControllerListeners {

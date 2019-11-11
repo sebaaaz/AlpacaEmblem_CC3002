@@ -9,6 +9,7 @@ import model.map.Location;
  * A <i>SwordMaster</i> is a unit that <b>can only use sword type weapons</b>.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class SwordMaster extends AbstractUnit {
@@ -28,6 +29,7 @@ public class SwordMaster extends AbstractUnit {
   public SwordMaster(int maxHitPoints, int movement, Location location,
       IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
+    setName("SwordMaster");
   }
 
   @Override

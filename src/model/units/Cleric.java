@@ -8,6 +8,7 @@ import model.map.Location;
  * that it can receive attacks but can't counter attack any of those.
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class Cleric extends AbstractUnit {
@@ -27,6 +28,7 @@ public class Cleric extends AbstractUnit {
   public Cleric(int maxHitPoints, int movement, Location location,
       IEquipableItem... items) {
     super(maxHitPoints, movement, location, 3, items);
+    setName("Cleric");
   }
 
   @Override

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
  * Test set for bows
  *
  * @author Ignacio Slater Muñoz
+ * @author Sebastián Zapata Ascencio
  * @since 1.0
  */
 public class BowTest extends AbstractTestItem {
